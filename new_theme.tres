@@ -1,0 +1,40 @@
+[gd_resource type="Theme" format=3 uid="uid://dtwurwyspxj4a"]
+
+[ext_resource type="Texture2D" uid="uid://beu6qshu47e1r" path="res://graybubble.png" id="1_amlv4"]
+[ext_resource type="Texture2D" uid="uid://bukbto4qkg7jf" path="res://greenbubble.png" id="2_i7eh4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1dxfi"]
+texture = ExtResource("1_amlv4")
+texture_margin_left = 51.0
+texture_margin_top = 36.0
+texture_margin_right = 65.0
+texture_margin_bottom = 44.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_78ylj"]
+texture = ExtResource("2_i7eh4")
+texture_margin_left = 44.0
+texture_margin_top = 49.0
+texture_margin_right = 65.0
+texture_margin_bottom = 36.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_amlv4"]
+texture = ExtResource("1_amlv4")
+texture_margin_left = 44.0
+texture_margin_top = 51.0
+texture_margin_right = 36.0
+texture_margin_bottom = 36.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j2q5q"]
+texture = ExtResource("2_i7eh4")
+texture_margin_left = 30.0
+texture_margin_top = 36.0
+texture_margin_right = 51.0
+texture_margin_bottom = 36.0
+
+[resource]
+GrayButton/base_type = &"PanelContainer"
+GrayButton/styles/panel = SubResource("StyleBoxTexture_1dxfi")
+GreenButton/base_type = &"PanelContainer"
+GreenButton/styles/panel = SubResource("StyleBoxTexture_78ylj")
+PanelContainer/styles/graybubble = SubResource("StyleBoxTexture_amlv4")
+PanelContainer/styles/greenbubble = SubResource("StyleBoxTexture_j2q5q")
