@@ -1,9 +1,11 @@
 [gd_scene format=4 uid="uid://dpvhgwpdedo8f"]
 
+[ext_resource type="Script" uid="uid://bc2ju62o78hjd" path="res://mouselook.gd" id="1_02dmp"]
 [ext_resource type="Script" uid="uid://obkfld6ib5a3" path="res://gui_3d.gd" id="1_t2b5x"]
 [ext_resource type="Texture2D" uid="uid://b3yu044d6182r" path="res://arms_rig_arms_01.png" id="2_6kibr"]
 [ext_resource type="Script" uid="uid://dtcia5hkmoywl" path="res://debug_sphere.gd" id="3_6kibr"]
 [ext_resource type="PackedScene" uid="uid://b6ows5lah0wtf" path="res://chatui.tscn" id="4_t2b5x"]
+[ext_resource type="PackedScene" uid="uid://bv42g323prh5f" path="res://addons/YarnSpinner-Godot/Scenes/DefaultDialogueSystem.tscn" id="5_gra5g"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_b8rff"]
 resource_local_to_scene = true
@@ -257,6 +259,7 @@ bind/66/pose = Transform3D(-0.51515967, -0.85709435, 1.3963837e-07, 0, -1.629206
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=843915573]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21570998, 0, -0.30920243)
+script = ExtResource("1_02dmp")
 
 [node name="phone" type="Node3D" parent="." unique_id=1215033114]
 script = ExtResource("1_t2b5x")
@@ -785,3 +788,10 @@ settings/0/extend_end_bone = false
 mesh = SubResource("ArrayMesh_t2b5x")
 skin = SubResource("Skin_gra5g")
 skeleton = NodePath("..")
+
+[node name="YarnSpinnerCanvasLayer" parent="." unique_id=350562131 instance=ExtResource("5_gra5g")]
+
+[node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=771440404]
+light_energy = 2.4
+
+[editable path="YarnSpinnerCanvasLayer"]
