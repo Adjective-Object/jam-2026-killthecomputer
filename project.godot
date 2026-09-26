@@ -24,6 +24,10 @@ settings/addon_root_folder="res://addons/debug_draw_3d"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[dotnet]
+
+project/assembly_name="jam-2026-killthecomputer"
+
 [gui]
 
 theme/default_font_antialiasing=2
