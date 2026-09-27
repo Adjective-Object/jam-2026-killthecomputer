@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c5ghakr4g0o8w"]
+
+[ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_kfhk2"]
+
+[node name="GrayBubble" type="PanelContainer" unique_id=1196823909]
+size_flags_horizontal = 0
+theme_type_variation = &"GrayButton"
+
+[node name="Label" type="Label" parent="." unique_id=1405653316]
+custom_minimum_size = Vector2(130, 80)
+custom_maximum_size = Vector2(320, -1)
+layout_mode = 2
+autowrap_mode = 3
+script = ExtResource("1_kfhk2")

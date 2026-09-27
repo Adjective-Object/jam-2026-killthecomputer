@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dtcia5hkmoywl" path="res://debug_sphere.gd" id="3_6kibr"]
 [ext_resource type="PackedScene" uid="uid://b6ows5lah0wtf" path="res://chatui.tscn" id="4_t2b5x"]
 [ext_resource type="PackedScene" uid="uid://bv42g323prh5f" path="res://addons/YarnSpinner-Godot/Scenes/DefaultDialogueSystem.tscn" id="5_gra5g"]
+[ext_resource type="Resource" uid="uid://bobhbomrqq7s3" path="res://conversations/test2.yarnproject" id="7_xys5l"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_b8rff"]
 resource_local_to_scene = true
@@ -790,6 +791,11 @@ skin = SubResource("Skin_gra5g")
 skeleton = NodePath("..")
 
 [node name="YarnSpinnerCanvasLayer" parent="." unique_id=350562131 instance=ExtResource("5_gra5g")]
+
+[node name="DialogueRunner" parent="YarnSpinnerCanvasLayer" index="0" unique_id=1412460189]
+yarnProject = ExtResource("7_xys5l")
+PrintProjectErrors = true
+startNode = "Start"
 
 [node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=771440404]
 light_energy = 2.4

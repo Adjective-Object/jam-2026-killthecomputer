@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://b6ows5lah0wtf"]
 
+[ext_resource type="Script" uid="uid://d32d5q6eem4i" path="res://fake_convo.gd" id="1_0pn2a"]
 [ext_resource type="Texture2D" uid="uid://bd7xbgjcfp46i" path="res://ui/topbar_gray.png" id="1_ks6d1"]
-[ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_n6g5n"]
 [ext_resource type="Texture2D" uid="uid://cej117l11kyin" path="res://ui/anon.png" id="2_qcqr1"]
+[ext_resource type="PackedScene" uid="uid://c5ghakr4g0o8w" path="res://ui/gray_bubble.tscn" id="4_m4jsr"]
+[ext_resource type="PackedScene" uid="uid://d2e2y377qy23m" path="res://ui/green_bubble.tscn" id="5_p40ka"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1dxfi"]
 texture = ExtResource("1_ks6d1")
@@ -19,6 +21,7 @@ offset_right = 1024.0
 offset_bottom = 1536.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_0pn2a")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1926582810]
 layout_mode = 0
@@ -67,109 +70,13 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer" unique_id=1990300483]
+[node name="chat_scroll" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer" unique_id=1990300483]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="GrayBubble" type="PanelContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1930525929]
+[node name="GrayBubble" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=1196823909 instance=ExtResource("4_m4jsr")]
 layout_mode = 2
-size_flags_horizontal = 0
-theme_type_variation = &"GrayButton"
 
-[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GrayBubble" unique_id=746719133]
-custom_minimum_size = Vector2(130, 80)
-custom_maximum_size = Vector2(320, -1)
+[node name="GreenBubble" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=774853797 instance=ExtResource("5_p40ka")]
 layout_mode = 2
-autowrap_mode = 3
-
-[node name="textplayback" type="Control" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GrayBubble/Label" unique_id=92234497]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_n6g5n")
-
-[node name="GreenBubble" type="PanelContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" unique_id=450662399]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_type_variation = &"GreenButton"
-
-[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GreenBubble" unique_id=1242141439]
-custom_minimum_size = Vector2(130, 80)
-custom_maximum_size = Vector2(320, -1)
-layout_mode = 2
-autowrap_mode = 3
-
-[node name="textplayback" type="Control" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GreenBubble/Label" unique_id=513688946]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_n6g5n")
-
-[node name="GrayBubble2" type="PanelContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1580584442]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_type_variation = &"GrayButton"
-
-[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GrayBubble2" unique_id=1081789894]
-custom_minimum_size = Vector2(130, 80)
-custom_maximum_size = Vector2(320, -1)
-layout_mode = 2
-autowrap_mode = 3
-
-[node name="textplayback" type="Control" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GrayBubble2/Label" unique_id=432126678]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_n6g5n")
-
-[node name="GreenBubble2" type="PanelContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" unique_id=830474865]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_type_variation = &"GreenButton"
-
-[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GreenBubble2" unique_id=79163947]
-custom_minimum_size = Vector2(130, 80)
-custom_maximum_size = Vector2(320, -1)
-layout_mode = 2
-autowrap_mode = 3
-
-[node name="textplayback" type="Control" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GreenBubble2/Label" unique_id=256958758]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_n6g5n")
-
-[node name="GrayBubble3" type="PanelContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" unique_id=305674227]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_type_variation = &"GrayButton"
-
-[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GrayBubble3" unique_id=1287850217]
-custom_minimum_size = Vector2(130, 80)
-custom_maximum_size = Vector2(320, -1)
-layout_mode = 2
-autowrap_mode = 3
-
-[node name="textplayback" type="Control" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GrayBubble3/Label" unique_id=1646819088]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_n6g5n")
-
-[node name="GreenBubble3" type="PanelContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" unique_id=2091870034]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_type_variation = &"GreenButton"
-
-[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GreenBubble3" unique_id=494914147]
-custom_minimum_size = Vector2(130, 80)
-custom_maximum_size = Vector2(320, -1)
-layout_mode = 2
-autowrap_mode = 3
-
-[node name="textplayback" type="Control" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GreenBubble3/Label" unique_id=568968124]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_n6g5n")

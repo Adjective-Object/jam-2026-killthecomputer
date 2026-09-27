@@ -19,6 +19,6 @@ func _process(_delta: float) -> void:
 	var look_target_offset = initial_camera_look_angle
 	look_target_offset = look_target_offset.rotated(Vector3.UP, mouse_from_center.x * cam_look_range.x)
 	look_target_offset = look_target_offset.rotated(Vector3.RIGHT, mouse_from_center.y * cam_look_range.y)
-	print(look_target_offset)
+	# print(look_target_offset)
 
 	look_at(transform.origin + look_target_offset, Vector3.UP)

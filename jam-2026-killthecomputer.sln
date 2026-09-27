@@ -1,19 +1,87 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jam-2026-killthecomputer", "jam-2026-killthecomputer.csproj", "{6F23C103-0489-456B-B99B-07254FA1F5D4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "addons", "addons", "{E1748B93-FA13-C50B-BD89-C3B777E73FCB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YarnSpinner-Godot", "YarnSpinner-Godot", "{1A8A29F4-664B-CED0-5264-D36F6146CAD9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGenerator", "SourceGenerator", "{E682BC1E-4241-1F1F-7A69-7104C6BA4BDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YarnSpinnerGodotSourceGenerator", "addons\YarnSpinner-Godot\SourceGenerator\YarnSpinnerGodotSourceGenerator.csproj", "{7758C35E-6D11-434B-AAD8-7F338D578B5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportDebug|x64 = ExportDebug|x64
+		ExportDebug|x86 = ExportDebug|x86
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		ExportRelease|x64 = ExportRelease|x64
+		ExportRelease|x86 = ExportRelease|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Debug|x64.Build.0 = Debug|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Debug|x86.Build.0 = Debug|Any CPU
 		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
 		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportDebug|x64.ActiveCfg = ExportDebug|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportDebug|x64.Build.0 = ExportDebug|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportDebug|x86.ActiveCfg = ExportDebug|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportDebug|x86.Build.0 = ExportDebug|Any CPU
 		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportRelease|x64.ActiveCfg = ExportRelease|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportRelease|x64.Build.0 = ExportRelease|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportRelease|x86.ActiveCfg = ExportRelease|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.ExportRelease|x86.Build.0 = ExportRelease|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Release|x64.ActiveCfg = Release|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Release|x64.Build.0 = Release|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Release|x86.ActiveCfg = Release|Any CPU
+		{6F23C103-0489-456B-B99B-07254FA1F5D4}.Release|x86.Build.0 = Release|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Debug|x64.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Debug|x86.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportDebug|x64.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportDebug|x64.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportDebug|x86.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportDebug|x86.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportRelease|x64.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportRelease|x64.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportRelease|x86.ActiveCfg = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.ExportRelease|x86.Build.0 = Debug|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Release|x64.ActiveCfg = Release|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Release|x64.Build.0 = Release|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Release|x86.ActiveCfg = Release|Any CPU
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1A8A29F4-664B-CED0-5264-D36F6146CAD9} = {E1748B93-FA13-C50B-BD89-C3B777E73FCB}
+		{E682BC1E-4241-1F1F-7A69-7104C6BA4BDA} = {1A8A29F4-664B-CED0-5264-D36F6146CAD9}
+		{7758C35E-6D11-434B-AAD8-7F338D578B5D} = {E682BC1E-4241-1F1F-7A69-7104C6BA4BDA}
 	EndGlobalSection
 EndGlobal
