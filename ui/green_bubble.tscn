@@ -1,14 +1,17 @@
 [gd_scene format=3 uid="uid://d2e2y377qy23m"]
 
 [ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_4a787"]
+[ext_resource type="Script" uid="uid://m7830bpi3vsv" path="res://ui/popin_anim.gd" id="1_4ttc6"]
 
 [node name="GreenBubble" type="PanelContainer" unique_id=774853797]
 size_flags_horizontal = 8
 theme_type_variation = &"GreenButton"
+script = ExtResource("1_4ttc6")
 
 [node name="Label" type="Label" parent="." unique_id=1542597456]
 custom_minimum_size = Vector2(130, 80)
 custom_maximum_size = Vector2(320, -1)
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 autowrap_mode = 3
 script = ExtResource("1_4a787")
