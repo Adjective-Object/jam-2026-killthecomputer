@@ -7,14 +7,17 @@
 offset_right = 413.0
 offset_bottom = 181.0
 size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_type_variation = &"GrayButton"
 script = ExtResource("1_wunih")
+fade_in_displacement = Vector2(0, 80)
 
 [node name="Label" type="Label" parent="." unique_id=1405653316]
 custom_minimum_size = Vector2(130, 80)
 custom_maximum_size = Vector2(320, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
 text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaa
 aaaaaaaaaaaaaaaaaa

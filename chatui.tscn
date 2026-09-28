@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cej117l11kyin" path="res://ui/anon.png" id="2_qcqr1"]
 [ext_resource type="PackedScene" uid="uid://c5ghakr4g0o8w" path="res://ui/gray_bubble.tscn" id="4_m4jsr"]
 [ext_resource type="PackedScene" uid="uid://d2e2y377qy23m" path="res://ui/green_bubble.tscn" id="5_p40ka"]
+[ext_resource type="Texture2D" uid="uid://c7pl1bno1a3y7" path="res://ui/response-box.png" id="6_m4jsr"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1dxfi"]
 texture = ExtResource("1_ks6d1")
@@ -13,14 +14,21 @@ texture = ExtResource("1_ks6d1")
 font_size = 23
 font_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tw1ot"]
+texture = ExtResource("6_m4jsr")
+texture_margin_left = 25.0
+texture_margin_top = 25.0
+texture_margin_right = 25.0
+texture_margin_bottom = 25.0
+
 [node name="Chatui_panel" type="Panel" unique_id=47453373]
 custom_minimum_size = Vector2(640, 980)
 custom_maximum_size = Vector2(640, 980)
 propagate_maximum_size = true
-offset_right = 1024.0
-offset_bottom = 1536.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+offset_right = 640.0
+offset_bottom = 980.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 script = ExtResource("1_0pn2a")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1926582810]
@@ -64,7 +72,7 @@ scroll_hint_mode = 3
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer" unique_id=129661633]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 15
@@ -72,11 +80,81 @@ theme_override_constants/margin_bottom = 15
 
 [node name="chat_scroll" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer" unique_id=1990300483]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 0
 
 [node name="GrayBubble" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=1196823909 instance=ExtResource("4_m4jsr")]
 layout_mode = 2
 
 [node name="GreenBubble" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=774853797 instance=ExtResource("5_p40ka")]
 layout_mode = 2
+
+[node name="GrayBubble2" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=44038641 instance=ExtResource("4_m4jsr")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble2" index="0" unique_id=1405653316]
+label_text = "hi"
+
+[node name="GreenBubble2" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=2014358420 instance=ExtResource("5_p40ka")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GreenBubble2" index="0" unique_id=1542597456]
+label_text = "hi :3"
+
+[node name="GrayBubble3" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=1991123621 instance=ExtResource("4_m4jsr")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble3" index="0" unique_id=1405653316]
+label_text = "hi"
+
+[node name="GrayBubble4" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=1491968906 instance=ExtResource("4_m4jsr")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble4" index="0" unique_id=1405653316]
+label_text = "hi"
+
+[node name="GreenBubble3" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=1850605615 instance=ExtResource("5_p40ka")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GreenBubble3" index="0" unique_id=1542597456]
+label_text = "hi :3"
+
+[node name="GrayBubble5" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=1894624925 instance=ExtResource("4_m4jsr")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble5" index="0" unique_id=1405653316]
+label_text = "hi"
+
+[node name="GreenBubble4" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=1257724862 instance=ExtResource("5_p40ka")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GreenBubble4" index="0" unique_id=1542597456]
+label_text = "hi :3"
+
+[node name="GrayBubble6" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=415130146 instance=ExtResource("4_m4jsr")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble6" index="0" unique_id=1405653316]
+label_text = "hi"
+
+[node name="GreenBubble5" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll" unique_id=378864717 instance=ExtResource("5_p40ka")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GreenBubble5" index="0" unique_id=1542597456]
+label_text = "hi :3"
+
+[node name="ResponsesArea" type="PanelContainer" parent="VBoxContainer" unique_id=570344375]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/ResponsesArea" unique_id=981648177]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tw1ot")
+
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble2"]
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GreenBubble2"]
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble3"]
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble4"]
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GreenBubble3"]
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble5"]
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GreenBubble4"]
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GrayBubble6"]
+[editable path="VBoxContainer/ScrollContainer/MarginContainer/chat_scroll/GreenBubble5"]

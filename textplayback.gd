@@ -10,7 +10,7 @@ var final_measured_size: Vector2
 
 # Start by laying out the text.
 # break to lines at the max-width by word to know the final line-break and 
-func break_to_lines(text: String):
+func break_to_lines(text_to_break: String):
 	var active_font: Font = get_theme_font("font")
 	var active_font_size: int
 	if self.label_settings != null:
@@ -20,7 +20,7 @@ func break_to_lines(text: String):
 
 	var label_max_width: float = self.custom_maximum_size.x
 	
-	var words = text.split(" ")
+	var words = text_to_break.split(" ")
 	var lines = []
 	var current_line = ""
 	for word in words:
@@ -35,7 +35,7 @@ func break_to_lines(text: String):
 	if current_line != "":
 		lines.append(current_line)
 
-	breaklines_label_text = "\n".join(lines) + "\n"
+	breaklines_label_text = "\n".join(lines)
 	var lines_size = active_font.get_multiline_string_size(
 		breaklines_label_text,
 		self.horizontal_alignment,
@@ -47,10 +47,10 @@ func break_to_lines(text: String):
 	# HACK: for some reason the text measuring doesn't match
 	# real line wrapping, and we can't avoid wrapping for
 	# some other reason, so we override here.
-	lines_size.x += 5.0
+	lines_size.x += 1.0
 	var spacing = self.get_theme_constant("line_spacing")
 	var total_lines = len(lines)
-	final_measured_size = lines_size + Vector2(0, (total_lines - 1) * spacing)
+	final_measured_size = lines_size + Vector2(0, (total_lines ) * spacing)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -67,7 +67,7 @@ func set_measured_text(new_text: String) -> void:
 	print("setting size:", final_measured_size)
 	self.size = final_measured_size
 	self.custom_minimum_size = final_measured_size
-	self.custom_maximum_size = final_measured_size
+	# self.custom_maximum_size = final_measured_size
 	
 
 func _input(event):
