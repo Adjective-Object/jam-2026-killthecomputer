@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://beu6qshu47e1r" path="res://ui/graybubble.png" id="1_amlv4"]
 [ext_resource type="Texture2D" uid="uid://bukbto4qkg7jf" path="res://ui/greenbubble.png" id="2_i7eh4"]
+[ext_resource type="Texture2D" uid="uid://c7pl1bno1a3y7" path="res://ui/response-box.png" id="3_78ylj"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1dxfi"]
 content_margin_left = 37.0
@@ -36,6 +37,13 @@ texture_margin_top = 36.0
 texture_margin_right = 51.0
 texture_margin_bottom = 36.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i7eh4"]
+texture = ExtResource("3_78ylj")
+texture_margin_left = 25.0
+texture_margin_top = 25.0
+texture_margin_right = 25.0
+texture_margin_bottom = 25.0
+
 [resource]
 GrayButton/base_type = &"PanelContainer"
 GrayButton/styles/panel = SubResource("StyleBoxTexture_1dxfi")
@@ -43,3 +51,5 @@ GreenButton/base_type = &"PanelContainer"
 GreenButton/styles/panel = SubResource("StyleBoxTexture_78ylj")
 PanelContainer/styles/graybubble = SubResource("StyleBoxTexture_amlv4")
 PanelContainer/styles/greenbubble = SubResource("StyleBoxTexture_j2q5q")
+ResponseContainer/base_type = &"PanelContainer"
+ResponseContainer/styles/panel = SubResource("StyleBoxTexture_i7eh4")

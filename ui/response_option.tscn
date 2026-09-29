@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cavu8v0ce23sa"]
+
+[ext_resource type="Theme" uid="uid://dtwurwyspxj4a" path="res://new_theme.tres" id="1_6dbbw"]
+[ext_resource type="Script" uid="uid://dbxohypb4e6xo" path="res://ui/response_option.gd" id="2_h5gv5"]
+
+[node name="Response" type="PanelContainer" unique_id=1653744895]
+theme = ExtResource("1_6dbbw")
+theme_type_variation = &"ResponseContainer"
+script = ExtResource("2_h5gv5")
+
+[node name="Label" type="Label" parent="." unique_id=795204369]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Hi :3!! Nice to meet you"

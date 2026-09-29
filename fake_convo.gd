@@ -1,15 +1,41 @@
 extends Panel
 
-var conversation = [
-	[false, "Hi how are you"],
-	[true, "I'm good, hahaha"],
-	[true, "x3"],
+class Dialog:
+	var they_said: String
+	var typing_indicator_duration_s: float
+	var responses: Array[String]
+
+	static func typing_indicator(duration_seconds: float) -> Dialog:
+		var n = Dialog.new()
+		n.typing_indicator_duration_s = duration_seconds
+		return n
+	
+	static func they_say(msg: String) -> Dialog:
+		var n = Dialog.new()
+		n.they_said = msg
+		return n
+
+	static func you_say(options: Array[String]) -> Dialog:
+		var n = Dialog.new()
+		n.responses = options
+		return n
+
+var conversation: Array[Dialog] = [
+	Dialog.typing_indicator(1.25),
+	Dialog.they_say("Hi, how are you?"),
+	Dialog.you_say(["I'm good, hahahaa", "I'm sad, waah"]),
+	Dialog.typing_indicator(1.2),
+	Dialog.you_say(["xD", "xP"]),
 ]
 var GREEN_BUBBLE = preload("res://ui/green_bubble.tscn")
 var GRAY_BUBBLE = preload("res://ui/gray_bubble.tscn")
+var typing_indicator = preload("res://ui/typing_indicator.tscn")
+var active_typing_indicator: Control = null
 
 @onready var scroll_container: ScrollContainer = $VBoxContainer/ScrollContainer
 @onready var insertion_point: VBoxContainer = $VBoxContainer/ScrollContainer/MarginContainer/chat_scroll
+@onready var responses_area = $VBoxContainer/ResponsesArea
+@onready var typingindicator_timer = $Timer
 
 var conversation_head = 0
 
@@ -17,18 +43,24 @@ var is_scrolling_to_bottom = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	advance_conversation() # HACK
+
+func advance_conversation():
+	# Advance faux conversation
+	if conversation_head < len(conversation):
+		var entry = conversation[conversation_head]
+		if entry.they_said:
+			_spawn_conversation_bubble(false, entry.they_said)
+		elif len(entry.responses):
+			responses_area.set_responses(entry.responses)
+		elif entry.typing_indicator_duration_s != 0:
+			_spawn_typing_indicator(entry.typing_indicator_duration_s)
+		else:
+			push_warning("got weird Dialog entry", entry)
+		
+		conversation_head += 1
 
 func _input(event):
-	if event is InputEventKey and event.pressed and (event as InputEventKey).keycode == KEY_ENTER:
-		# Advance faux conversation
-		if conversation_head < len(conversation):
-			var entry = conversation[conversation_head]
-			var is_you = entry[0]
-			var text = entry[1]
-			conversation_head += 1
-			_spawn_conversation_bubble(is_you, text)
-
 	# if we get a scroll event, cancel is_scrolling_to_bottom
 	if event is InputEventMouseButton or event is InputEventPanGesture:
 		is_scrolling_to_bottom = false
@@ -70,3 +102,24 @@ func _spawn_conversation_bubble(
 	label.set_measured_text(text)
 	insertion_point.add_child(instance)
 			
+func _spawn_typing_indicator(
+	duration_s: float
+):
+	if active_typing_indicator != null:
+		return
+	
+	active_typing_indicator = typing_indicator.instantiate()
+	insertion_point.add_child(active_typing_indicator)
+	typingindicator_timer.connect("timeout", _clear_typing_indicator_and_advance_conversation)
+	typingindicator_timer.wait_time = duration_s
+	typingindicator_timer.start()
+
+func _clear_typing_indicator_and_advance_conversation():
+	if active_typing_indicator != null:
+		await active_typing_indicator.dismiss()
+		active_typing_indicator = null
+		# wait another frame for the layout
+		await get_tree().process_frame
+
+	advance_conversation()
+	
