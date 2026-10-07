@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://b6ows5lah0wtf"]
 
-[ext_resource type="Script" uid="uid://d32d5q6eem4i" path="res://fake_convo.gd" id="1_0pn2a"]
+[ext_resource type="Script" uid="uid://d32d5q6eem4i" path="res://conversation_manager.gd" id="1_0pn2a"]
 [ext_resource type="Texture2D" uid="uid://bd7xbgjcfp46i" path="res://ui/topbar_gray.png" id="1_ks6d1"]
 [ext_resource type="Texture2D" uid="uid://cej117l11kyin" path="res://ui/anon.png" id="2_qcqr1"]
 [ext_resource type="Theme" uid="uid://dtwurwyspxj4a" path="res://new_theme.tres" id="4_qcqr1"]
 [ext_resource type="Script" uid="uid://yeux87q3rooe" path="res://responses_area.gd" id="5_m4jsr"]
-[ext_resource type="PackedScene" uid="uid://cavu8v0ce23sa" path="res://ui/response_option.tscn" id="6_p40ka"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1dxfi"]
 texture = ExtResource("1_ks6d1")
@@ -81,10 +80,15 @@ theme = ExtResource("4_qcqr1")
 theme_type_variation = &"ResponseContainer"
 script = ExtResource("5_m4jsr")
 
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/ResponsesArea" unique_id=1030185881]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+placeholder_text = "asdasdasd"
+keep_editing_on_text_submit = true
+
 [node name="responses_container" type="VBoxContainer" parent="VBoxContainer/ResponsesArea" unique_id=253748648]
 layout_mode = 2
 
-[node name="Response" parent="VBoxContainer/ResponsesArea/responses_container" unique_id=1653744895 instance=ExtResource("6_p40ka")]
-layout_mode = 2
+[node name="typing_indicator_timer" type="Timer" parent="." unique_id=340006268]
 
-[node name="Timer" type="Timer" parent="." unique_id=340006268]
+[node name="wait_timer" type="Timer" parent="." unique_id=1413495581]

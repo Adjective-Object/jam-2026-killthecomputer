@@ -2,14 +2,39 @@
 
 [ext_resource type="Theme" uid="uid://dtwurwyspxj4a" path="res://new_theme.tres" id="1_6dbbw"]
 [ext_resource type="Script" uid="uid://dbxohypb4e6xo" path="res://ui/response_option.gd" id="2_h5gv5"]
+[ext_resource type="RichTextEffect" uid="uid://tec7m3r2w3l1" path="res://ui/matching_type.tres" id="3_38ipd"]
+[ext_resource type="Script" uid="uid://cc1ljyxjocdsc" path="res://ui/cursor_rect.gd" id="4_38ipd"]
+[ext_resource type="PackedScene" uid="uid://tblhc16e6712" path="res://ui/bad_text_match.tscn" id="5_yfsck"]
 
 [node name="Response" type="PanelContainer" unique_id=1653744895]
+custom_minimum_size = Vector2(1, 10)
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource("1_6dbbw")
 theme_type_variation = &"ResponseContainer"
 script = ExtResource("2_h5gv5")
 
-[node name="Label" type="Label" parent="." unique_id=795204369]
+[node name="Label" type="RichTextLabel" parent="." unique_id=1866635210]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
-text = "Hi :3!! Nice to meet you"
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[prefix_match prefix_len=4 prefix_match_len=2]Hi :3!! Nice to meet you[/prefix_match]..."
+fit_content = true
+scroll_active = false
+custom_effects = [ExtResource("3_38ipd")]
+
+[node name="cursor_rect" type="ColorRect" parent="." unique_id=1279149564]
+custom_minimum_size = Vector2(5, 0)
+custom_maximum_size = Vector2(5, -1)
+clip_contents = true
+layout_mode = 2
+color = Color(1, 0, 1, 1)
+script = ExtResource("4_38ipd")
+
+[node name="BadTextMatch" parent="." unique_id=1152982819 instance=ExtResource("5_yfsck")]
+layout_mode = 2
+
+[node name="BadTextMatch" parent="BadTextMatch" unique_id=803702823 instance=ExtResource("5_yfsck")]
+layout_mode = 0

@@ -1,0 +1,6 @@
+[gd_resource type="RichTextEffect" script_class="MatchingType" format=3 uid="uid://tec7m3r2w3l1"]
+
+[ext_resource type="Script" uid="uid://b8qcstq3xjg7d" path="res://ui/matching_type.gd" id="1_i0jbd"]
+
+[resource]
+script = ExtResource("1_i0jbd")

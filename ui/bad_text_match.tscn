@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://tblhc16e6712"]
+
+[ext_resource type="Script" uid="uid://bv130xla3fdcu" path="res://bad_text_match.gd" id="1_io4c0"]
+
+[node name="BadTextMatch" type="Label" unique_id=1152982819]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+script = ExtResource("1_io4c0")

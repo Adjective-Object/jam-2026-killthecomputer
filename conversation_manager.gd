@@ -1,8 +1,10 @@
 extends Panel
+class_name MyConversationManager
 
 class Dialog:
 	var they_said: String
 	var typing_indicator_duration_s: float
+	var wait_duration_s: float
 	var responses: Array[String]
 
 	static func typing_indicator(duration_seconds: float) -> Dialog:
@@ -19,11 +21,19 @@ class Dialog:
 		var n = Dialog.new()
 		n.responses = options
 		return n
+	
+	static func sleep(duration: float) -> Dialog:
+		var n = Dialog.new()
+		n.wait_duration_s = duration
+		return n
 
 var conversation: Array[Dialog] = [
+	Dialog.you_say(["hi", "hewwo"]),
+	Dialog.sleep(0.4),
 	Dialog.typing_indicator(1.25),
 	Dialog.they_say("Hi, how are you?"),
 	Dialog.you_say(["I'm good, hahahaa", "I'm sad, waah"]),
+	Dialog.sleep(0.4),
 	Dialog.typing_indicator(1.2),
 	Dialog.you_say(["xD", "xP"]),
 ]
@@ -34,8 +44,9 @@ var active_typing_indicator: Control = null
 
 @onready var scroll_container: ScrollContainer = $VBoxContainer/ScrollContainer
 @onready var insertion_point: VBoxContainer = $VBoxContainer/ScrollContainer/MarginContainer/chat_scroll
-@onready var responses_area = $VBoxContainer/ResponsesArea
-@onready var typingindicator_timer = $Timer
+@onready var responses_area: ResponsesArea = $VBoxContainer/ResponsesArea
+@onready var typingindicator_timer = $typing_indicator_timer
+@onready var wait_timer = $wait_timer
 
 var conversation_head = 0
 
@@ -51,14 +62,24 @@ func advance_conversation():
 		var entry = conversation[conversation_head]
 		if entry.they_said:
 			_spawn_conversation_bubble(false, entry.they_said)
+			conversation_head += 1
+			advance_conversation()
+			return
 		elif len(entry.responses):
-			responses_area.set_responses(entry.responses)
+			responses_area.set_responses(entry.responses, self)
+			conversation_head += 1
 		elif entry.typing_indicator_duration_s != 0:
 			_spawn_typing_indicator(entry.typing_indicator_duration_s)
+			conversation_head += 1
+		elif entry.wait_duration_s != 0:
+			wait_timer.connect("timeout", _clear_wait_timer_and_advance_conversation)
+			wait_timer.wait_time = entry.wait_duration_s
+			wait_timer.start()
+			conversation_head += 1
 		else:
 			push_warning("got weird Dialog entry", entry)
-		
-		conversation_head += 1
+			conversation_head += 1
+	
 
 func _input(event):
 	# if we get a scroll event, cancel is_scrolling_to_bottom
@@ -101,7 +122,7 @@ func _spawn_conversation_bubble(
 	var label = instance.get_node("Label")
 	label.set_measured_text(text)
 	insertion_point.add_child(instance)
-			
+
 func _spawn_typing_indicator(
 	duration_s: float
 ):
@@ -115,6 +136,7 @@ func _spawn_typing_indicator(
 	typingindicator_timer.start()
 
 func _clear_typing_indicator_and_advance_conversation():
+	typingindicator_timer.stop()
 	if active_typing_indicator != null:
 		await active_typing_indicator.dismiss()
 		active_typing_indicator = null
@@ -123,3 +145,14 @@ func _clear_typing_indicator_and_advance_conversation():
 
 	advance_conversation()
 	
+func _clear_wait_timer_and_advance_conversation():
+	wait_timer.stop()
+	advance_conversation()
+
+func on_succesful_submit(submitted_text: String) -> void:
+	responses_area.clear_responses()
+	_spawn_conversation_bubble(true, submitted_text)
+	advance_conversation()
+
+func on_failed_submit(submitted_text: String) -> void:
+	push_warning("Failed submission: " + submitted_text)
