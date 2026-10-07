@@ -9,6 +9,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	
 	# get the mouse position relative to the middle of the screen as a 
 	var vp = get_viewport()
 	var mouse_position: Vector2 = vp.get_mouse_position()

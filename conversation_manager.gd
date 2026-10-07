@@ -79,7 +79,7 @@ func advance_conversation():
 		else:
 			push_warning("got weird Dialog entry", entry)
 			conversation_head += 1
-	
+
 
 func _input(event):
 	# if we get a scroll event, cancel is_scrolling_to_bottom

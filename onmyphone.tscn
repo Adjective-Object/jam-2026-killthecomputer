@@ -5,8 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://b3yu044d6182r" path="res://arms_rig_arms_01.png" id="2_6kibr"]
 [ext_resource type="Script" uid="uid://dtcia5hkmoywl" path="res://debug_sphere.gd" id="3_6kibr"]
 [ext_resource type="PackedScene" uid="uid://b6ows5lah0wtf" path="res://chatui.tscn" id="4_t2b5x"]
-[ext_resource type="PackedScene" uid="uid://bv42g323prh5f" path="res://addons/YarnSpinner-Godot/Scenes/DefaultDialogueSystem.tscn" id="5_gra5g"]
-[ext_resource type="Resource" uid="uid://bobhbomrqq7s3" path="res://conversations/test2.yarnproject" id="7_xys5l"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_b8rff"]
 resource_local_to_scene = true
@@ -21,6 +19,9 @@ albedo_texture = SubResource("ViewportTexture_6lfuq")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1dxfi"]
 size = Vector3(2, 3, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xys5l"]
+albedo_color = Color(0.49803922, 0.15294118, 0.49411765, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2is0d"]
 size = Vector3(2.25, 3.4, 0.1)
@@ -283,6 +284,7 @@ shape = SubResource("BoxShape3D_1dxfi")
 
 [node name="phone body" type="MeshInstance3D" parent="phone" unique_id=1985284787]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8569539)
+material_override = SubResource("StandardMaterial3D_xys5l")
 mesh = SubResource("BoxMesh_2is0d")
 
 [node name="palm_target" type="Node3D" parent="phone" unique_id=320865956]
@@ -790,14 +792,5 @@ mesh = SubResource("ArrayMesh_t2b5x")
 skin = SubResource("Skin_gra5g")
 skeleton = NodePath("..")
 
-[node name="YarnSpinnerCanvasLayer" parent="." unique_id=350562131 instance=ExtResource("5_gra5g")]
-
-[node name="DialogueRunner" parent="YarnSpinnerCanvasLayer" index="0" unique_id=1412460189]
-yarnProject = ExtResource("7_xys5l")
-PrintProjectErrors = true
-startNode = "Start"
-
 [node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=771440404]
 light_energy = 2.4
-
-[editable path="YarnSpinnerCanvasLayer"]
