@@ -286,12 +286,12 @@ script = ExtResource("1_t2b5x")
 size = Vector2i(640, 980)
 render_target_update_mode = 4
 
-[node name="ChatPanel" parent="phone/PhoneScreen_SubViewport" unique_id=47453373 node_paths=PackedStringArray("audio") instance=ExtResource("4_t2b5x")]
+[node name="CallConversationPanel" parent="phone/PhoneScreen_SubViewport" unique_id=47453373 node_paths=PackedStringArray("audio") instance=ExtResource("4_t2b5x")]
 visible = false
 audio = NodePath("../../audio")
 
 [node name="IncomingCallPanel" parent="phone/PhoneScreen_SubViewport" unique_id=1923636403 node_paths=PackedStringArray("conversation_manager", "audio") instance=ExtResource("4_hdxh6")]
-conversation_manager = NodePath("../ChatPanel")
+conversation_manager = NodePath("../CallConversationPanel")
 audio = NodePath("../../audio")
 
 [node name="phone_screen" type="MeshInstance3D" parent="phone" unique_id=176438850]

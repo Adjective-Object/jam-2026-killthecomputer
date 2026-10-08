@@ -72,6 +72,7 @@ func set_measured_text(new_text: String) -> void:
 
 func _input(event):
 	pass
+	# disabled so typing the R key when responding doesn't trigger a refresh
 	#if event is InputEventKey and event.pressed and (event as InputEventKey).keycode == KEY_R:
 		#display_start_time = Time.get_ticks_msec()
 
