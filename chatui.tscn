@@ -74,19 +74,25 @@ theme_override_constants/margin_bottom = 15
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="ResponsesArea" type="PanelContainer" parent="VBoxContainer" unique_id=570344375]
-layout_mode = 2
+[node name="ResponsesArea" type="PanelContainer" parent="." unique_id=570344375]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -81.0
+offset_right = 640.0
+grow_vertical = 0
 theme = ExtResource("4_qcqr1")
 theme_type_variation = &"ResponseContainer"
 script = ExtResource("5_m4jsr")
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/ResponsesArea" unique_id=1030185881]
+[node name="LineEdit" type="LineEdit" parent="ResponsesArea" unique_id=1030185881]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 placeholder_text = "asdasdasd"
 keep_editing_on_text_submit = true
 
-[node name="responses_container" type="VBoxContainer" parent="VBoxContainer/ResponsesArea" unique_id=253748648]
+[node name="responses_container" type="VBoxContainer" parent="ResponsesArea" unique_id=253748648]
 layout_mode = 2
 
 [node name="typing_indicator_timer" type="Timer" parent="." unique_id=340006268]

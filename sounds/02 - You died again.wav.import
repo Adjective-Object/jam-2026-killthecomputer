@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bwek2jaibfss"
+path="res://.godot/imported/02 - You died again.wav-4415008122a9d23523adf5a4348c43d6.sample"
+
+[deps]
+
+source_file="res://sounds/02 - You died again.wav"
+dest_files=["res://.godot/imported/02 - You died again.wav-4415008122a9d23523adf5a4348c43d6.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

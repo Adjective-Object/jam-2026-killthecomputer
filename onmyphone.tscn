@@ -5,6 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://b3yu044d6182r" path="res://arms_rig_arms_01.png" id="2_6kibr"]
 [ext_resource type="Script" uid="uid://dtcia5hkmoywl" path="res://debug_sphere.gd" id="3_6kibr"]
 [ext_resource type="PackedScene" uid="uid://b6ows5lah0wtf" path="res://chatui.tscn" id="4_t2b5x"]
+[ext_resource type="AudioStream" uid="uid://c7sgeipphaed1" path="res://sounds/03 - Call Of The Void.wav" id="5_02dmp"]
+[ext_resource type="Script" uid="uid://cm7wpxog80pd2" path="res://flicker.gd" id="7_xys5l"]
+
+[sub_resource type="Environment" id="Environment_02dmp"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_b8rff"]
 resource_local_to_scene = true
@@ -257,10 +261,18 @@ bind/66/name = &"elbowIK.L_end"
 bind/66/bone = -1
 bind/66/pose = Transform3D(-0.51515967, -0.85709435, 1.3963837e-07, 0, -1.6292067e-07, -1, 0.85709435, -0.51515967, 8.393015e-08, 1.4640234, -0.36457646, 0.33870107)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hdxh6"]
+albedo_color = Color(0.08476349, 0.08929948, 0.16729113, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xys5l"]
+lightmap_size_hint = Vector2i(14, 21)
+flip_faces = true
+
 [node name="Node3D" type="Node3D" unique_id=1902337310]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=843915573]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21570998, 0, -0.30920243)
+environment = SubResource("Environment_02dmp")
 script = ExtResource("1_02dmp")
 
 [node name="phone" type="Node3D" parent="." unique_id=1215033114]
@@ -292,6 +304,12 @@ transform = Transform3D(-0.2899831, 0, -0.9570318, 0.15526673, 0.9867517, -0.047
 script = ExtResource("3_6kibr")
 color = Color(0.29420283, 0.68910205, 0.7333949, 1)
 radius = 0.5
+
+[node name="audio" type="AudioStreamPlayer3D" parent="phone" unique_id=1654530964]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8236399)
+stream = ExtResource("5_02dmp")
+volume_db = -24.233
+autoplay = true
 
 [node name="ik_control_twobone_elbow" type="Node3D" parent="." unique_id=1007160400]
 transform = Transform3D(234.96437, 0, 223.08665, 0, 324, 0, -223.08665, 0, 234.96437, 8.134855, -10.502315, -5.564152)
@@ -793,4 +811,17 @@ skin = SubResource("Skin_gra5g")
 skeleton = NodePath("..")
 
 [node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=771440404]
-light_energy = 2.4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3928242)
+light_energy = 3.405
+area_range = 3.449
+area_attenuation = 0.0
+script = ExtResource("7_xys5l")
+low = 4.0
+high = 4.001
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1762471695]
+transform = Transform3D(14.227839, 0, 0, 0, 14.227839, 0, 0, 0, 14.227839, 0, -2.363513, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_hdxh6")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_xys5l")

@@ -1,11 +1,41 @@
 extends Panel
 class_name MyConversationManager
 
+class Person:
+	var icon: Texture2D
+	var name: String
+	
+	static func called(name: String, icon: Texture2D):
+		var result = Person.new()
+		result.icon = icon
+		result.name = name
+		return result
+	
+class Conversation:
+	var them: Person
+	var dialogs: Array[Dialog]
+	
+	static func with(them: Person, dialogs: Array[Dialog]) -> Conversation:
+		var result = Conversation.new()
+		result.them = them
+		result.dialogs = dialogs
+		return result
+
+class Branch:
+	var you_said: String
+	var dialogs: Array[Dialog]
+	
+	static func choice(msg: String, dialogs: Array[Dialog]) -> Branch:
+		var result = Branch.new()
+		result.you_said = msg
+		result.dialogs = dialogs
+		return result
+ 
 class Dialog:
 	var they_said: String
 	var typing_indicator_duration_s: float
 	var wait_duration_s: float
-	var responses: Array[String]
+	var responses: Array[Branch]
 
 	static func typing_indicator(duration_seconds: float) -> Dialog:
 		var n = Dialog.new()
@@ -17,7 +47,7 @@ class Dialog:
 		n.they_said = msg
 		return n
 
-	static func you_say(options: Array[String]) -> Dialog:
+	static func you_say(options: Array[Branch]) -> Dialog:
 		var n = Dialog.new()
 		n.responses = options
 		return n
@@ -26,17 +56,79 @@ class Dialog:
 		var n = Dialog.new()
 		n.wait_duration_s = duration
 		return n
+	
 
-var conversation: Array[Dialog] = [
-	Dialog.you_say(["hi", "hewwo"]),
+# shorthand for Dialog.sleep + Dialog.typing_indicator + Dialog.they_say pattern
+func they_say_after_sleep(sleep_duration: float, type_duration: float, msg: String) -> Array[Dialog]:
+	return [Dialog.sleep(sleep_duration), Dialog.typing_indicator(type_duration), Dialog.they_say(msg)]
+		
+var entityIcon = preload("res://ui/anon.png")
+var entity = Person.called("ENTITY", entityIcon)
+
+var entity_intro_conv = Conversation.with(entity, [
+	Dialog.sleep(0.1),
+	Dialog.typing_indicator(1.25),
+	Dialog.they_say("YOU'RE LOOKING A LITTLE PALE LATELY"),
+	Dialog.sleep(0.2),
+	Dialog.typing_indicator(1.4),
+	Dialog.they_say("DON'T TELL ME YOU CAN'T GET ANYONE TO DO YOUR RITUALS?"),
+	Dialog.sleep(1),
+	Dialog.you_say([
+		Branch.choice(
+			"I'm working on it!",
+			they_say_after_sleep(0.4, 1, "NOT WORKING ENOUGH") +
+			they_say_after_sleep(0.4, 0.8, "HA HA HA HA HA HA")),
+		Branch.choice(
+			"It's rough out here, dude.",
+			they_say_after_sleep(0.4, 1, "MAYBE FOR YOU") +
+			they_say_after_sleep(0.4, 0.8, "HA HA HA HA HA HA")),
+	]),
+	Dialog.sleep(0.4),
+	Dialog.typing_indicator(1),
+	Dialog.they_say("I SEE YOU'VE RESORTED TO DATING APPS"),
+	Dialog.sleep(0.4),
+	Dialog.typing_indicator(1),
+	Dialog.they_say("I COULD ALWAYS SMELL DESPERATION ON YOU, SO THIS IS REALLY FITTING"),
+	Dialog.sleep(0.4),
+	Dialog.typing_indicator(1),
+	Dialog.they_say("YOU KNOW WHAT'S GONNA HAPPEN IF YOU FAIL, RIGHT"),
+	Dialog.sleep(0.4),
+	Dialog.typing_indicator(1),
+	Dialog.they_say("FINAL DEATH"),
+	Dialog.sleep(0.4),
+	Dialog.typing_indicator(1),
+	Dialog.they_say("THE BIG ONE"),
+	Dialog.sleep(0.4),
+	Dialog.typing_indicator(1),
+	Dialog.they_say("AND I GET TO SEND YOU THERE"),
+	Dialog.sleep(0.4),
+	Dialog.typing_indicator(1),
+	Dialog.they_say("HA HA HA HA HA"),
 	Dialog.sleep(0.4),
 	Dialog.typing_indicator(1.25),
-	Dialog.they_say("Hi, how are you?"),
-	Dialog.you_say(["I'm good, hahahaa", "I'm sad, waah"]),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1.2),
-	Dialog.you_say(["xD", "xP"]),
-]
+	Dialog.they_say("OH THIS WILL BE SO FUN FOR ME"),
+	Dialog.sleep(1),
+	Dialog.you_say([
+		Branch.choice(
+			"I still have time!",
+			they_say_after_sleep(0.4, 1, "BARELY")),
+		Branch.choice(
+			"You're sick, you know that?",
+			they_say_after_sleep(0.4, 1, "HA HA HA HA HA HA")),
+	]),
+	Dialog.sleep(2.5),
+	Dialog.you_say([
+		Branch.choice(
+			"I'll figure it out. Leave me alone!",
+			they_say_after_sleep(0.4, 1, "AS YOU WISH") +
+			they_say_after_sleep(0.4, 1.2, "FOR THE LITTLE TIME YOU HAVE LEFT") +
+			they_say_after_sleep(0.4, 1, "HA HA HA HA HA HA")),
+	]),
+	Dialog.sleep(0.4)
+])
+
+var conversation = entity_intro_conv
+
 var GREEN_BUBBLE = preload("res://ui/green_bubble.tscn")
 var GRAY_BUBBLE = preload("res://ui/gray_bubble.tscn")
 var typing_indicator = preload("res://ui/typing_indicator.tscn")
@@ -44,7 +136,8 @@ var active_typing_indicator: Control = null
 
 @onready var scroll_container: ScrollContainer = $VBoxContainer/ScrollContainer
 @onready var insertion_point: VBoxContainer = $VBoxContainer/ScrollContainer/MarginContainer/chat_scroll
-@onready var responses_area: ResponsesArea = $VBoxContainer/ResponsesArea
+@onready var them_label: Label = $VBoxContainer/PanelContainer/HBoxContainer/Label
+@onready var responses_area: ResponsesArea = $ResponsesArea
 @onready var typingindicator_timer = $typing_indicator_timer
 @onready var wait_timer = $wait_timer
 
@@ -58,8 +151,10 @@ func _ready() -> void:
 
 func advance_conversation():
 	# Advance faux conversation
-	if conversation_head < len(conversation):
-		var entry = conversation[conversation_head]
+	if conversation_head < len(conversation.dialogs):
+		them_label.text = conversation.them.name
+		
+		var entry = conversation.dialogs[conversation_head]
 		if entry.they_said:
 			_spawn_conversation_bubble(false, entry.they_said)
 			conversation_head += 1
@@ -152,6 +247,16 @@ func _clear_wait_timer_and_advance_conversation():
 func on_succesful_submit(submitted_text: String) -> void:
 	responses_area.clear_responses()
 	_spawn_conversation_bubble(true, submitted_text)
+	
+	# Add the dialog tree from the chosen branch into the conversation.
+	var chosen_branch : Branch
+	for branch in conversation.dialogs[conversation_head-1].responses:
+		if branch.you_said == submitted_text:
+			chosen_branch = branch
+	
+	conversation.dialogs = (conversation.dialogs.slice(0, conversation_head, 1, true) +
+		chosen_branch.dialogs + conversation.dialogs.slice(conversation_head, len(conversation.dialogs), 1, true))
+	
 	advance_conversation()
 
 func on_failed_submit(submitted_text: String) -> void:

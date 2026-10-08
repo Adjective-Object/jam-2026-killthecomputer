@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bggt67cyi7jnm"
+path="res://.godot/imported/01 - Ritual Jingle.wav-c005bc036e2113bb603af22cd4ae9447.sample"
+
+[deps]
+
+source_file="res://sounds/01 - Ritual Jingle.wav"
+dest_files=["res://.godot/imported/01 - Ritual Jingle.wav-c005bc036e2113bb603af22cd4ae9447.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

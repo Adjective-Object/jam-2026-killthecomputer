@@ -4,17 +4,25 @@ extends PanelContainer
 var RESPONSE_OPTION = preload("res://ui/response_option.tscn")
 var buffered_text: String = ""
 
+var SLIDE_OFFSET = 100
+
 @onready var responses_container: VBoxContainer = $responses_container;
 @onready var capture_text: LineEdit = $LineEdit
 var response_instances: Array[ResponseOption] = []
 var conversation_manager: MyConversationManager = null
+
+var out_of_view_pos: Vector2
+var in_view_pos: Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	print("responses_container", responses_container)
 	capture_text.grab_focus()
 	capture_text.modulate.a = 0.0
-
+	out_of_view_pos = Vector2(self.position.x, self.position.y + SLIDE_OFFSET)
+	in_view_pos = Vector2(self.position.x, self.position.y)
+	self.visible = false
+	
 	capture_text.text_submitted.connect(_on_text_submitted)
 
 func clear_responses() -> void:
@@ -22,7 +30,7 @@ func clear_responses() -> void:
 		child.queue_free()
 	response_instances = []
 
-func set_responses(response_options_text: Array[String], conversation_manager: MyConversationManager) -> void:
+func set_responses(response_options: Array[MyConversationManager.Branch], conversation_manager: MyConversationManager) -> void:
 	self.conversation_manager = conversation_manager
 	self.capture_text.text = ""
 	# unqueue all responses
@@ -31,12 +39,16 @@ func set_responses(response_options_text: Array[String], conversation_manager: M
 	
 	# spawn new text options
 	response_instances = []
-	print("spawning responses:", response_options_text)
-	for t in response_options_text:
+	# print("spawning responses:", [branch.you_said for branch in response_options])
+	for branch in response_options:
 		var instance: ResponseOption = RESPONSE_OPTION.instantiate()
-		instance.initialize(t)
+		instance.initialize(branch.you_said)
 		response_instances.push_back(instance)
 		responses_container.add_child(instance)
+
+	# Slide into view. TODO: Animate.
+	visible = true
+	capture_text.grab_focus()
 
 	responses_container.queue_sort()
 
@@ -76,6 +88,9 @@ func _on_text_submitted(submitted_text: String) -> void:
 	for response_instance in self.response_instances:
 		if response_instance.response_text.to_lower() == submitted_text.to_lower():
 			conversation_manager.on_succesful_submit(submitted_text)
+			# Slide out of view. TODO: Animate.
+			visible = false
+			# set_position(out_of_view_pos)
 			return
 
 	conversation_manager.on_failed_submit(submitted_text)
