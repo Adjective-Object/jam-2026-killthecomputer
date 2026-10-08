@@ -4,11 +4,13 @@ class_name MyConversationManager
 class Person:
 	var icon: Texture2D
 	var name: String
+	var theme: AudioStream
 	
-	static func called(name: String, icon: Texture2D):
+	static func called(name: String, icon: Texture2D, theme: AudioStream):
 		var result = Person.new()
 		result.icon = icon
 		result.name = name
+		result.theme = theme
 		return result
 	
 class Conversation:
@@ -63,7 +65,8 @@ func they_say_after_sleep(sleep_duration: float, type_duration: float, msg: Stri
 	return [Dialog.sleep(sleep_duration), Dialog.typing_indicator(type_duration), Dialog.they_say(msg)]
 		
 var entity_icon = preload("res://ui/anon.png")
-var entity = Person.called("ENTITY", entity_icon)
+var entity_theme = preload("res://sounds/03 - Call Of The Void.wav")
+var entity = Person.called("ENTITY", entity_icon, entity_theme)
 
 var entity_intro_conv = Conversation.with(entity, [
 	Dialog.sleep(0.1),
@@ -141,6 +144,8 @@ var active_typing_indicator: Control = null
 @onready var typingindicator_timer = $typing_indicator_timer
 @onready var wait_timer = $wait_timer
 
+@export var audio: AudioStreamPlayer3D
+
 var conversation_head = 0
 
 var is_scrolling_to_bottom = false
@@ -149,6 +154,15 @@ var is_scrolling_to_bottom = false
 func _ready() -> void:
 	pass
 	# advance_conversation() # HACK
+
+func start_conversation(conversation: Conversation):
+	conversation_head = 0
+	self.conversation = conversation
+	is_scrolling_to_bottom = false
+	audio.stream = conversation.them.theme
+	audio.play()
+	visible = true
+	advance_conversation()
 
 func advance_conversation():
 	# Advance faux conversation
