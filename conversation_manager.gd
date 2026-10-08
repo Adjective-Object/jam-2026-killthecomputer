@@ -62,8 +62,8 @@ class Dialog:
 func they_say_after_sleep(sleep_duration: float, type_duration: float, msg: String) -> Array[Dialog]:
 	return [Dialog.sleep(sleep_duration), Dialog.typing_indicator(type_duration), Dialog.they_say(msg)]
 		
-var entityIcon = preload("res://ui/anon.png")
-var entity = Person.called("ENTITY", entityIcon)
+var entity_icon = preload("res://ui/anon.png")
+var entity = Person.called("ENTITY", entity_icon)
 
 var entity_intro_conv = Conversation.with(entity, [
 	Dialog.sleep(0.1),
@@ -147,7 +147,8 @@ var is_scrolling_to_bottom = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	advance_conversation() # HACK
+	pass
+	# advance_conversation() # HACK
 
 func advance_conversation():
 	# Advance faux conversation

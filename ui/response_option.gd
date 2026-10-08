@@ -36,7 +36,7 @@ func spawn_bad_text(bad_text: String) -> void:
 	self.add_child(bad_text_inst)
 
 func update_input(text: String, caret_column: int):
-	print("update_input", text, caret_column)
+	# print("update_input", text, caret_column)
 	# find the substring of this label that matches update_input,
 	# and update the text effect on the label
 	var match_prefix_len = 0;

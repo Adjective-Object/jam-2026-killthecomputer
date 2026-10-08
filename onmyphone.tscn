@@ -4,22 +4,13 @@
 [ext_resource type="Script" uid="uid://obkfld6ib5a3" path="res://gui_3d.gd" id="1_t2b5x"]
 [ext_resource type="Texture2D" uid="uid://b3yu044d6182r" path="res://arms_rig_arms_01.png" id="2_6kibr"]
 [ext_resource type="Script" uid="uid://dtcia5hkmoywl" path="res://debug_sphere.gd" id="3_6kibr"]
-[ext_resource type="Texture2D" uid="uid://cej117l11kyin" path="res://ui/anon.png" id="4_02dmp"]
-[ext_resource type="Texture2D" uid="uid://bd7xbgjcfp46i" path="res://ui/topbar_gray.png" id="4_4jdnw"]
+[ext_resource type="PackedScene" uid="uid://b501n7et5t7qq" path="res://callui.tscn" id="4_hdxh6"]
 [ext_resource type="PackedScene" uid="uid://b6ows5lah0wtf" path="res://chatui.tscn" id="4_t2b5x"]
 [ext_resource type="AudioStream" uid="uid://c7sgeipphaed1" path="res://sounds/03 - Call Of The Void.wav" id="5_02dmp"]
-[ext_resource type="Theme" uid="uid://dtwurwyspxj4a" path="res://new_theme.tres" id="6_ahkre"]
-[ext_resource type="Script" uid="uid://yeux87q3rooe" path="res://responses_area.gd" id="7_8nvgc"]
+[ext_resource type="Script" uid="uid://cvvjak273eymv" path="res://call_manager.gd" id="5_6lfuq"]
 [ext_resource type="Script" uid="uid://cm7wpxog80pd2" path="res://flicker.gd" id="7_xys5l"]
 
 [sub_resource type="Environment" id="Environment_02dmp"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mmb5u"]
-texture = ExtResource("4_4jdnw")
-
-[sub_resource type="LabelSettings" id="LabelSettings_ckvh1"]
-font_size = 23
-font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_b8rff"]
 resource_local_to_scene = true
@@ -295,93 +286,11 @@ size = Vector2i(640, 980)
 render_target_update_mode = 4
 
 [node name="ChatPanel" parent="phone/PhoneScreen_SubViewport" unique_id=47453373 instance=ExtResource("4_t2b5x")]
-
-[node name="IncomingCallPanel" type="Panel" parent="phone/PhoneScreen_SubViewport" unique_id=1508423913]
 visible = false
-custom_minimum_size = Vector2(640, 980)
-custom_maximum_size = Vector2(640, 980)
-propagate_maximum_size = true
-offset_right = 640.0
-offset_bottom = 980.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel" unique_id=2129111410]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/VBoxContainer" unique_id=1663426369]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_mmb5u")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/VBoxContainer/PanelContainer" unique_id=1133340783]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/VBoxContainer/PanelContainer/HBoxContainer" unique_id=36545359]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="TextureRect" type="TextureRect" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/VBoxContainer/PanelContainer/HBoxContainer/MarginContainer" unique_id=626841287]
-layout_mode = 2
-texture = ExtResource("4_02dmp")
-
-[node name="Label" type="Label" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/VBoxContainer/PanelContainer/HBoxContainer" unique_id=1772750835]
-layout_mode = 2
-text = "Karen Vilicutty"
-label_settings = SubResource("LabelSettings_ckvh1")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/VBoxContainer" unique_id=1779233914]
-layout_mode = 2
-size_flags_vertical = 3
-scroll_hint_mode = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/VBoxContainer/ScrollContainer" unique_id=470430262]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="chat_scroll" type="VBoxContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/VBoxContainer/ScrollContainer/MarginContainer" unique_id=1990695379]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="ResponsesArea" type="PanelContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel" unique_id=650188995]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -81.0
-offset_right = 640.0
-grow_vertical = 0
-theme = ExtResource("6_ahkre")
-theme_type_variation = &"ResponseContainer"
-script = ExtResource("7_8nvgc")
-
-[node name="LineEdit" type="LineEdit" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/ResponsesArea" unique_id=383602192]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-placeholder_text = "asdasdasd"
-keep_editing_on_text_submit = true
-
-[node name="responses_container" type="VBoxContainer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel/ResponsesArea" unique_id=148693031]
-layout_mode = 2
-
-[node name="typing_indicator_timer" type="Timer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel" unique_id=929863749]
-
-[node name="wait_timer" type="Timer" parent="phone/PhoneScreen_SubViewport/IncomingCallPanel" unique_id=2126986741]
+[node name="IncomingCallPanel" parent="phone/PhoneScreen_SubViewport" unique_id=1923636403 node_paths=PackedStringArray("conversation_manager") instance=ExtResource("4_hdxh6")]
+script = ExtResource("5_6lfuq")
+conversation_manager = NodePath("../ChatPanel")
 
 [node name="phone_screen" type="MeshInstance3D" parent="phone" unique_id=176438850]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.796016)
@@ -408,7 +317,6 @@ radius = 0.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8236399)
 stream = ExtResource("5_02dmp")
 volume_db = -24.233
-autoplay = true
 
 [node name="ik_control_twobone_elbow" type="Node3D" parent="." unique_id=1007160400]
 transform = Transform3D(234.96437, 0, 223.08665, 0, 324, 0, -223.08665, 0, 234.96437, 8.134855, -10.502315, -5.564152)

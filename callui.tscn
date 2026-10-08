@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://b501n7et5t7qq"]
+
+[ext_resource type="Texture2D" uid="uid://cej117l11kyin" path="res://ui/anon.png" id="2_seo1b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t66vq"]
+
+[sub_resource type="Theme" id="Theme_mmyag"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1yilt"]
+bg_color = Color(0.3647059, 0.7607843, 0.23137255, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t66vq"]
+bg_color = Color(0.94067454, 0.15978628, 0.14895004, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="IncomingCallPanel" type="Panel" unique_id=1923636403]
+modulate = Color(0.4255713, 0.42557135, 0.4255712, 1)
+custom_minimum_size = Vector2(640, 980)
+custom_maximum_size = Vector2(640, 980)
+propagate_maximum_size = true
+offset_right = 640.0
+offset_bottom = 980.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=887431576]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_styles/panel = SubResource("StyleBoxEmpty_t66vq")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=133824078]
+layout_mode = 2
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_bottom = 200
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=596585516]
+layout_mode = 2
+theme = SubResource("Theme_mmyag")
+theme_override_constants/separation = 24
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1108419064]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_stretch_ratio = 0.0
+texture = ExtResource("2_seo1b")
+stretch_mode = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=22887113]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/default_color = Color(0.49705678, 0.00017543658, 0.49705327, 1)
+bbcode_enabled = true
+text = "[b]Incoming Call![/b]"
+fit_content = true
+
+[node name="AnswerContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=964996653]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_1yilt")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/AnswerContainer" unique_id=310322429]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Answer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/AnswerContainer/MarginContainer" unique_id=1667286936]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/AnswerContainer/MarginContainer/Answer" unique_id=1010577269]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+text = "Answer"
+fit_content = true
+
+[node name="DeclineContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1509321074]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_t66vq")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/DeclineContainer" unique_id=94824783]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Decline" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/DeclineContainer/MarginContainer" unique_id=606985943]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/DeclineContainer/MarginContainer/Decline" unique_id=1219155307]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+text = "Decline"
+fit_content = true
+
+[node name="wait_timer" type="Timer" parent="." unique_id=859717081]
