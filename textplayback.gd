@@ -71,8 +71,9 @@ func set_measured_text(new_text: String) -> void:
 	
 
 func _input(event):
-	if event is InputEventKey and event.pressed and (event as InputEventKey).keycode == KEY_R:
-		display_start_time = Time.get_ticks_msec()
+	pass
+	#if event is InputEventKey and event.pressed and (event as InputEventKey).keycode == KEY_R:
+		#display_start_time = Time.get_ticks_msec()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
