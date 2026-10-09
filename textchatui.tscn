@@ -14,6 +14,9 @@ bg_color = Color(0.64705884, 0.63529414, 0.7490196, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nk7is"]
 bg_color = Color(0.9372549, 0.9372549, 0.9372549, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4jdnw"]
+bg_color = Color(0.5882353, 0.9529412, 1, 1)
+
 [node name="ChatConversationPanel" type="Panel" unique_id=916914035]
 custom_minimum_size = Vector2(640, 980)
 custom_maximum_size = Vector2(640, 980)
@@ -90,6 +93,7 @@ theme_override_constants/margin_bottom = 15
 [node name="chat_scroll" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer" unique_id=753020650]
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_constants/separation = 32
 
 [node name="ResponsesArea" type="PanelContainer" parent="." unique_id=177603363]
 layout_mode = 1
@@ -100,15 +104,38 @@ offset_top = -81.0
 offset_right = 640.0
 grow_vertical = 0
 theme_type_variation = &"ResponseContainer"
+theme_override_styles/panel = SubResource("StyleBoxFlat_4jdnw")
 script = ExtResource("5_k2tyi")
 
-[node name="LineEdit" type="LineEdit" parent="ResponsesArea" unique_id=1709783559]
+[node name="MarginContainer" type="MarginContainer" parent="ResponsesArea" unique_id=664750908]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 24
+
+[node name="LineEdit" type="LineEdit" parent="ResponsesArea/MarginContainer" unique_id=1709783559]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 placeholder_text = "asdasdasd"
 keep_editing_on_text_submit = true
 
-[node name="responses_container" type="VBoxContainer" parent="ResponsesArea" unique_id=1729971668]
+[node name="VBoxContainer" type="VBoxContainer" parent="ResponsesArea/MarginContainer" unique_id=1458218031]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ResponsesArea/MarginContainer/VBoxContainer" unique_id=1288283073]
+layout_mode = 2
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="ResponsesArea/MarginContainer/VBoxContainer/MarginContainer" unique_id=1762891619]
+clip_contents = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24705882, 0.078431375, 0.24313726, 1)
+theme_override_font_sizes/font_size = 24
+text = "Type Your Response!"
+horizontal_alignment = 1
+
+[node name="responses_container" type="VBoxContainer" parent="ResponsesArea/MarginContainer/VBoxContainer" unique_id=1729971668]
 layout_mode = 2
 theme_override_constants/separation = 32
 

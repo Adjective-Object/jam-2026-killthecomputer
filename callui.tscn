@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b501n7et5t7qq"]
 
 [ext_resource type="Script" uid="uid://cvvjak273eymv" path="res://call_manager.gd" id="1_sudo3"]
-[ext_resource type="Texture2D" uid="uid://cej117l11kyin" path="res://ui/anon.png" id="2_seo1b"]
+[ext_resource type="Texture2D" uid="uid://b8k0uo2e5jamb" path="res://ui/pfps/pfp_entity.tres" id="2_sudo3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t66vq"]
 
@@ -125,7 +125,7 @@ layout_mode = 2
 size_flags_vertical = 3
 offset_transform_enabled = true
 offset_transform_position = Vector2(20, 0)
-texture = ExtResource("2_seo1b")
+texture = ExtResource("2_sudo3")
 stretch_mode = 4
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=22887113]

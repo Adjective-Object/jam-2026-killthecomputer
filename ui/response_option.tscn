@@ -12,7 +12,7 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 shadow_color = Color(0.7254902, 0.72156864, 0.7176471, 1)
-shadow_size = 4
+shadow_size = 3
 shadow_offset = Vector2(-2, 2)
 
 [sub_resource type="SystemFont" id="SystemFont_l1nrd"]
@@ -28,7 +28,7 @@ script = ExtResource("2_h5gv5")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1232212596]
 layout_mode = 2
-theme_override_constants/margin_left = 8
+theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 24

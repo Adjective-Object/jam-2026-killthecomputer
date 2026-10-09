@@ -6,8 +6,8 @@ var buffered_text: String = ""
 
 var SLIDE_OFFSET = 100
 
-@onready var responses_container: VBoxContainer = $responses_container;
-@onready var capture_text: LineEdit = $LineEdit
+@onready var responses_container: VBoxContainer = $MarginContainer/VBoxContainer/responses_container
+@onready var capture_text: LineEdit = $MarginContainer/LineEdit
 var response_instances: Array[ResponseOption] = []
 var conversation_manager: MyConversationManager = null
 
@@ -30,7 +30,7 @@ func clear_responses() -> void:
 		child.queue_free()
 	response_instances = []
 
-func set_responses(response_options: Array[MyConversationManager.Branch], conversation_manager: MyConversationManager) -> void:
+func set_responses(response_options: Array[Conversations.Branch], conversation_manager: MyConversationManager) -> void:
 	self.conversation_manager = conversation_manager
 	self.capture_text.text = ""
 	# unqueue all responses

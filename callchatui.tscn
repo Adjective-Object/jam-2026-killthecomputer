@@ -86,13 +86,22 @@ theme = ExtResource("4_qcqr1")
 theme_type_variation = &"ResponseContainer"
 script = ExtResource("5_m4jsr")
 
-[node name="LineEdit" type="LineEdit" parent="ResponsesArea" unique_id=1030185881]
+[node name="MarginContainer" type="MarginContainer" parent="ResponsesArea" unique_id=1452650289]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="ResponsesArea/MarginContainer" unique_id=1030185881]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 placeholder_text = "asdasdasd"
 keep_editing_on_text_submit = true
 
-[node name="responses_container" type="VBoxContainer" parent="ResponsesArea" unique_id=253748648]
+[node name="VBoxContainer" type="VBoxContainer" parent="ResponsesArea/MarginContainer" unique_id=869119496]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ResponsesArea/MarginContainer/VBoxContainer" unique_id=1824936722]
+layout_mode = 2
+
+[node name="responses_container" type="VBoxContainer" parent="ResponsesArea/MarginContainer/VBoxContainer" unique_id=253748648]
 layout_mode = 2
 
 [node name="typing_indicator_timer" type="Timer" parent="." unique_id=340006268]

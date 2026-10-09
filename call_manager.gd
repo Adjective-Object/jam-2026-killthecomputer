@@ -15,18 +15,19 @@ class Caller:
 
 class Call:
 	var caller: Caller
-	var conversation: MyConversationManager.Conversation
+	var conversation: Conversations.Conversation
 	
-	static func from(caller: Caller, conversation: MyConversationManager.Conversation):
+	static func from(caller: Caller, conversation: Conversations.Conversation):
 		var result = Call.new()
 		result.caller = caller
 		result.conversation = conversation
 		return result
 
 @export var conversation_manager: MyConversationManager
+@export var conversations: Conversations
 @export var audio: AudioStreamPlayer3D
 
-var entity_icon = preload("res://ui/anon.png")
+var entity_icon = preload("res://ui/pfps/pfp_entity.tres")
 var entity_ringtone = preload("res://sounds/ringtone_loop.mp3")
 var entity = Caller.named("ENTITY", entity_icon, entity_ringtone)
 
@@ -41,7 +42,7 @@ var active_call: Call
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	entity_intro_call = Call.from(entity, conversation_manager.entity_intro_conv)
+	entity_intro_call = Call.from(entity, conversations.entity_intro_conv)
 	start_call(entity_intro_call)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

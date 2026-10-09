@@ -1,20 +1,54 @@
-[gd_scene format=3 uid="uid://d2e2y377qy23m"]
+[gd_scene format=3 uid="uid://c02n45cvivtg"]
 
-[ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_4a787"]
-[ext_resource type="Script" uid="uid://m7830bpi3vsv" path="res://ui/popin_anim.gd" id="1_4ttc6"]
+[ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_btvo6"]
+[ext_resource type="Texture2D" uid="uid://c1161rcaefwa" path="res://ui/pfps/pfp_player.tres" id="2_btvo6"]
 
-[node name="GreenBubble" type="PanelContainer" unique_id=774853797]
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_type_variation = &"GreenButton"
-script = ExtResource("1_4ttc6")
-fade_in_displacement = Vector2(0, 80)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cy0g4"]
+bg_color = Color(0.8039216, 0.9764706, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.7254902, 0.72156864, 0.7176471, 1)
+shadow_size = 3
+shadow_offset = Vector2(-2, 2)
 
-[node name="Label" type="Label" parent="." unique_id=1542597456]
+[node name="GreenBubble" type="HBoxContainer" unique_id=701488616]
+propagate_maximum_size = false
+offset_right = 302.0
+offset_bottom = 128.0
+alignment = 2
+
+[node name="PanelMargin" type="MarginContainer" parent="." unique_id=1041077551]
+layout_mode = 2
+
+[node name="ChatBubble" type="PanelContainer" parent="PanelMargin" unique_id=24342987]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cy0g4")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelMargin/ChatBubble" unique_id=1442708003]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 24
+
+[node name="Label" type="Label" parent="PanelMargin/ChatBubble/MarginContainer" unique_id=1719481601]
 custom_minimum_size = Vector2(130, 80)
 custom_maximum_size = Vector2(320, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
-autowrap_mode = 3
-script = ExtResource("1_4a787")
+theme_override_font_sizes/font_size = 24
+text = "aaaaaaaa"
+script = ExtResource("1_btvo6")
+
+[node name="IconMargin" type="MarginContainer" parent="." unique_id=2022338952]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 24
+
+[node name="Icon" type="TextureRect" parent="IconMargin" unique_id=962676745]
+layout_mode = 2
+texture = ExtResource("2_btvo6")
+stretch_mode = 2

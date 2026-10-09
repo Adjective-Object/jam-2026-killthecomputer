@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://c7sgeipphaed1" path="res://sounds/03 - Call Of The Void.wav" id="5_02dmp"]
 [ext_resource type="PackedScene" uid="uid://eec2c73a5b2r" path="res://textchatui.tscn" id="5_6lfuq"]
 [ext_resource type="Script" uid="uid://cm7wpxog80pd2" path="res://flicker.gd" id="7_xys5l"]
+[ext_resource type="Script" uid="uid://gkq54xcepiun" path="res://conversations.gd" id="10_l1nrd"]
 
 [sub_resource type="Environment" id="Environment_02dmp"]
 background_mode = 1
@@ -299,8 +300,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_0eb53")
 visible = false
 audio = NodePath("../../audio")
 
-[node name="IncomingCallPanel" parent="phone/PhoneScreen_SubViewport" unique_id=1923636403 node_paths=PackedStringArray("conversation_manager", "audio") instance=ExtResource("4_hdxh6")]
+[node name="IncomingCallPanel" parent="phone/PhoneScreen_SubViewport" unique_id=1923636403 node_paths=PackedStringArray("conversation_manager", "conversations", "audio") instance=ExtResource("4_hdxh6")]
 conversation_manager = NodePath("../ChatConversationPanel")
+conversations = NodePath("../../../Conversations")
 audio = NodePath("../../audio")
 
 [node name="ChatConversationPanel" parent="phone/PhoneScreen_SubViewport" unique_id=916914035 node_paths=PackedStringArray("audio") instance=ExtResource("5_6lfuq")]
@@ -851,3 +853,6 @@ mesh = SubResource("BoxMesh_xys5l")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2093436333]
 transform = Transform3D(1, 0, 0, 0, 0.70645696, 0.707756, 0, -0.707756, 0.70645696, 0, 3.825757, 0)
+
+[node name="Conversations" type="Node" parent="." unique_id=1957255428]
+script = ExtResource("10_l1nrd")

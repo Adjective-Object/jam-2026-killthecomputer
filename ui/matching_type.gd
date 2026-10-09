@@ -49,7 +49,7 @@ func _process_custom_fx(char_fx: CharFXTransform) -> bool:
 	var intended_color = COLOR_NONMATCHED
 
 	if i < prefix_match_len:
-		intended_scale = 1.1
+		intended_scale = 1.2
 		intended_color = COLOR_CORRECT
 	elif i < min(prefix_len, prompt_len):
 		intended_scale = INCORRECT_SCALE

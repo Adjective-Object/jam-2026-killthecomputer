@@ -1,25 +1,53 @@
-[gd_scene format=3 uid="uid://c5ghakr4g0o8w"]
+[gd_scene format=3 uid="uid://royob76220ln"]
 
-[ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_kfhk2"]
-[ext_resource type="Script" uid="uid://m7830bpi3vsv" path="res://ui/popin_anim.gd" id="1_wunih"]
+[ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_fqduf"]
+[ext_resource type="Texture2D" uid="uid://bjff63w1kojkt" path="res://ui/pfps/pfp_brad.tres" id="1_rfaqr"]
 
-[node name="GrayBubble" type="PanelContainer" unique_id=1196823909]
-offset_right = 413.0
-offset_bottom = 181.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_type_variation = &"GrayButton"
-script = ExtResource("1_wunih")
-fade_in_displacement = Vector2(0, 80)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfaqr"]
+bg_color = Color(0.8039216, 0.9764706, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.7254902, 0.72156864, 0.7176471, 1)
+shadow_size = 3
+shadow_offset = Vector2(-2, 2)
 
-[node name="Label" type="Label" parent="." unique_id=1405653316]
+[node name="GrayBubble2" type="HBoxContainer" unique_id=1776189324]
+propagate_maximum_size = false
+offset_right = 302.0
+size_flags_vertical = 3
+
+[node name="IconMargin" type="MarginContainer" parent="." unique_id=1417946621]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 24
+
+[node name="Icon" type="TextureRect" parent="IconMargin" unique_id=986039330]
+layout_mode = 2
+texture = ExtResource("1_rfaqr")
+stretch_mode = 2
+
+[node name="PanelMargin" type="MarginContainer" parent="." unique_id=215876036]
+layout_mode = 2
+
+[node name="ChatBubble" type="PanelContainer" parent="PanelMargin" unique_id=245001733]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rfaqr")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelMargin/ChatBubble" unique_id=976342475]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 24
+
+[node name="Label" type="Label" parent="PanelMargin/ChatBubble/MarginContainer" unique_id=785663389]
 custom_minimum_size = Vector2(130, 80)
 custom_maximum_size = Vector2(320, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
-text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaa
-aaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-script = ExtResource("1_kfhk2")
+theme_override_font_sizes/font_size = 24
+text = "aaaaaaaa"
+script = ExtResource("1_fqduf")
