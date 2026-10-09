@@ -59,18 +59,6 @@ class Dialog:
 		n.wait_duration_s = duration
 		return n
 
-# A Conversation is like the script for a conversation.
-# An ActiveConversation keeps track of the progress into that script.
-class ActiveConversation:
-	var conversation: Conversation
-	var conversation_head: int
-	
-	static func start(conversation: Conversation):
-		var n = ActiveConversation.new()
-		n.conversation = conversation
-		n.conversation_head = 0
-		return n
-
 # shorthand for Dialog.sleep + Dialog.typing_indicator + Dialog.they_say pattern
 func they_say_after_sleep(sleep_duration: float, type_duration: float, msg: String) -> Array[Dialog]:
 	return [Dialog.sleep(sleep_duration), Dialog.typing_indicator(type_duration), Dialog.they_say(msg)]
@@ -141,7 +129,7 @@ var entity_intro_conv = Conversation.with(entity, [
 	Dialog.sleep(0.4)
 ])
 
-var conversation: ActiveConversation
+var conversation: Conversation
 
 var GREEN_BUBBLE = preload("res://ui/green_bubble.tscn")
 var GRAY_BUBBLE = preload("res://ui/gray_bubble.tscn")
@@ -168,7 +156,7 @@ func _ready() -> void:
 
 func start_conversation(conversation: Conversation):
 	conversation_head = 0
-	self.conversation = ActiveConversation.start(conversation)
+	self.conversation = conversation
 	is_scrolling_to_bottom = false
 	audio.stream = conversation.them.theme
 	audio.play()
@@ -177,7 +165,7 @@ func start_conversation(conversation: Conversation):
 
 func advance_conversation():
 	if conversation_head < len(conversation.dialogs):
-		them_label.text = conversation.them.name
+		#them_label.text = conversation.them.name
 		
 		var entry = conversation.dialogs[conversation_head]
 		if entry.they_said:

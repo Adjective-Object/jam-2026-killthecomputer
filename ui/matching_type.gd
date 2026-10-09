@@ -19,10 +19,12 @@ class CharStates:
 			result += str(i) + ": " + str(states[i].scale) + ", " + str(states[i].color) + "\n"
 		return result
 
-var UNRENDERED_SCALE: float = 0.5
-var INCORRECT_SCALE: float = 0.8
+var palette = preload("res://ui/colors.tres")
+
+var UNRENDERED_SCALE: float = 1
+var INCORRECT_SCALE: float = 0.9
 var LERP_SPEED: float = 0.5
-var COLOR_CORRECT = Color(0, 0, 1, 1)
+var COLOR_CORRECT = palette.colors[4]
 var COLOR_INCORRECT = Color(1, 0, 0, 1)
 var COLOR_NONMATCHED = Color(0, 0, 0, 0.8)
 
@@ -47,7 +49,7 @@ func _process_custom_fx(char_fx: CharFXTransform) -> bool:
 	var intended_color = COLOR_NONMATCHED
 
 	if i < prefix_match_len:
-		intended_scale = 1.0
+		intended_scale = 1.1
 		intended_color = COLOR_CORRECT
 	elif i < min(prefix_len, prompt_len):
 		intended_scale = INCORRECT_SCALE
@@ -65,12 +67,15 @@ func _process_custom_fx(char_fx: CharFXTransform) -> bool:
 		var offset = char_fx.transform.origin;
 		var scale = Transform2D.IDENTITY.scaled(Vector2(intended_scale, intended_scale)).translated(offset)
 		char_fx.transform = scale
-		char_fx.color = intended_color	
+		char_fx.color = intended_color
 		return true
 
 	if i not in char_states.states:
 		char_states.states[i] = _CharState.new()
 
+	# Messing with the scale and color for unrendered characters creates some
+	# weird looking spacing issues, so don't change them 
+	#if intended_scale 
 	char_states.states[i].scale = lerp(
 		char_states.states[i].scale, intended_scale, LERP_SPEED)
 	char_states.states[i].color = lerp(

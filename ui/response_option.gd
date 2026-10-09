@@ -1,8 +1,8 @@
 class_name ResponseOption
 extends PanelContainer
 
-@onready var response_label: RichTextLabel = $Label
-@onready var cursor_rect: ColorRect = $cursor_rect
+@onready var response_label: RichTextLabel = $MarginContainer/Label
+@onready var cursor_rect: ColorRect = $MarginContainer/cursor_rect
 @export var response_text: String
 var BAD_TEXT_TEMPL = preload("res://ui/bad_text_match.tscn")
 
@@ -67,8 +67,8 @@ func update_input(text: String, caret_column: int):
 	response_label.add_text(combined_response_text)
 	response_label.pop()
 
-func _process(_delta: float) -> void:
-	var fx_instance = prefix_fx
-	if fx_instance != null:
-		#print("fx_instance.cursor_rect_position", fx_instance.cursor_rect_position)
-		cursor_rect.position = lerp(cursor_rect.position, fx_instance.cursor_rect_position, CURSOR_LERP_SPEED)
+#func _process(_delta: float) -> void:
+	#var fx_instance = prefix_fx
+	#if fx_instance != null:
+		##print("fx_instance.cursor_rect_position", fx_instance.cursor_rect_position)
+		#cursor_rect.position = lerp(cursor_rect.position, fx_instance.cursor_rect_position, CURSOR_LERP_SPEED)

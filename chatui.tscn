@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://1y5fjcd51cml"]
+
+[ext_resource type="Script" uid="uid://d32d5q6eem4i" path="res://conversation_manager.gd" id="1_0pn2a"]
+[ext_resource type="Texture2D" uid="uid://bd7xbgjcfp46i" path="res://ui/topbar_gray.png" id="1_ks6d1"]
+[ext_resource type="Texture2D" uid="uid://cej117l11kyin" path="res://ui/anon.png" id="2_qcqr1"]
+[ext_resource type="Theme" uid="uid://dtwurwyspxj4a" path="res://new_theme.tres" id="4_qcqr1"]
+[ext_resource type="Script" uid="uid://yeux87q3rooe" path="res://responses_area.gd" id="5_m4jsr"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1dxfi"]
+texture = ExtResource("1_ks6d1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_1dxfi"]
+font_size = 23
+font_color = Color(0, 0, 0, 1)
+
+[node name="Chatui_panel" type="Panel" unique_id=47453373]
+custom_minimum_size = Vector2(640, 980)
+custom_maximum_size = Vector2(640, 980)
+propagate_maximum_size = true
+offset_right = 640.0
+offset_bottom = 980.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_0pn2a")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1926582810]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1432707713]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_1dxfi")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer" unique_id=2123223128]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer/HBoxContainer" unique_id=213088872]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/PanelContainer/HBoxContainer/MarginContainer" unique_id=350464]
+layout_mode = 2
+texture = ExtResource("2_qcqr1")
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer" unique_id=1306851638]
+layout_mode = 2
+text = "Karen Vilicutty"
+label_settings = SubResource("LabelSettings_1dxfi")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=387718046]
+layout_mode = 2
+size_flags_vertical = 3
+scroll_hint_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer" unique_id=129661633]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="chat_scroll" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer" unique_id=1990300483]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ResponsesArea" type="PanelContainer" parent="." unique_id=570344375]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -81.0
+offset_right = 640.0
+grow_vertical = 0
+theme = ExtResource("4_qcqr1")
+theme_type_variation = &"ResponseContainer"
+script = ExtResource("5_m4jsr")
+
+[node name="LineEdit" type="LineEdit" parent="ResponsesArea" unique_id=1030185881]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+placeholder_text = "asdasdasd"
+keep_editing_on_text_submit = true
+
+[node name="responses_container" type="VBoxContainer" parent="ResponsesArea" unique_id=253748648]
+layout_mode = 2
+
+[node name="typing_indicator_timer" type="Timer" parent="." unique_id=340006268]
+
+[node name="wait_timer" type="Timer" parent="." unique_id=1413495581]
