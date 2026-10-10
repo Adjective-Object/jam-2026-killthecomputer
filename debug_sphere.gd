@@ -10,5 +10,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	if Engine.is_editor_hint():
-		DebugDraw3D.draw_sphere(global_transform.origin, radius, color)
+	pass
+	# if Engine.is_editor_hint():
+		# DebugDraw3D.draw_sphere(global_transform.origin, radius, color)

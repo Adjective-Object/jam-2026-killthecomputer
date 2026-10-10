@@ -1,9 +1,13 @@
 extends Label
+class_name TextPlayback
 
 @export var label_text: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 @export var ms_per_letter: float = 8.0
 
+signal playback_complete
+
 var display_start_time: int = 0
+var done: bool = false
 
 var breaklines_label_text: String = ""
 var final_measured_size: Vector2
@@ -82,6 +86,10 @@ func _process(_delta: float) -> void:
 	var letters_to_show = int(elapsed_time / ms_per_letter)
 	var next_text = breaklines_label_text.substr(0, letters_to_show)
 	self.text = next_text
+	
+	if not done and breaklines_label_text == self.text:
+		done = true
+		playback_complete.emit()
 
 # func truncate_by_word(text: String, max_length: int) -> String:
 # 	if text.length() <= max_length:

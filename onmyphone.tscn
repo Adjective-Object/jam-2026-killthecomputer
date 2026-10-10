@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://eec2c73a5b2r" path="res://textchatui.tscn" id="5_6lfuq"]
 [ext_resource type="Script" uid="uid://cm7wpxog80pd2" path="res://flicker.gd" id="7_xys5l"]
 [ext_resource type="Script" uid="uid://gkq54xcepiun" path="res://conversations.gd" id="10_l1nrd"]
+[ext_resource type="Script" uid="uid://cdynvaoojdyim" path="res://life_progress.gd" id="11_4jdnw"]
+[ext_resource type="Texture2D" uid="uid://diw3ojiohevt2" path="res://ui/skull_emoji.png" id="11_8nvgc"]
+[ext_resource type="FontFile" uid="uid://cimuwprnbcv4p" path="res://fonts/Baloo2-Bold.ttf" id="12_ahkre"]
 
 [sub_resource type="Environment" id="Environment_02dmp"]
 background_mode = 1
@@ -276,6 +279,15 @@ albedo_color = Color(0.08476349, 0.08929948, 0.16729113, 1)
 lightmap_size_hint = Vector2i(14, 21)
 flip_faces = true
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4jdnw"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahkre"]
+bg_color = Color(0.31, 0.055800002, 0.055800002, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vanes"]
+bg_color = Color(0, 0, 0, 1)
+
 [node name="Node3D" type="Node3D" unique_id=1902337310]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=843915573]
@@ -304,9 +316,10 @@ conversation_manager = NodePath("../ChatConversationPanel")
 conversations = NodePath("../../../Conversations")
 audio = NodePath("../../audio")
 
-[node name="ChatConversationPanel" parent="phone/PhoneScreen_SubViewport" unique_id=916914035 node_paths=PackedStringArray("audio") instance=ExtResource("5_6lfuq")]
+[node name="ChatConversationPanel" parent="phone/PhoneScreen_SubViewport" unique_id=916914035 node_paths=PackedStringArray("audio", "life_progress") instance=ExtResource("5_6lfuq")]
 visible = false
 audio = NodePath("../../audio")
+life_progress = NodePath("../../../MarginContainer/Panel/LifeProgressBar")
 
 [node name="phone_screen" type="MeshInstance3D" parent="phone" unique_id=176438850]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.796016)
@@ -332,7 +345,7 @@ radius = 0.5
 [node name="audio" type="AudioStreamPlayer3D" parent="phone" unique_id=1654530964]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8236399)
 stream = ExtResource("5_02dmp")
-volume_db = -60.0
+volume_db = -24.0
 
 [node name="ik_control_twobone_elbow" type="Node3D" parent="." unique_id=1007160400]
 transform = Transform3D(234.96437, 0, 223.08665, 0, 324, 0, -223.08665, 0, 234.96437, 8.134855, -10.502315, -5.564152)
@@ -855,3 +868,69 @@ transform = Transform3D(1, 0, 0, 0, 0.70645696, 0.707756, 0, -0.707756, 0.706456
 
 [node name="Conversations" type="Node" parent="." unique_id=1957255428]
 script = ExtResource("10_l1nrd")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1506618520]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+grow_horizontal = 0
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(200, 0)
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Panel" type="VBoxContainer" parent="MarginContainer" unique_id=1585599109]
+custom_minimum_size = Vector2(100, 200)
+layout_mode = 2
+offset_transform_position = Vector2(200, 0)
+
+[node name="SkullIcon" type="TextureRect" parent="MarginContainer/Panel" unique_id=780101243]
+custom_minimum_size = Vector2(40, 42)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("11_8nvgc")
+expand_mode = 2
+
+[node name="LifeProgressBar" type="ProgressBar" parent="MarginContainer/Panel" unique_id=341636235 node_paths=PackedStringArray("container", "life_timer", "death_screen")]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_4jdnw")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ahkre")
+fill_mode = 3
+show_percentage = false
+script = ExtResource("11_4jdnw")
+container = NodePath("../..")
+life_timer = NodePath("../../life_timer")
+death_screen = NodePath("../../../Panel")
+
+[node name="life_timer" type="Timer" parent="MarginContainer" unique_id=93298221]
+wait_time = 60.0
+
+[node name="Panel" type="Panel" parent="." unique_id=1107703218]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vanes")
+
+[node name="Label" type="Label" parent="Panel" unique_id=19237964]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("12_ahkre")
+theme_override_font_sizes/font_size = 32
+text = "you died the final death.
+(placeholder screen)"
+horizontal_alignment = 1
+vertical_alignment = 1

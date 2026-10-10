@@ -31,7 +31,8 @@ var entity_icon = preload("res://ui/pfps/pfp_entity.tres")
 var entity_ringtone = preload("res://sounds/ringtone_loop.mp3")
 var entity = Caller.named("ENTITY", entity_icon, entity_ringtone)
 
-var entity_intro_call: Call 
+var entity_intro_call: Call
+var entity_midpoint_call: Call
 var active_call: Call
 
 @onready var answer_button: Button = $PanelContainer/MarginContainer/VBoxContainer/AnswerButton
@@ -43,13 +44,24 @@ var active_call: Call
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	entity_intro_call = Call.from(entity, conversations.entity_intro_conv)
+	entity_midpoint_call = Call.from(entity, conversations.entity_midpoint_conv)
+	
 	start_call(entity_intro_call)
+	
+	conversation_manager.start_midpoint_call.connect(func():
+		start_call(entity_midpoint_call)
+	)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func start_call(call: Call) -> void:
+	if conversation_manager.active_conversation:
+		conversation_manager.active_conversation.conversation_manager.pause()
+
+	conversation_manager.visible = false
+
 	active_call = call
 	icon.texture = active_call.caller.icon
 	audio.stream = active_call.caller.ringtone
@@ -61,7 +73,7 @@ func _on_answer_button_pressed() -> void:
 	visible = false
 	audio.stop()
 	conversation_manager.add_conversation(active_call.conversation)
-	conversation_manager.focus_conversation(0)
+	conversation_manager.focus_conversation(len(conversation_manager.conversations)-1)
 
 func _on_decline_button_pressed() -> void:
 	# Dismiss the call for a bit, but then have them call back pretty quickly,

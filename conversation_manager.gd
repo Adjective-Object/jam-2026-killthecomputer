@@ -15,6 +15,13 @@ var deferred_typing_timer: bool = false # A typing timer didn't start because th
 # conversations.
 signal add_conversation(conversation: Conversations.Conversation)
 
+# Emitted to indicate that the life_timer should begin now.
+signal start_life_timer
+
+# Emitted to indicate that the midpoint call should begin if
+# it hasn't happened already.
+signal allow_midpoint_call
+
 @onready var scroll_container: ScrollContainer = self # todo: cleanup
 @onready var insertion_point: VBoxContainer = $MarginContainer/chat_scroll
 @onready var responses_area: ResponsesArea = $MarginContainer/chat_scroll/ResponsesArea
@@ -22,6 +29,7 @@ signal add_conversation(conversation: Conversations.Conversation)
 @onready var wait_timer = $wait_timer
 
 @export var audio: AudioStreamPlayer3D
+@export var life_progress: LifeProgress
 
 var conversation_head = 0
 var conversation_score = 0
@@ -46,8 +54,9 @@ func advance_conversation():
 		var entry = conversation.dialogs[conversation_head]
 		if entry.they_said:
 			_spawn_conversation_bubble(false, entry.they_said)
+			if life_progress:
+				life_progress.grant_time(4.0)
 			conversation_head += 1
-			advance_conversation()
 			return
 		elif len(entry.responses):
 			responses_area.set_responses(entry.responses, self)
@@ -73,6 +82,20 @@ func advance_conversation():
 			advance_conversation()
 		elif entry.new_conversation != null:
 			add_conversation.emit(entry.new_conversation)
+			conversation_head += 1
+			advance_conversation()
+		elif entry.start_life_timer:
+			life_progress.start()
+			conversation_head += 1
+			advance_conversation()
+		elif entry.speedup_life_timer:
+			# TODO
+
+			conversation_head += 1
+			advance_conversation()
+		elif entry.allow_midpoint_call:
+			allow_midpoint_call.emit()
+
 			conversation_head += 1
 			advance_conversation()
 		else:
@@ -144,8 +167,10 @@ func _spawn_conversation_bubble(
 		
 		var icon: TextureRect = instance.find_child("Icon")
 		icon.texture = conversation.them.icon
-	var label: Label = instance.find_child("Label")
+	var label: TextPlayback = instance.find_child("Label")
+	if not is_you: label.ms_per_letter = 8.0 / conversation.them.msg_speed
 	label.set_measured_text(text)
+	label.playback_complete.connect(advance_conversation)
 	insertion_point.add_child(instance)
 	# Move it before the ResponseArea so the ResponseArea stays at the bottom.
 	insertion_point.move_child(instance, -2)
@@ -196,8 +221,6 @@ func on_succesful_submit(submitted_text: String) -> void:
 		chosen_branch.dialogs + conversation.dialogs.slice(conversation_head, len(conversation.dialogs), 1, true))
 	
 	conversation_score += chosen_branch.increment
-	
-	advance_conversation()
 
 func on_failed_submit(submitted_text: String) -> void:
 	push_warning("Failed submission: " + submitted_text)

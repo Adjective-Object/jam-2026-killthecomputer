@@ -13,10 +13,17 @@ var tab_prefab = preload("res://chat_tab.tscn")
 var conversations: Array[AvailableConversation]
 var active_conversation: AvailableConversation
 
+var midpoint_call_done: bool = false
+var allow_clicking_tabs: bool = true
+
 @export var audio: AudioStreamPlayer3D
+@export var life_progress: LifeProgress
 
 @onready var conversation_container: VBoxContainer = $VBoxContainer
 @onready var tab_container: HBoxContainer = $VBoxContainer/PanelContainer/HBoxContainer
+
+# Emitted when the entity midpoint call should begin.
+signal start_midpoint_call
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -26,11 +33,18 @@ func _ready() -> void:
 func add_conversation(conversation: Conversations.Conversation):
 	var instance: MyConversationManager = conversation_prefab.instantiate()
 	instance.audio = audio
+	instance.life_progress = life_progress
 	instance.ready.connect(func():
 		instance.start_conversation(conversation)
 	)
 	instance.add_conversation.connect(func(conversation: Conversations.Conversation):
 		add_conversation(conversation)
+	)
+	instance.allow_midpoint_call.connect(func():
+		if not midpoint_call_done:
+			# TODO: delay
+			start_midpoint_call.emit()
+			midpoint_call_done = true
 	)
 	
 	instance.visible = false
@@ -42,18 +56,17 @@ func add_conversation(conversation: Conversations.Conversation):
 	available_conv.needs_attention = true
 	
 	# Create the corresponding tab.
-	
 	var tab_instance: Control = tab_prefab.instantiate()
 	(tab_instance.find_child("TextureRect") as TextureRect).texture = conversation.them.icon
 	available_conv.tab = tab_instance
 	tab_container.add_child(tab_instance)
+	tab_container.move_child(tab_instance, 1)
 	
 	# When the tab is clicked, focus the conversation
 	var index = len(conversations)
 	tab_instance.gui_input.connect(func(event: InputEvent):
-		if event is InputEventMouseButton:
+		if event is InputEventMouseButton and allow_clicking_tabs:
 			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-				print("click")
 				focus_conversation(index)
 				accept_event()
 	)
