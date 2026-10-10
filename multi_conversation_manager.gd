@@ -6,6 +6,9 @@ class AvailableConversation:
 	var tab: Control
 	var person: Conversations.Person
 	var needs_attention: bool
+	
+	# Used for side chat purposes to keep chats grouped together.
+	var tag: String
 
 var conversation_prefab = preload("res://conversation.tscn")
 var tab_prefab = preload("res://chat_tab.tscn")
@@ -18,6 +21,7 @@ var allow_clicking_tabs: bool = true
 
 @export var audio: AudioStreamPlayer3D
 @export var life_progress: LifeProgress
+@export var conversation_data: Conversations
 
 @onready var conversation_container: VBoxContainer = $VBoxContainer
 @onready var tab_container: HBoxContainer = $VBoxContainer/PanelContainer/HBoxContainer
@@ -30,21 +34,41 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-func add_conversation(conversation: Conversations.Conversation):
+func add_conversation(conversation: Conversations.Conversation, tag: String = ""):
 	var instance: MyConversationManager = conversation_prefab.instantiate()
 	instance.audio = audio
 	instance.life_progress = life_progress
+	
 	instance.ready.connect(func():
 		instance.start_conversation(conversation)
 	)
+	
 	instance.add_conversation.connect(func(conversation: Conversations.Conversation):
 		add_conversation(conversation)
 	)
+	
 	instance.allow_midpoint_call.connect(func():
 		if not midpoint_call_done:
 			# TODO: delay
 			start_midpoint_call.emit()
 			midpoint_call_done = true
+	)
+	
+	instance.entity_side_chat.connect(func(chat: Conversations.EntitySideChat):
+		# If a side-chat on this topic already exists, add the messages to it.
+		# Otherwise start a new side chat.
+		
+		var existing_conversation = false
+		for conv in conversations:
+			if conv.tag == chat.tag:
+				conv.conversation_manager.conversation.dialogs.append_array(
+					chat.dialogs)
+				conv.conversation_manager.advance_conversation()
+				existing_conversation = true
+				break
+		if not existing_conversation:
+			var new_conversation = Conversations.Conversation.with(conversation_data.entity, chat.dialogs)
+			add_conversation(new_conversation, chat.tag)
 	)
 	
 	instance.visible = false
@@ -54,6 +78,7 @@ func add_conversation(conversation: Conversations.Conversation):
 	available_conv.conversation_manager = instance
 	available_conv.person = conversation.them
 	available_conv.needs_attention = true
+	available_conv.tag = tag
 	
 	# Create the corresponding tab.
 	var tab_instance: Control = tab_prefab.instantiate()

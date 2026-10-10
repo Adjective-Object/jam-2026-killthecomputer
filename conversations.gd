@@ -37,6 +37,16 @@ class Conversation:
 		result.them = them
 		result.dialogs = dialogs
 		return result
+		
+class EntitySideChat:
+	var tag: String
+	var dialogs: Array[Dialog]
+	
+	static func create(tag: String, dialogs: Array[Dialog]) -> EntitySideChat:
+		var result = EntitySideChat.new()
+		result.tag = tag
+		result.dialogs = dialogs
+		return result
 
 class Branch:
 	var you_said: String
@@ -70,6 +80,7 @@ class Dialog:
 	var start_life_timer: bool = false
 	var speedup_life_timer: bool = false
 	var allow_midpoint_call: bool = false
+	var entity_side_chat: EntitySideChat
 
 	static func typing_indicator(duration_seconds: float) -> Dialog:
 		var n = Dialog.new()
@@ -116,6 +127,11 @@ class Dialog:
 		var n = Dialog.new()
 		n.allow_midpoint_call = true
 		return n
+	
+	static func do_entity_side_chat(tag: String, dialogs: Array[Dialog]) -> Dialog:
+		var n = Dialog.new()
+		n.entity_side_chat = EntitySideChat.create(tag, dialogs)
+		return n
 		
 # shorthand for Dialog.sleep + Dialog.typing_indicator + Dialog.they_say pattern
 func they_type(sleep_duration: float, type_duration: float, msg: String) -> Array[Dialog]:
@@ -154,72 +170,158 @@ func start_life_timer() -> Array[Dialog]:
 func speedup_life_timer() -> Array[Dialog]:
 	return [Dialog.do_speedup_life_timer()]
 
+func entity_side_chat(tag: String, dialogs: Array[Dialog]) -> Array[Dialog]:
+	return [Dialog.do_entity_side_chat(tag, dialogs)]
+
 var palette = preload("res://ui/colors.tres")
 
 var octavia_icon = preload("res://ui/pfps/pfp_octavia.tres")
 var octavia_color = palette.colors[3]
 var octavia = Person.called("Octavia", octavia_icon, octavia_color, null)
 
-var octavia_intro_conv = Conversation.with(octavia,
-	octavia_types("hello. do you have children?") +
-	octavia_types("how long would you like to court before marriage?") +
-	octavia_types("are you content with your current employment?") +
+var octavia_midpoint_conv = Conversation.with(octavia,
+	octavia_types("ok. i've prepared and centered myself.") +
+	octavia_types("do you need a video of me reciting this?") +
 	you_say([
-		Branch.choice(
-			"no lie that's a lot all at once",
-			octavia_types("what, do you want to drag this out?") +
-			octavia_types("what's your stance on abortion?") +
-			you_say([Branch.choice("holy moly", octavia_types("?"))]),
+		Branch.choice("no not at all",  octavia_types("a real trust exercise. fascinating."), 1), 
+		Branch.choice("that's a little excessive imo", octavia_types("blind trust is also a little excessive."), -1),
+	]) +
+	sleep(2) +
+	octavia_types("i'm ready whenever you are. what's the passage?") +
+	you_say1("\"dead wood, closed eyes, still heart, come alive\"") + 
+# Player: say it 3 times in a row (idk seems excessive to have two player msgs in a row) 
+	octavia_types("did you write that yourself?") + 
+	you_say([
+		Branch.choice("no why",
+			octavia_types("oh, good. it's not very good and extremely corny.") +
+			octavia_types("i knew you could do better than that."),
 			-1),
-		Branch.choice(
-			"no, up for discussion, definitely not",
-			octavia_types("mixed bag. i can work with this."),
-			1)
+		Branch.choice("and what if i did",
+			octavia_types("oh. nevermind."),
+			1) 
 	]) +
-	octavia_types("there's so much garbage on this website. it's unbelievable.") +
-	octavia_types("some guy tried to pitch his edm album to me an hour ago.") +
-	octavia_types("i request that you tell me your red flags right now.") +
+	sleep(2) +
+	octavia_types("ok. reciting now.") +
+	sleep(10) +
+	octavia_types("my lights just went out. that's incredible timing.") +
+	sleep(1) +
+	octavia_types("and my heat too? that disappeared quicker than expected.") +
+	sleep(1) +
+	octavia_types("i think my window just shattered. is there a storm?") +
+	entity_side_chat("octavia_midpoint",
+		entity_says("THIS OCTAVIA GIRL HAS A LOT OF OWL STATUES") +
+		entity_says("HOOT HOOT") +
+		entity_says("HA HA HA HA HA")) +
 	you_say([
-		Branch.choice(
-			"i'm dead",
-			octavia_types("ok. bad at jokes. i can still work with this."),
+		Branch.choice("do u like owls",
+			octavia_types("how did you know that? yes, i do. quite a bit.") +
+			octavia_types("is there actual power behind this chant?"),
 			1),
-		Branch.choice(
-			"i don't have any",
-			octavia_types("that's a red flag. not possible.") +
-			octavia_types("marking that as a future discussion point."),
+		Branch.choice("u said u were fast right",
+			octavia_types("i said no such thing. are you confusing me with a different girl?") +
+			octavia_types("that's rather disappointing."),
 			-1)
 	]) +
-	sleep(2) + # feels more natural to have a rest here
-	octavia_types("despite my hopes, you are the most normal candidate so far.") +
-	octavia_types("do you have any questions for me?") +
-	octavia_types("any requirements? must-haves?") +
+	sleep(4) +
+	octavia_types("i hear footsteps. there's someone in my apartment.") +
+	octavia_types("i'm going to get them out of here. one moment.") +
+	you_say1("u need to hide somewhere immediately") +
+	octavia_types("you want me to let this intruder wander around my home?") + 
+	entity_side_chat("octavia_midpoint",
+		entity_says("WHY ARE THERE SO MANY CLOWN FIGURINES IN HERE")
+	) +
 	you_say([
-		Branch.choice(
-			"yes i do have something",
-			octavia_types("what is it?"),
+		Branch.choice("i know it's crazy but pls just trust me",
+			octavia_types("this is beyond crazy."),
 			1),
-		Branch.choice(
-			"i just can't tell if i can trust u lol",
-			octavia_types("you barely know me, so why would you be able to?"),
-			-1
-		)
-	]) +
-	you_say1("can you prove your trustworthiness to me") +
-	octavia_types("is this necessary in order for us to keep discussing our potential future?") +
-	you_say([
-		Branch.choice(
-			"there is no future without this for me", 
-			octavia_types("ok. i hear you loud and clear.") +
-			octavia_types("i appreciate your candidness. tell me what to do."),
-			1),
-		Branch.choice(
-			"in a way, ya...",
-			octavia_types("the vagueness is not appreciated. another red flag."),
-			-1)
-	]) +
-	you_say1("i need u to recite something for me") +
-	octavia_types("like a poem? a passage?") +
+		Branch.choice("go hide right now",
+			octavia_types("don't speak to me that way."),
+			-1),
+	]) + 
+	octavia_types("ok. gonna go hide. be back soon.") +
+	sleep(15) +
+	fail_or_pass(
+		# FAIL
+		entity_side_chat("octavia_midpoint",
+			entity_says("SO SHE IS YELLING AT ME WHICH I DO NOT APPRECIATE") +
+			entity_says("WELL TO BE SPECIFIC") +
+			entity_says("SHE *WAS* YELLING AT ME") +
+			entity_says("HA HA HA HA HA") +
+			entity_says("I'M TAKING A CLOWN") +
+			entity_says("DO YOU WANT ONE")),
+
+		# PASS
+		octavia_types("i'm back. whoever it was is gone.") +
+		octavia_types("my window is also not shattered anymore. i'm not sure how that is possible.") +
+		you_say1("u did it u actually did it. oh thank god") +
+		octavia_types("i've done my part. do you trust me now?") + 
+		you_say1("with my life") + 
+		octavia_types("not possible. you have not met me. this is getting intense rather quickly.") +
+		octavia_types("ugh. ok. this was fun but that's one too many red flags.") +
+		octavia_types("good luck out there. do not message me again.")
+	)
+
+)
+var octavia_intro_conv = Conversation.with(octavia,
+	#octavia_types("hello. do you have children?") +
+	#octavia_types("how long would you like to court before marriage?") +
+	#octavia_types("are you content with your current employment?") +
+	#you_say([
+		#Branch.choice(
+			#"no lie that's a lot all at once",
+			#octavia_types("what, do you want to drag this out?") +
+			#octavia_types("what's your stance on abortion?") +
+			#you_say([Branch.choice("holy moly", octavia_types("?"))]),
+			#-1),
+		#Branch.choice(
+			#"no, up for discussion, definitely not",
+			#octavia_types("mixed bag. i can work with this."),
+			#1)
+	#]) +
+	#octavia_types("there's so much garbage on this website. it's unbelievable.") +
+	#octavia_types("some guy tried to pitch his edm album to me an hour ago.") +
+	#octavia_types("i request that you tell me your red flags right now.") +
+	#you_say([
+		#Branch.choice(
+			#"i'm dead",
+			#octavia_types("ok. bad at jokes. i can still work with this."),
+			#1),
+		#Branch.choice(
+			#"i don't have any",
+			#octavia_types("that's a red flag. not possible.") +
+			#octavia_types("marking that as a future discussion point."),
+			#-1)
+	#]) +
+	#sleep(2) + # feels more natural to have a rest here
+	#octavia_types("despite my hopes, you are the most normal candidate so far.") +
+	#octavia_types("do you have any questions for me?") +
+	#octavia_types("any requirements? must-haves?") +
+	#you_say([
+		#Branch.choice(
+			#"yes i do have something",
+			#octavia_types("what is it?"),
+			#1),
+		#Branch.choice(
+			#"i just can't tell if i can trust u lol",
+			#octavia_types("you barely know me, so why would you be able to?"),
+			#-1
+		#)
+	#]) +
+	#you_say1("can you prove your trustworthiness to me") +
+	#octavia_types("is this necessary in order for us to keep discussing our potential future?") +
+	#you_say([
+		#Branch.choice(
+			#"there is no future without this for me", 
+			#octavia_types("ok. i hear you loud and clear.") +
+			#octavia_types("i appreciate your candidness. tell me what to do."),
+			#1),
+		#Branch.choice(
+			#"in a way, ya...",
+			#octavia_types("the vagueness is not appreciated. another red flag."),
+			#-1)
+	#]) +
+	#you_say1("i need u to recite something for me") +
+	#octavia_types("like a poem? a passage?") +
 	octavia_types("how would this prove anything to you? is there more?") +
 	you_say([
 		Branch.choice(
@@ -389,67 +491,67 @@ var entity_midpoint_conv: Conversation = Conversation.with(entity,
 )
 
 var entity_intro_conv_dialogs: Array[Dialog] = [
-	Dialog.sleep(0.1),
-	Dialog.typing_indicator(1.25),
-	Dialog.they_say("YOU'RE LOOKING A LITTLE PALE LATELY"),
-	Dialog.sleep(0.2),
-	Dialog.typing_indicator(1.4),
-	Dialog.they_say("DON'T TELL ME YOU CAN'T GET ANYONE TO DO YOUR RITUALS?"),
-	Dialog.sleep(1),
-	Dialog.you_say([
-		Branch.choice(
-			"I'm working on it!",
-			they_type(0.4, 1, "NOT WORKING ENOUGH") +
-			they_type(0.4, 0.8, "HA HA HA HA HA HA")),
-		Branch.choice(
-			"It's rough out here, dude.",
-			they_type(0.4, 1, "MAYBE FOR YOU") +
-			they_type(0.4, 0.8, "HA HA HA HA HA HA")),
-	]),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1),
-	Dialog.they_say("I SEE YOU'VE RESORTED TO DATING APPS"),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1),
-	Dialog.they_say("I COULD ALWAYS SMELL DESPERATION ON YOU, SO THIS IS REALLY FITTING"),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1),
-	Dialog.they_say("YOU KNOW WHAT'S GONNA HAPPEN IF YOU FAIL, RIGHT"),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1),
-	Dialog.they_say("FINAL DEATH"),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1),
-	Dialog.they_say("THE BIG ONE"),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1),
-	Dialog.they_say("AND I GET TO SEND YOU THERE"),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1),
-	Dialog.they_say("HA HA HA HA HA"),
-	Dialog.sleep(0.4),
-	Dialog.typing_indicator(1.25),
-	Dialog.they_say("OH THIS WILL BE SO FUN FOR ME"),
-	Dialog.sleep(1),
-	Dialog.you_say([
-		Branch.choice(
-			"I still have time!",
-			they_type(0.4, 1, "BARELY")),
-		Branch.choice(
-			"You're sick, you know that?",
-			they_type(0.4, 1, "HA HA HA HA HA HA")),
-	]),
-	Dialog.sleep(1),
-	Dialog.you_say([
-		Branch.choice(
-			"I'll figure it out. Leave me alone!",
-			they_type(0.4, 1, "AS YOU WISH") +
-			they_type(0.4, 1.2, "FOR THE LITTLE TIME YOU HAVE LEFT") +
-			they_type(0.4, 1, "HA HA HA HA HA HA")),
-	]),
+	#Dialog.sleep(0.1),
+	#Dialog.typing_indicator(1.25),
+	#Dialog.they_say("YOU'RE LOOKING A LITTLE PALE LATELY"),
 	#Dialog.sleep(0.2),
-	#Dialog.typing_indicator(1.0),
-	#Dialog.they_say("(skipping this conversation for brevity)"),
+	#Dialog.typing_indicator(1.4),
+	#Dialog.they_say("DON'T TELL ME YOU CAN'T GET ANYONE TO DO YOUR RITUALS?"),
+	#Dialog.sleep(1),
+	#Dialog.you_say([
+		#Branch.choice(
+			#"I'm working on it!",
+			#they_type(0.4, 1, "NOT WORKING ENOUGH") +
+			#they_type(0.4, 0.8, "HA HA HA HA HA HA")),
+		#Branch.choice(
+			#"It's rough out here, dude.",
+			#they_type(0.4, 1, "MAYBE FOR YOU") +
+			#they_type(0.4, 0.8, "HA HA HA HA HA HA")),
+	#]),
+	#Dialog.sleep(0.4),
+	#Dialog.typing_indicator(1),
+	#Dialog.they_say("I SEE YOU'VE RESORTED TO DATING APPS"),
+	#Dialog.sleep(0.4),
+	#Dialog.typing_indicator(1),
+	#Dialog.they_say("I COULD ALWAYS SMELL DESPERATION ON YOU, SO THIS IS REALLY FITTING"),
+	#Dialog.sleep(0.4),
+	#Dialog.typing_indicator(1),
+	#Dialog.they_say("YOU KNOW WHAT'S GONNA HAPPEN IF YOU FAIL, RIGHT"),
+	#Dialog.sleep(0.4),
+	#Dialog.typing_indicator(1),
+	#Dialog.they_say("FINAL DEATH"),
+	#Dialog.sleep(0.4),
+	#Dialog.typing_indicator(1),
+	#Dialog.they_say("THE BIG ONE"),
+	#Dialog.sleep(0.4),
+	#Dialog.typing_indicator(1),
+	#Dialog.they_say("AND I GET TO SEND YOU THERE"),
+	#Dialog.sleep(0.4),
+	#Dialog.typing_indicator(1),
+	#Dialog.they_say("HA HA HA HA HA"),
+	#Dialog.sleep(0.4),
+	#Dialog.typing_indicator(1.25),
+	#Dialog.they_say("OH THIS WILL BE SO FUN FOR ME"),
+	#Dialog.sleep(1),
+	#Dialog.you_say([
+		#Branch.choice(
+			#"I still have time!",
+			#they_type(0.4, 1, "BARELY")),
+		#Branch.choice(
+			#"You're sick, you know that?",
+			#they_type(0.4, 1, "HA HA HA HA HA HA")),
+	#]),
+	#Dialog.sleep(1),
+	#Dialog.you_say([
+		#Branch.choice(
+			#"I'll figure it out. Leave me alone!",
+			#they_type(0.4, 1, "AS YOU WISH") +
+			#they_type(0.4, 1.2, "FOR THE LITTLE TIME YOU HAVE LEFT") +
+			#they_type(0.4, 1, "HA HA HA HA HA HA")),
+	#]),
+	Dialog.sleep(0.2),
+	Dialog.typing_indicator(1.0),
+	Dialog.they_say("(skipping this conversation for brevity)"),
 	Dialog.do_start_life_timer(),
 	Dialog.sleep(0.4),
 	Dialog.add_conversation(dorothy_intro_conv),

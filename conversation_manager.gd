@@ -22,6 +22,10 @@ signal start_life_timer
 # it hasn't happened already.
 signal allow_midpoint_call
 
+# Emitted to update a side chat with the ENTITY, related to the current
+# convo.
+signal entity_side_chat(chat: Conversations.EntitySideChat)
+
 @onready var scroll_container: ScrollContainer = self # todo: cleanup
 @onready var insertion_point: VBoxContainer = $MarginContainer/chat_scroll
 @onready var responses_area: ResponsesArea = $MarginContainer/chat_scroll/ResponsesArea
@@ -52,18 +56,22 @@ func start_conversation(conversation: Conversations.Conversation):
 func advance_conversation():
 	if conversation_head < len(conversation.dialogs):
 		var entry = conversation.dialogs[conversation_head]
+		
 		if entry.they_said:
 			_spawn_conversation_bubble(false, entry.they_said)
 			if life_progress:
 				life_progress.grant_time(4.0)
 			conversation_head += 1
 			return
+		
 		elif len(entry.responses):
 			responses_area.set_responses(entry.responses, self)
 			conversation_head += 1
+		
 		elif entry.typing_indicator_duration_s != 0:
 			_spawn_typing_indicator(entry.typing_indicator_duration_s)
 			conversation_head += 1
+		
 		elif entry.wait_duration_s != 0:
 			wait_timer.connect("timeout", _clear_wait_timer_and_advance_conversation)
 			wait_timer.wait_time = entry.wait_duration_s
@@ -73,6 +81,7 @@ func advance_conversation():
 				# Start when unpaused
 				deferred_wait_timer = true
 			conversation_head += 1
+		
 		elif entry.cutoff != null:
 			if conversation_score <= 0:
 				conversation.dialogs.append_array(entry.cutoff.fail_dialogs)
@@ -80,24 +89,35 @@ func advance_conversation():
 				conversation.dialogs.append_array(entry.cutoff.pass_dialogs)
 			conversation_head += 1
 			advance_conversation()
+		
 		elif entry.new_conversation != null:
 			add_conversation.emit(entry.new_conversation)
 			conversation_head += 1
 			advance_conversation()
+		
 		elif entry.start_life_timer:
 			life_progress.start()
 			conversation_head += 1
 			advance_conversation()
+		
 		elif entry.speedup_life_timer:
 			# TODO
 
 			conversation_head += 1
 			advance_conversation()
+		
 		elif entry.allow_midpoint_call:
 			allow_midpoint_call.emit()
 
 			conversation_head += 1
 			advance_conversation()
+			
+		elif entry.entity_side_chat:
+			entity_side_chat.emit(entry.entity_side_chat)
+
+			conversation_head += 1
+			advance_conversation()
+		
 		else:
 			push_warning("got weird Dialog entry", entry)
 			conversation_head += 1
