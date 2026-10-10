@@ -156,6 +156,7 @@ func _process(delta: float) -> void:
 			print("cancel is_scroll_to_bottom")
 			is_scrolling_to_bottom = false
 
+
 func _spawn_conversation_bubble(
 	is_you: bool,
 	text: String
@@ -226,6 +227,9 @@ func _clear_typing_indicator_and_advance_conversation():
 func _clear_wait_timer_and_advance_conversation():
 	wait_timer.stop()
 	advance_conversation()
+
+func focus():
+	responses_area.focus()
 
 func on_succesful_submit(submitted_text: String) -> void:
 	responses_area.clear_responses()

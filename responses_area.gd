@@ -52,6 +52,9 @@ func set_responses(response_options: Array[Conversations.Branch], conversation_m
 
 	responses_container.queue_sort()
 
+func focus():
+	capture_text.grab_focus()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# Truncate typed text to longest substring of any prefix-matched
