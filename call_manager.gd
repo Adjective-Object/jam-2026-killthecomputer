@@ -46,7 +46,7 @@ func _ready() -> void:
 	entity_intro_call = Call.from(entity, conversations.entity_intro_conv)
 	entity_midpoint_call = Call.from(entity, conversations.entity_midpoint_conv)
 	
-	start_call(entity_intro_call)
+	# start_call(entity_intro_call)
 	
 	conversation_manager.start_midpoint_call.connect(func():
 		start_call(entity_midpoint_call)

@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://cdynvaoojdyim" path="res://life_progress.gd" id="11_4jdnw"]
 [ext_resource type="Texture2D" uid="uid://diw3ojiohevt2" path="res://ui/skull_emoji.png" id="11_8nvgc"]
 [ext_resource type="FontFile" uid="uid://cimuwprnbcv4p" path="res://fonts/Baloo2-Bold.ttf" id="12_ahkre"]
+[ext_resource type="Script" uid="uid://gdmmxb5ghjte" path="res://title_screen.gd" id="14_ckvh1"]
+[ext_resource type="Texture2D" uid="uid://d08d2jfd1x1wd" path="res://ui/phone_icon.png" id="14_mmb5u"]
 
 [sub_resource type="Environment" id="Environment_02dmp"]
 background_mode = 1
@@ -272,6 +274,15 @@ bind/66/name = &"elbowIK.L_end"
 bind/66/bone = -1
 bind/66/pose = Transform3D(-0.51515967, -0.85709435, 1.3963837e-07, 0, -1.6292067e-07, -1, 0.85709435, -0.51515967, 8.393015e-08, 1.4640234, -0.36457646, 0.33870107)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nk7is"]
+transparency = 1
+albedo_color = Color(0.5411765, 1, 1, 0.24313726)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t66vq"]
+albedo_color = Color(0.4168899, 0.19086623, 1.2032688e-06, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1yilt"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hdxh6"]
 albedo_color = Color(0.08476349, 0.08929948, 0.16729113, 1)
 
@@ -283,10 +294,43 @@ flip_faces = true
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahkre"]
-bg_color = Color(0.31, 0.055800002, 0.055800002, 1)
+bg_color = Color(0.7, 0.126, 0.126, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vanes"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(0.06469653, 0.06469653, 0.06469653, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ckvh1"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.1584723, 0.15847233, 0.15847224, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mmb5u"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.24658787, 0.2465879, 0.24658784, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6l8y"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.24658787, 0.2465879, 0.24658784, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [node name="Node3D" type="Node3D" unique_id=1902337310]
 
@@ -845,6 +889,12 @@ settings/0/extend_end_bone = false
 mesh = SubResource("ArrayMesh_t2b5x")
 skin = SubResource("Skin_gra5g")
 skeleton = NodePath("..")
+surface_material_override/0 = SubResource("StandardMaterial3D_nk7is")
+
+[node name="Desk" type="MeshInstance3D" parent="." unique_id=1104018333]
+transform = Transform3D(13.6219015, -0.0004476617, -0.058915485, 0, 0.25470352, -8.248956, 0.04826288, 0.1263498, 16.628536, 0.3853073, -6.3208323, -5.8990464)
+material_override = SubResource("StandardMaterial3D_t66vq")
+mesh = SubResource("BoxMesh_1yilt")
 
 [node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=771440404]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6593857)
@@ -907,12 +957,12 @@ show_percentage = false
 script = ExtResource("11_4jdnw")
 container = NodePath("../..")
 life_timer = NodePath("../../life_timer")
-death_screen = NodePath("../../../Panel")
+death_screen = NodePath("../../../GameOverPanel")
 
 [node name="life_timer" type="Timer" parent="MarginContainer" unique_id=93298221]
 wait_time = 60.0
 
-[node name="Panel" type="Panel" parent="." unique_id=1107703218]
+[node name="GameOverPanel" type="Panel" parent="." unique_id=1107703218]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -921,7 +971,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_vanes")
 
-[node name="Label" type="Label" parent="Panel" unique_id=19237964]
+[node name="Label" type="Label" parent="GameOverPanel" unique_id=19237964]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -934,3 +984,60 @@ text = "you died the final death.
 (placeholder screen)"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TitleScreen" type="Panel" parent="." unique_id=1172249146 node_paths=PackedStringArray("call_manager")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vanes")
+script = ExtResource("14_ckvh1")
+call_manager = NodePath("../phone/PhoneScreen_SubViewport/IncomingCallPanel")
+
+[node name="MarginContainer" type="MarginContainer" parent="TitleScreen" unique_id=1426474298]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -331.5
+offset_top = -103.0
+offset_right = 331.5
+offset_bottom = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TitleScreen/MarginContainer" unique_id=1163662602]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="TitleScreen/MarginContainer/VBoxContainer" unique_id=1420583875]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_ahkre")
+theme_override_font_sizes/font_size = 128
+text = "dead ringer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="TitleScreen/MarginContainer/VBoxContainer" unique_id=1131469662]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_ahkre")
+theme_override_font_sizes/font_size = 32
+text = "catfish to save your soul"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="TitleScreen/MarginContainer/VBoxContainer" unique_id=364977077]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 24
+theme_override_fonts/font = ExtResource("12_ahkre")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ckvh1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mmb5u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_f6l8y")
+text = "start"
+icon = ExtResource("14_mmb5u")
+
+[connection signal="pressed" from="TitleScreen/MarginContainer/VBoxContainer/Button" to="TitleScreen" method="_on_button_pressed"]

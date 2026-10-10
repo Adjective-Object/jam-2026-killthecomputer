@@ -19,8 +19,11 @@ var allow_clicking_tabs: bool = true
 @export var audio: AudioStreamPlayer3D
 @export var life_progress: LifeProgress
 
+@onready var jump_to_bottom: Button = $JumpToBottom
 @onready var conversation_container: VBoxContainer = $VBoxContainer
 @onready var tab_container: HBoxContainer = $VBoxContainer/PanelContainer/HBoxContainer
+@onready var name_bubble: PanelContainer = $NameBubble
+@onready var name_bubble_label: Label = $NameBubble/Label
 
 # Emitted when the entity midpoint call should begin.
 signal start_midpoint_call
@@ -71,6 +74,21 @@ func add_conversation(conversation: Conversations.Conversation):
 				accept_event()
 	)
 	
+	# When the tab is hovered, show their name
+	tab_instance.mouse_entered.connect(func():
+		print("mouse entered")
+		name_bubble.visible = true
+		name_bubble.position.x = tab_instance.get_screen_position().x
+		name_bubble_label.text = conversation.them.name
+		var style_box: StyleBoxFlat = name_bubble.get_theme_stylebox("panel").duplicate()
+		style_box.bg_color = conversation.them.color
+		name_bubble.add_theme_stylebox_override("panel", style_box)
+	)
+	tab_instance.mouse_exited.connect(func():
+		print("mouse exited")
+		name_bubble.visible = false
+	)
+	
 	conversations.append(available_conv)
 
 func focus_conversation(index: int):
@@ -92,8 +110,25 @@ func focus_conversation(index: int):
 	if active_conversation.conversation_manager.paused:
 		active_conversation.conversation_manager.unpause()
 	else:
-		conv.conversation_manager.advance_conversation() 
+		conv.conversation_manager.advance_conversation()
+	
+	conv.conversation_manager.focus()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if active_conversation:
+		var scroll_container = active_conversation.conversation_manager.scroll_container
+		var vbar: VScrollBar = scroll_container.get_v_scroll_bar()
+		var at_bottom = scroll_container.scroll_vertical >= vbar.max_value - vbar.page or vbar.max_value == 0
+		jump_to_bottom.visible = not at_bottom and not active_conversation.conversation_manager.is_scrolling_to_bottom
+	else:
+		jump_to_bottom.visible = false
+
+
+func _on_jump_to_bottom_pressed() -> void:
+	if active_conversation:
+		var scroll_container = active_conversation.conversation_manager.scroll_container
+		scroll_container.set_v_scroll(scroll_container.get_v_scroll_bar().max_value)
+		active_conversation.conversation_manager.focus()
+	
+	jump_to_bottom.visible = false

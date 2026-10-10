@@ -24,8 +24,8 @@ var palette = preload("res://ui/colors.tres")
 var UNRENDERED_SCALE: float = 1
 var INCORRECT_SCALE: float = 0.9
 var LERP_SPEED: float = 0.5
-var COLOR_CORRECT = palette.colors[4]
-var COLOR_INCORRECT = Color(1, 0, 0, 1)
+var COLOR_CORRECT = palette.colors[11]
+var COLOR_INCORRECT = Color(0, 0, 0, 0.6)
 var COLOR_NONMATCHED = Color(0, 0, 0, 0.8)
 
 var cursor_rect_position: Vector2 = Vector2()

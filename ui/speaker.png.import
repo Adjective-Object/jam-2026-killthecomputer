@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beu6qshu47e1r"
-path="res://.godot/imported/graybubble.png-5574e8acfdfaf7b8d592a4c94801e242.ctex"
+uid="uid://c5less8uudm8a"
+path="res://.godot/imported/speaker.png-d08c6097fb1421cd07f0867d49281839.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/graybubble.png"
-dest_files=["res://.godot/imported/graybubble.png-5574e8acfdfaf7b8d592a4c94801e242.ctex"]
+source_file="res://ui/speaker.png"
+dest_files=["res://.godot/imported/speaker.png-d08c6097fb1421cd07f0867d49281839.ctex"]
 
 [params]
 

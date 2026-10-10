@@ -158,7 +158,7 @@ var palette = preload("res://ui/colors.tres")
 
 var octavia_icon = preload("res://ui/pfps/pfp_octavia.tres")
 var octavia_color = palette.colors[3]
-var octavia = Person.called("Octavia", octavia_icon, octavia_color, null)
+var octavia = Person.called("octavia", octavia_icon, octavia_color, null)
 
 var octavia_intro_conv = Conversation.with(octavia,
 	octavia_types("hello. do you have children?") +
@@ -250,14 +250,14 @@ var octavia_intro_conv = Conversation.with(octavia,
 
 var brad_icon = preload("res://ui/pfps/pfp_brad.tres")
 var brad_color = palette.colors[0]
-var brad = Person.called("Brad", brad_icon, brad_color, null)
+var brad = Person.called("brad", brad_icon, brad_color, null)
 
 var brad_intro_conv = Conversation.with(brad,
 	they_type(TINY_SLEEP, MEDIUM_TYPE, "test"))
 
 var dorothy_icon = preload("res://ui/pfps/pfp_dorothy.tres")
 var dorothy_color = palette.colors[2]
-var dorothy = Person.called("Dorothy", dorothy_icon, dorothy_color, null, 0.2)
+var dorothy = Person.called("dorothy", dorothy_icon, dorothy_color, null)
 
 func dorothy_types(msg: String) -> Array[Dialog]:
 	return they_type(0.8, 1.8, msg)

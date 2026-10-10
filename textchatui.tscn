@@ -4,12 +4,56 @@
 [ext_resource type="Texture2D" uid="uid://cxekivmosqf2i" path="res://ui/hamburger_menu.png" id="2_nk7is"]
 [ext_resource type="PackedScene" uid="uid://ct815rkvbavcb" path="res://chat_tab.tscn" id="3_2pdv1"]
 [ext_resource type="PackedScene" uid="uid://dhdmur6tlncqc" path="res://conversation.tscn" id="4_2pdv1"]
+[ext_resource type="FontFile" uid="uid://cimuwprnbcv4p" path="res://fonts/Baloo2-Bold.ttf" id="4_nk7is"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a6dcq"]
 bg_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1hwo"]
 bg_color = Color(0.64705884, 0.63529414, 0.7490196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nk7is"]
+bg_color = Color(0.8039216, 0.9764706, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.6392157)
+shadow_size = 3
+shadow_offset = Vector2(-2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cnp2o"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.77, 0.0462, 0.42016348, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lu8vd"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.92, 0.055200003, 0.5020135, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1om2g"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.92, 0.055200003, 0.5020135, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [node name="ChatConversationPanel" type="Panel" unique_id=916914035]
 custom_minimum_size = Vector2(640, 980)
@@ -64,3 +108,42 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_b1hwo")
 [node name="ScrollContainer" parent="VBoxContainer" unique_id=788827610 instance=ExtResource("4_2pdv1")]
 visible = false
 layout_mode = 2
+
+[node name="NameBubble" type="PanelContainer" parent="." unique_id=1230683024]
+visible = false
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 0
+offset_top = 85.0
+offset_right = 200.0
+offset_bottom = 112.0
+offset_transform_position = Vector2(0, 90)
+theme_override_styles/panel = SubResource("StyleBoxFlat_nk7is")
+
+[node name="Label" type="Label" parent="NameBubble" unique_id=1192368503]
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_nk7is")
+text = "dorothy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JumpToBottom" type="Button" parent="." unique_id=343554275]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -74.0
+offset_top = -51.0
+offset_right = 74.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_cnp2o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lu8vd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1om2g")
+text = "JUMP TO BOTTOM"
+
+[connection signal="pressed" from="JumpToBottom" to="." method="_on_jump_to_bottom_pressed"]
