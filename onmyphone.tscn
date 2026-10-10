@@ -282,7 +282,7 @@ flip_faces = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7211267, 0, -0.30920243)
 environment = SubResource("Environment_02dmp")
 script = ExtResource("1_02dmp")
-cam_look_range = Vector2(0.1, 0.1)
+cam_look_range = Vector2(0.25, -0.25)
 
 [node name="phone" type="Node3D" parent="." unique_id=1215033114]
 script = ExtResource("1_t2b5x")
@@ -296,9 +296,8 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_0eb53")
 
-[node name="CallConversationPanel" parent="phone/PhoneScreen_SubViewport" unique_id=47453373 node_paths=PackedStringArray("audio") instance=ExtResource("4_t2b5x")]
+[node name="CallConversationPanel" parent="phone/PhoneScreen_SubViewport" unique_id=47453373 instance=ExtResource("4_t2b5x")]
 visible = false
-audio = NodePath("../../audio")
 
 [node name="IncomingCallPanel" parent="phone/PhoneScreen_SubViewport" unique_id=1923636403 node_paths=PackedStringArray("conversation_manager", "conversations", "audio") instance=ExtResource("4_hdxh6")]
 conversation_manager = NodePath("../ChatConversationPanel")
@@ -333,7 +332,7 @@ radius = 0.5
 [node name="audio" type="AudioStreamPlayer3D" parent="phone" unique_id=1654530964]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8236399)
 stream = ExtResource("5_02dmp")
-volume_db = -24.0
+volume_db = -60.0
 
 [node name="ik_control_twobone_elbow" type="Node3D" parent="." unique_id=1007160400]
 transform = Transform3D(234.96437, 0, 223.08665, 0, 324, 0, -223.08665, 0, 234.96437, 8.134855, -10.502315, -5.564152)

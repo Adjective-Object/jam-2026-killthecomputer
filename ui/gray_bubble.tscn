@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_fqduf"]
 [ext_resource type="Texture2D" uid="uid://bjff63w1kojkt" path="res://ui/pfps/pfp_brad.tres" id="1_rfaqr"]
+[ext_resource type="FontFile" uid="uid://cimuwprnbcv4p" path="res://fonts/Baloo2-Bold.ttf" id="2_04y3h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfaqr"]
 bg_color = Color(0.8039216, 0.9764706, 1, 1)
@@ -14,9 +15,9 @@ shadow_size = 3
 shadow_offset = Vector2(-2, 2)
 
 [node name="GrayBubble2" type="HBoxContainer" unique_id=1776189324]
-propagate_maximum_size = false
+custom_maximum_size = Vector2(784, -1)
 offset_right = 302.0
-size_flags_vertical = 3
+size_flags_horizontal = 3
 
 [node name="IconMargin" type="MarginContainer" parent="." unique_id=1417946621]
 layout_mode = 2
@@ -30,6 +31,9 @@ stretch_mode = 2
 
 [node name="PanelMargin" type="MarginContainer" parent="." unique_id=215876036]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/margin_right = 16
 
 [node name="ChatBubble" type="PanelContainer" parent="PanelMargin" unique_id=245001733]
 custom_minimum_size = Vector2(0, 64)
@@ -45,9 +49,10 @@ theme_override_constants/margin_bottom = 24
 
 [node name="Label" type="Label" parent="PanelMargin/ChatBubble/MarginContainer" unique_id=785663389]
 custom_minimum_size = Vector2(130, 80)
-custom_maximum_size = Vector2(320, -1)
+custom_maximum_size = Vector2(430, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_04y3h")
 theme_override_font_sizes/font_size = 24
 text = "aaaaaaaa"
 script = ExtResource("1_fqduf")

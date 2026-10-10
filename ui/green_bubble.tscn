@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c02n45cvivtg"]
 
 [ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_btvo6"]
+[ext_resource type="FontFile" uid="uid://cimuwprnbcv4p" path="res://fonts/Baloo2-Bold.ttf" id="1_kgx5a"]
 [ext_resource type="Texture2D" uid="uid://c1161rcaefwa" path="res://ui/pfps/pfp_player.tres" id="2_btvo6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cy0g4"]
@@ -9,9 +10,9 @@ corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
-shadow_color = Color(0.7254902, 0.72156864, 0.7176471, 1)
-shadow_size = 3
-shadow_offset = Vector2(-2, 2)
+shadow_color = Color(0, 0, 0, 0.24705882)
+shadow_size = 4
+shadow_offset = Vector2(-4, 4)
 
 [node name="GreenBubble" type="HBoxContainer" unique_id=701488616]
 propagate_maximum_size = false
@@ -36,9 +37,10 @@ theme_override_constants/margin_bottom = 24
 
 [node name="Label" type="Label" parent="PanelMargin/ChatBubble/MarginContainer" unique_id=1719481601]
 custom_minimum_size = Vector2(130, 80)
-custom_maximum_size = Vector2(320, -1)
+custom_maximum_size = Vector2(430, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_kgx5a")
 theme_override_font_sizes/font_size = 24
 text = "aaaaaaaa"
 script = ExtResource("1_btvo6")

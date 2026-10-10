@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://d2e2y377qy23m"]
+[gd_scene format=3 uid="uid://bsygc55fju6aq"]
 
 [ext_resource type="Script" uid="uid://m7830bpi3vsv" path="res://ui/popin_anim.gd" id="1_fix3e"]
 [ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="2_53q65"]

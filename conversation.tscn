@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://dhdmur6tlncqc"]
+
+[ext_resource type="Script" uid="uid://d32d5q6eem4i" path="res://conversation_manager.gd" id="1_jdrsm"]
+[ext_resource type="Script" uid="uid://yeux87q3rooe" path="res://responses_area.gd" id="2_18aax"]
+[ext_resource type="FontFile" uid="uid://q1pilm7u03pn" path="res://fonts/Baloo2-ExtraBold.ttf" id="3_mk1n6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nk7is"]
+bg_color = Color(0.9372549, 0.9372549, 0.9372549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4jdnw"]
+bg_color = Color(0.5882353, 0.9529412, 1, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" unique_id=788827610]
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_nk7is")
+scroll_hint_mode = 3
+script = ExtResource("1_jdrsm")
+
+[node name="typing_indicator_timer" type="Timer" parent="." unique_id=265065535]
+
+[node name="wait_timer" type="Timer" parent="." unique_id=235151476]
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=24682829]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="chat_scroll" type="VBoxContainer" parent="MarginContainer" unique_id=315259758]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="ResponsesArea" type="PanelContainer" parent="MarginContainer/chat_scroll" unique_id=1567484437]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"ResponseContainer"
+theme_override_styles/panel = SubResource("StyleBoxFlat_4jdnw")
+script = ExtResource("2_18aax")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/chat_scroll/ResponsesArea" unique_id=1538621797]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 24
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/chat_scroll/ResponsesArea/MarginContainer" unique_id=586126158]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+placeholder_text = "asdasdasd"
+keep_editing_on_text_submit = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/chat_scroll/ResponsesArea/MarginContainer" unique_id=1844192902]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/chat_scroll/ResponsesArea/MarginContainer/VBoxContainer" unique_id=409793563]
+layout_mode = 2
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="MarginContainer/chat_scroll/ResponsesArea/MarginContainer/VBoxContainer/MarginContainer" unique_id=938258805]
+clip_contents = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24705882, 0.078431375, 0.24313726, 1)
+theme_override_fonts/font = ExtResource("3_mk1n6")
+theme_override_font_sizes/font_size = 24
+text = "Type Your Response!"
+horizontal_alignment = 1
+
+[node name="responses_container" type="VBoxContainer" parent="MarginContainer/chat_scroll/ResponsesArea/MarginContainer/VBoxContainer" unique_id=615599321]
+layout_mode = 2
+theme_override_constants/separation = 32

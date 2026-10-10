@@ -1,21 +1,15 @@
 [gd_scene format=3 uid="uid://eec2c73a5b2r"]
 
-[ext_resource type="Script" uid="uid://d32d5q6eem4i" path="res://conversation_manager.gd" id="1_b848x"]
+[ext_resource type="Script" uid="uid://u0qje8wqca0j" path="res://multi_conversation_manager.gd" id="1_b1hwo"]
 [ext_resource type="Texture2D" uid="uid://cxekivmosqf2i" path="res://ui/hamburger_menu.png" id="2_nk7is"]
-[ext_resource type="Texture2D" uid="uid://b8k0uo2e5jamb" path="res://ui/pfps/pfp_entity.tres" id="3_nk7is"]
-[ext_resource type="Script" uid="uid://yeux87q3rooe" path="res://responses_area.gd" id="5_k2tyi"]
+[ext_resource type="PackedScene" uid="uid://ct815rkvbavcb" path="res://chat_tab.tscn" id="3_2pdv1"]
+[ext_resource type="PackedScene" uid="uid://dhdmur6tlncqc" path="res://conversation.tscn" id="4_2pdv1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a6dcq"]
 bg_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1hwo"]
 bg_color = Color(0.64705884, 0.63529414, 0.7490196, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nk7is"]
-bg_color = Color(0.9372549, 0.9372549, 0.9372549, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4jdnw"]
-bg_color = Color(0.5882353, 0.9529412, 1, 1)
 
 [node name="ChatConversationPanel" type="Panel" unique_id=916914035]
 custom_minimum_size = Vector2(640, 980)
@@ -25,7 +19,7 @@ offset_right = 640.0
 offset_bottom = 980.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-script = ExtResource("1_b848x")
+script = ExtResource("1_b1hwo")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1781072785]
 layout_mode = 1
@@ -46,99 +40,27 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_a6dcq")
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer" unique_id=743378584]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/PanelContainer/HBoxContainer" unique_id=1516073683]
+[node name="HamburgerMargin" type="MarginContainer" parent="VBoxContainer/PanelContainer/HBoxContainer" unique_id=1516073683]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 8
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/PanelContainer/HBoxContainer/MarginContainer2" unique_id=2123455813]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/PanelContainer/HBoxContainer/HamburgerMargin" unique_id=2123455813]
 layout_mode = 2
 texture = ExtResource("2_nk7is")
 expand_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer/HBoxContainer" unique_id=1228194532]
+[node name="MarginContainer" parent="VBoxContainer/PanelContainer/HBoxContainer" unique_id=1650457012 instance=ExtResource("3_2pdv1")]
+visible = false
 layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 2
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/PanelContainer/HBoxContainer/MarginContainer" unique_id=953956804]
-layout_mode = 2
-texture = ExtResource("3_nk7is")
-expand_mode = 2
 
 [node name="Separator" type="PanelContainer" parent="VBoxContainer" unique_id=847424516]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b1hwo")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=540889026]
+[node name="ScrollContainer" parent="VBoxContainer" unique_id=788827610 instance=ExtResource("4_2pdv1")]
+visible = false
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_nk7is")
-scroll_hint_mode = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer" unique_id=530428114]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="chat_scroll" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer" unique_id=753020650]
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_constants/separation = 32
-
-[node name="ResponsesArea" type="PanelContainer" parent="." unique_id=177603363]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -81.0
-offset_right = 640.0
-grow_vertical = 0
-theme_type_variation = &"ResponseContainer"
-theme_override_styles/panel = SubResource("StyleBoxFlat_4jdnw")
-script = ExtResource("5_k2tyi")
-
-[node name="MarginContainer" type="MarginContainer" parent="ResponsesArea" unique_id=664750908]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 24
-
-[node name="LineEdit" type="LineEdit" parent="ResponsesArea/MarginContainer" unique_id=1709783559]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-placeholder_text = "asdasdasd"
-keep_editing_on_text_submit = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ResponsesArea/MarginContainer" unique_id=1458218031]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="ResponsesArea/MarginContainer/VBoxContainer" unique_id=1288283073]
-layout_mode = 2
-theme_override_constants/margin_bottom = 8
-
-[node name="Label" type="Label" parent="ResponsesArea/MarginContainer/VBoxContainer/MarginContainer" unique_id=1762891619]
-clip_contents = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.24705882, 0.078431375, 0.24313726, 1)
-theme_override_font_sizes/font_size = 24
-text = "Type Your Response!"
-horizontal_alignment = 1
-
-[node name="responses_container" type="VBoxContainer" parent="ResponsesArea/MarginContainer/VBoxContainer" unique_id=1729971668]
-layout_mode = 2
-theme_override_constants/separation = 32
-
-[node name="typing_indicator_timer" type="Timer" parent="." unique_id=1992130026]
-
-[node name="wait_timer" type="Timer" parent="." unique_id=1483102813]

@@ -23,7 +23,7 @@ class Call:
 		result.conversation = conversation
 		return result
 
-@export var conversation_manager: MyConversationManager
+@export var conversation_manager: MultiConversationManager
 @export var conversations: Conversations
 @export var audio: AudioStreamPlayer3D
 
@@ -60,7 +60,8 @@ func _on_answer_button_pressed() -> void:
 	# End the call and proceed to the conversation.
 	visible = false
 	audio.stop()
-	conversation_manager.start_conversation(active_call.conversation)
+	conversation_manager.add_conversation(active_call.conversation)
+	conversation_manager.focus_conversation(0)
 
 func _on_decline_button_pressed() -> void:
 	# Dismiss the call for a bit, but then have them call back pretty quickly,
