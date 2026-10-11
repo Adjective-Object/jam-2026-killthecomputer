@@ -33,6 +33,7 @@ var entity = Caller.named("ENTITY", entity_icon, entity_ringtone)
 
 var entity_intro_call: Call
 var entity_midpoint_call: Call
+var entity_ending_call: Call
 var active_call: Call
 
 @onready var answer_button: Button = $PanelContainer/MarginContainer/VBoxContainer/AnswerButton
@@ -45,11 +46,14 @@ var active_call: Call
 func _ready() -> void:
 	entity_intro_call = Call.from(entity, conversations.entity_intro_conv)
 	entity_midpoint_call = Call.from(entity, conversations.entity_midpoint_conv)
-	
-	# start_call(entity_intro_call)
+	entity_ending_call = Call.from(entity, conversations.entity_ending_conv)
 	
 	conversation_manager.start_midpoint_call.connect(func():
 		start_call(entity_midpoint_call)
+	)
+	
+	conversation_manager.start_ending_call.connect(func():
+		start_call(entity_ending_call)
 	)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -81,7 +85,6 @@ func _on_decline_button_pressed() -> void:
 	visible = false
 	audio.stop()
 	wait_timer.start(wait_time)
-
 
 func _on_wait_timer_timeout() -> void:
 	# Call back.

@@ -360,11 +360,12 @@ conversation_manager = NodePath("../ChatConversationPanel")
 conversations = NodePath("../../../Conversations")
 audio = NodePath("../../audio")
 
-[node name="ChatConversationPanel" parent="phone/PhoneScreen_SubViewport" unique_id=916914035 node_paths=PackedStringArray("audio", "life_progress", "conversation_data") instance=ExtResource("5_6lfuq")]
+[node name="ChatConversationPanel" parent="phone/PhoneScreen_SubViewport" unique_id=916914035 node_paths=PackedStringArray("audio", "life_progress", "conversation_data", "ending_screen") instance=ExtResource("5_6lfuq")]
 visible = false
 audio = NodePath("../../audio")
 life_progress = NodePath("../../../MarginContainer/Panel/LifeProgressBar")
 conversation_data = NodePath("../../../Conversations")
+ending_screen = NodePath("../../../WinScreen")
 
 [node name="phone_screen" type="MeshInstance3D" parent="phone" unique_id=176438850]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.796016)
@@ -1040,5 +1041,48 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_mmb5u")
 theme_override_styles/hover = SubResource("StyleBoxFlat_f6l8y")
 text = "start"
 icon = ExtResource("14_mmb5u")
+
+[node name="WinScreen" type="Panel" parent="." unique_id=661786105]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vanes")
+
+[node name="MarginContainer" type="MarginContainer" parent="WinScreen" unique_id=760835222]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -331.5
+offset_top = -103.0
+offset_right = 331.5
+offset_bottom = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WinScreen/MarginContainer" unique_id=1140927431]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="WinScreen/MarginContainer/VBoxContainer" unique_id=1239054673]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_ahkre")
+theme_override_font_sizes/font_size = 128
+text = "CONGRATS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="WinScreen/MarginContainer/VBoxContainer" unique_id=787976943]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_ahkre")
+theme_override_font_sizes/font_size = 32
+text = "you saved your soul!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="TitleScreen/MarginContainer/VBoxContainer/Button" to="TitleScreen" method="_on_button_pressed"]

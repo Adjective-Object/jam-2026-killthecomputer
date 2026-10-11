@@ -31,11 +31,13 @@ class Person:
 class Conversation:
 	var them: Person
 	var dialogs: Array[Dialog]
+	var pause_life_timer: bool
 	
-	static func with(them: Person, dialogs: Array[Dialog]) -> Conversation:
+	static func with(them: Person, dialogs: Array[Dialog], pause_life_timer: bool = false) -> Conversation:
 		var result = Conversation.new()
 		result.them = them
 		result.dialogs = dialogs
+		result.pause_life_timer = pause_life_timer
 		return result
 		
 class EntitySideChat:
@@ -80,7 +82,9 @@ class Dialog:
 	var start_life_timer: bool = false
 	var speedup_life_timer: bool = false
 	var allow_midpoint_call: bool = false
+	var allow_ending_call: bool = false
 	var entity_side_chat: EntitySideChat
+	var trigger_ending: bool = false
 
 	static func typing_indicator(duration_seconds: float) -> Dialog:
 		var n = Dialog.new()
@@ -128,9 +132,19 @@ class Dialog:
 		n.allow_midpoint_call = true
 		return n
 	
+	static func do_allow_ending_call() -> Dialog:
+		var n = Dialog.new()
+		n.allow_ending_call = true
+		return n
+	
 	static func do_entity_side_chat(tag: String, dialogs: Array[Dialog]) -> Dialog:
 		var n = Dialog.new()
 		n.entity_side_chat = EntitySideChat.create(tag, dialogs)
+		return n
+	
+	static func do_trigger_ending() -> Dialog:
+		var n = Dialog.new()
+		n.trigger_ending = true
 		return n
 		
 # shorthand for Dialog.sleep + Dialog.typing_indicator + Dialog.they_say pattern
@@ -164,6 +178,9 @@ func fail_or_pass(fail_dialogs: Array[Dialog], pass_dialogs: Array[Dialog]) -> A
 func allow_midpoint_call() -> Array[Dialog]:
 	return [Dialog.do_allow_midpoint_call()]
 
+func allow_ending_call() -> Array[Dialog]:
+	return [Dialog.do_allow_ending_call()]
+
 func start_life_timer() -> Array[Dialog]:
 	return [Dialog.do_start_life_timer()]
 	
@@ -172,6 +189,12 @@ func speedup_life_timer() -> Array[Dialog]:
 
 func entity_side_chat(tag: String, dialogs: Array[Dialog]) -> Array[Dialog]:
 	return [Dialog.do_entity_side_chat(tag, dialogs)]
+	
+func add_conversation(conversation: Conversation) -> Array[Dialog]:
+	return [Dialog.add_conversation(conversation)]
+
+func trigger_ending() -> Array[Dialog]:
+	return [Dialog.do_trigger_ending()]
 
 var palette = preload("res://ui/colors.tres")
 
@@ -180,56 +203,57 @@ var octavia_color = palette.colors[3]
 var octavia = Person.called("octavia", octavia_icon, octavia_color, null)
 
 var octavia_midpoint_conv = Conversation.with(octavia,
-	octavia_types("ok. i've prepared and centered myself.") +
-	octavia_types("do you need a video of me reciting this?") +
-	you_say([
-		Branch.choice("no not at all",  octavia_types("a real trust exercise. fascinating."), 1), 
-		Branch.choice("that's a little excessive imo", octavia_types("blind trust is also a little excessive."), -1),
-	]) +
-	sleep(2) +
-	octavia_types("i'm ready whenever you are. what's the passage?") +
-	you_say1("\"dead wood, closed eyes, still heart, come alive\"") + 
-# Player: say it 3 times in a row (idk seems excessive to have two player msgs in a row) 
-	octavia_types("did you write that yourself?") + 
-	you_say([
-		Branch.choice("no why",
-			octavia_types("oh, good. it's not very good and extremely corny.") +
-			octavia_types("i knew you could do better than that."),
-			-1),
-		Branch.choice("and what if i did",
-			octavia_types("oh. nevermind."),
-			1) 
-	]) +
-	sleep(2) +
-	octavia_types("ok. reciting now.") +
-	sleep(10) +
-	octavia_types("my lights just went out. that's incredible timing.") +
-	sleep(1) +
-	octavia_types("and my heat too? that disappeared quicker than expected.") +
-	sleep(1) +
-	octavia_types("i think my window just shattered. is there a storm?") +
-	entity_side_chat("octavia_midpoint",
-		entity_says("THIS OCTAVIA GIRL HAS A LOT OF OWL STATUES") +
-		entity_says("HOOT HOOT") +
-		entity_says("HA HA HA HA HA")) +
-	you_say([
-		Branch.choice("do u like owls",
-			octavia_types("how did you know that? yes, i do. quite a bit.") +
-			octavia_types("is there actual power behind this chant?"),
-			1),
-		Branch.choice("u said u were fast right",
-			octavia_types("i said no such thing. are you confusing me with a different girl?") +
-			octavia_types("that's rather disappointing."),
-			-1)
-	]) +
-	sleep(4) +
-	octavia_types("i hear footsteps. there's someone in my apartment.") +
-	octavia_types("i'm going to get them out of here. one moment.") +
-	you_say1("u need to hide somewhere immediately") +
-	octavia_types("you want me to let this intruder wander around my home?") + 
-	entity_side_chat("octavia_midpoint",
-		entity_says("WHY ARE THERE SO MANY CLOWN FIGURINES IN HERE")
-	) +
+	#octavia_types("ok. i've prepared and centered myself.") +
+	#octavia_types("do you need a video of me reciting this?") +
+	#you_say([
+		#Branch.choice("no not at all",  octavia_types("a real trust exercise. fascinating."), 1), 
+		#Branch.choice("that's a little excessive imo", octavia_types("blind trust is also a little excessive."), -1),
+	#]) +
+	#sleep(2) +
+	#octavia_types("i'm ready whenever you are. what's the passage?") +
+	#you_say1("\"dead wood, closed eyes, still heart, come alive\"") + 
+## Player: say it 3 times in a row (idk seems excessive to have two player msgs in a row) 
+	#octavia_types("did you write that yourself?") + 
+	#you_say([
+		#Branch.choice("no why",
+			#octavia_types("oh, good. it's not very good and extremely corny.") +
+			#octavia_types("i knew you could do better than that."),
+			#-1),
+		#Branch.choice("and what if i did",
+			#octavia_types("oh. nevermind."),
+			#1),
+	#]) +
+	#sleep(2) +
+	#octavia_types("ok. reciting now.") +
+	#sleep(10) +
+	#octavia_types("my lights just went out. that's incredible timing.") +
+	#sleep(1) +
+	#octavia_types("and my heat too? that disappeared quicker than expected.") +
+	#sleep(1) +
+	#octavia_types("i think my window just shattered. is there a storm?") +
+	#entity_side_chat("octavia_midpoint",
+		#entity_says("THIS OCTAVIA GIRL HAS A LOT OF OWL STATUES") +
+		#entity_says("HOOT HOOT") +
+		#entity_says("HA HA HA HA HA")
+	#) +
+	#you_say([
+		#Branch.choice("do u like owls",
+			#octavia_types("how did you know that? yes, i do. quite a bit.") +
+			#octavia_types("is there actual power behind this chant?"),
+			#1),
+		#Branch.choice("u said u were fast right",
+			#octavia_types("i said no such thing. are you confusing me with a different girl?") +
+			#octavia_types("that's rather disappointing."),
+			#-1)
+	#]) +
+	#sleep(4) +
+	#octavia_types("i hear footsteps. there's someone in my apartment.") +
+	#octavia_types("i'm going to get them out of here. one moment.") +
+	#you_say1("u need to hide somewhere immediately") +
+	#octavia_types("you want me to let this intruder wander around my home?") + 
+	#entity_side_chat("octavia_midpoint",
+		#entity_says("WHY ARE THERE SO MANY CLOWN FIGURINES IN HERE")
+	#) +
 	you_say([
 		Branch.choice("i know it's crazy but pls just trust me",
 			octavia_types("this is beyond crazy."),
@@ -238,8 +262,8 @@ var octavia_midpoint_conv = Conversation.with(octavia,
 			octavia_types("don't speak to me that way."),
 			-1),
 	]) + 
-	octavia_types("ok. gonna go hide. be back soon.") +
-	sleep(15) +
+	#octavia_types("ok. gonna go hide. be back soon.") +
+	#sleep(15) +
 	fail_or_pass(
 		# FAIL
 		entity_side_chat("octavia_midpoint",
@@ -258,10 +282,12 @@ var octavia_midpoint_conv = Conversation.with(octavia,
 		you_say1("with my life") + 
 		octavia_types("not possible. you have not met me. this is getting intense rather quickly.") +
 		octavia_types("ugh. ok. this was fun but that's one too many red flags.") +
-		octavia_types("good luck out there. do not message me again.")
+		octavia_types("good luck out there. do not message me again.") +
+		sleep(1) +
+		allow_ending_call()
 	)
-
 )
+
 var octavia_intro_conv = Conversation.with(octavia,
 	#octavia_types("hello. do you have children?") +
 	#octavia_types("how long would you like to court before marriage?") +
@@ -322,7 +348,7 @@ var octavia_intro_conv = Conversation.with(octavia,
 	#]) +
 	#you_say1("i need u to recite something for me") +
 	#octavia_types("like a poem? a passage?") +
-	octavia_types("how would this prove anything to you? is there more?") +
+	#octavia_types("how would this prove anything to you? is there more?") +
 	you_say([
 		Branch.choice(
 			"then u need to hide for three minutes",
@@ -460,7 +486,6 @@ var dorothy_intro_conv = Conversation.with(dorothy,
 		dorothy_types("OK one moment please :)") +
 		sleep(2) + allow_midpoint_call()
 	)
-	# TODO: Entity part 2
 )
 
 var entity_icon = preload("res://ui/pfps/pfp_entity.tres")
@@ -471,23 +496,47 @@ var entity = Person.called("ENTITY", entity_icon, entity_color, entity_theme)
 func entity_says(msg: String) -> Array[Dialog]:
 	return they_type(SMALL_SLEEP, MEDIUM_TYPE, msg)
 
-var entity_midpoint_conv: Conversation = Conversation.with(entity,
-	entity_says("I CAN'T BELIEVE SOMEONE IS HELPING YOU") +
-	entity_says("I ALMOST FEEL BAD FOR THEM") +
-	entity_says("IF ONLY THEY KNEW HOW LAME YOU WERE") +
+var entity_ending_conv: Conversation = Conversation.with(entity,
+	entity_says("WHAT THE FUCK") +
+	entity_says("WHY DID THAT WORK") +
 	you_say([
-		Branch.choice("Fuck you, dude.",
-			entity_says("YOU WISH") +
-			entity_says("HA HA HA HA HA HA")),
-		Branch.choice("Think whatever you want. My plan is working!",
-			entity_says("FOR NOW") +
-			entity_says("HA HA HA HA HA HA")),
+		Branch.choice("And you doubted me.",
+			entity_says("OF COURSE I DID") +
+			entity_says("YOU SUCK")),
+		Branch.choice("It did. Now go away!",
+		entity_says("WHAT WHY") +
+	entity_says("I THOUGHT WE WERE BESTIES") +
+	entity_says("HA HA HA HA HA HA")
+		)
 	]) +
-	entity_says("I CAN'T WAIT TO SEE HOW THEY DO") +
-	entity_says("THEY LOOK LIKE THEY SCARE EASILY") +
-	entity_says("HA HA HA HA HA HA") +
-	you_say1("Please just leave them alone.") +
-	entity_says("WHERE WOULD THE FUN BE IN THAT")
+	entity_says("YOUR TIME WILL RUN SHORT AGAIN SOON ENOUGH") +
+	entity_says("SEE YOU SOON") +
+	sleep(2) +
+	trigger_ending(),
+	true # pause_life_timer
+)
+
+var entity_midpoint_conv: Conversation = Conversation.with(entity,
+	#entity_says("I CAN'T BELIEVE SOMEONE IS HELPING YOU") +
+	#entity_says("I ALMOST FEEL BAD FOR THEM") +
+	#entity_says("IF ONLY THEY KNEW HOW LAME YOU WERE") +
+	#you_say([
+		#Branch.choice("Fuck you, dude.",
+			#entity_says("YOU WISH") +
+			#entity_says("HA HA HA HA HA HA")),
+		#Branch.choice("Think whatever you want. My plan is working!",
+			#entity_says("FOR NOW") +
+			#entity_says("HA HA HA HA HA HA")),
+	#]) +
+	#entity_says("I CAN'T WAIT TO SEE HOW THEY DO") +
+	#entity_says("THEY LOOK LIKE THEY SCARE EASILY") +
+	#entity_says("HA HA HA HA HA HA") +
+	#you_say1("Please just leave them alone.") +
+	entity_says("WHERE WOULD THE FUN BE IN THAT") +
+	sleep(0.4) +
+	add_conversation(octavia_midpoint_conv) +
+	sleep(0.4),
+	true # pause_life_meter
 )
 
 var entity_intro_conv_dialogs: Array[Dialog] = [
@@ -549,9 +598,9 @@ var entity_intro_conv_dialogs: Array[Dialog] = [
 			#they_type(0.4, 1.2, "FOR THE LITTLE TIME YOU HAVE LEFT") +
 			#they_type(0.4, 1, "HA HA HA HA HA HA")),
 	#]),
-	Dialog.sleep(0.2),
-	Dialog.typing_indicator(1.0),
-	Dialog.they_say("(skipping this conversation for brevity)"),
+	#Dialog.sleep(0.2),
+	#Dialog.typing_indicator(1.0),
+	#Dialog.they_say("(skipping this conversation for brevity)"),
 	Dialog.do_start_life_timer(),
 	Dialog.sleep(0.4),
 	Dialog.add_conversation(dorothy_intro_conv),
@@ -560,4 +609,7 @@ var entity_intro_conv_dialogs: Array[Dialog] = [
 	Dialog.sleep(0.4),
 	Dialog.add_conversation(octavia_intro_conv)
 ]
-var entity_intro_conv = Conversation.with(entity, entity_intro_conv_dialogs)
+var entity_intro_conv = Conversation.with(
+	entity, entity_intro_conv_dialogs,
+	true # pause_life_meter
+)

@@ -1,4 +1,5 @@
 extends Control
+class_name TypingIndicator
 
 @onready var dots: Array[TextureRect] = [
 	$dot3,

@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_fqduf"]
 [ext_resource type="Texture2D" uid="uid://bjff63w1kojkt" path="res://ui/pfps/pfp_brad.tres" id="1_rfaqr"]
 [ext_resource type="FontFile" uid="uid://cimuwprnbcv4p" path="res://fonts/Baloo2-Bold.ttf" id="2_04y3h"]
+[ext_resource type="Texture2D" uid="uid://y61bf03tcrdg" path="res://ui/dot.png" id="4_1ogn8"]
+[ext_resource type="Script" uid="uid://0l7uh77gd3vj" path="res://typing_indicator_anim.gd" id="4_xk25w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfaqr"]
 bg_color = Color(0.8039216, 0.9764706, 1, 1)
@@ -56,3 +58,26 @@ theme_override_fonts/font = ExtResource("2_04y3h")
 theme_override_font_sizes/font_size = 24
 text = "aaaaaaaa"
 script = ExtResource("1_fqduf")
+
+[node name="TypingIndicator" type="HBoxContainer" parent="." unique_id=278672892]
+visible = false
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("4_xk25w")
+
+[node name="dot1" type="TextureRect" parent="TypingIndicator" unique_id=34345216]
+layout_mode = 2
+texture = ExtResource("4_1ogn8")
+stretch_mode = 3
+
+[node name="dot2" type="TextureRect" parent="TypingIndicator" unique_id=421681076]
+layout_mode = 2
+texture = ExtResource("4_1ogn8")
+stretch_mode = 3
+
+[node name="dot3" type="TextureRect" parent="TypingIndicator" unique_id=182148109]
+layout_mode = 2
+texture = ExtResource("4_1ogn8")
+stretch_mode = 3

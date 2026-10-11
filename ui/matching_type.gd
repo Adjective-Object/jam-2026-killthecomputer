@@ -73,9 +73,6 @@ func _process_custom_fx(char_fx: CharFXTransform) -> bool:
 	if i not in char_states.states:
 		char_states.states[i] = _CharState.new()
 
-	# Messing with the scale and color for unrendered characters creates some
-	# weird looking spacing issues, so don't change them 
-	#if intended_scale 
 	char_states.states[i].scale = lerp(
 		char_states.states[i].scale, intended_scale, LERP_SPEED)
 	char_states.states[i].color = lerp(

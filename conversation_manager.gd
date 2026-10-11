@@ -5,7 +5,7 @@ var conversation: Conversations.Conversation
 
 var GREEN_BUBBLE = preload("res://ui/green_bubble.tscn")
 var GRAY_BUBBLE = preload("res://ui/gray_bubble.tscn")
-var typing_indicator = preload("res://ui/typing_indicator.tscn")
+var typing_indicator = preload("res://ui/gray_bubble.tscn")
 var active_typing_indicator: Control = null
 var paused: bool = false
 var deferred_wait_timer: bool = false # A wait timer didn't start because the conv is paused.
@@ -21,6 +21,12 @@ signal start_life_timer
 # Emitted to indicate that the midpoint call should begin if
 # it hasn't happened already.
 signal allow_midpoint_call
+
+# Emitted to indicate that the ending call should begin.
+signal allow_ending_call
+
+# Emitted to indicate that the game was won.
+signal trigger_ending 
 
 # Emitted to update a side chat with the ENTITY, related to the current
 # convo.
@@ -92,11 +98,13 @@ func advance_conversation():
 		
 		elif entry.new_conversation != null:
 			add_conversation.emit(entry.new_conversation)
+
 			conversation_head += 1
 			advance_conversation()
 		
 		elif entry.start_life_timer:
 			life_progress.start()
+
 			conversation_head += 1
 			advance_conversation()
 		
@@ -111,10 +119,22 @@ func advance_conversation():
 
 			conversation_head += 1
 			advance_conversation()
+		
+		elif entry.allow_ending_call:
+			allow_ending_call.emit()
+			
+			conversation_head += 1
+			advance_conversation()
 			
 		elif entry.entity_side_chat:
 			entity_side_chat.emit(entry.entity_side_chat)
 
+			conversation_head += 1
+			advance_conversation()
+		
+		elif entry.trigger_ending:
+			trigger_ending.emit()
+			
 			conversation_head += 1
 			advance_conversation()
 		
@@ -205,6 +225,9 @@ func _spawn_typing_indicator(
 	active_typing_indicator = typing_indicator.instantiate()
 	insertion_point.add_child(active_typing_indicator)
 	# Move it before the ResponseArea so the ResponseArea stays at the bottom.
+	active_typing_indicator.find_child("Icon").texture = conversation.them.icon
+	active_typing_indicator.find_child("PanelMargin").visible = false
+	active_typing_indicator.find_child("TypingIndicator").visible = true
 	insertion_point.move_child(active_typing_indicator, -2)
 	typingindicator_timer.connect("timeout", _clear_typing_indicator_and_advance_conversation)
 	typingindicator_timer.wait_time = duration_s
@@ -217,10 +240,11 @@ func _spawn_typing_indicator(
 func _clear_typing_indicator_and_advance_conversation():
 	typingindicator_timer.stop()
 	if active_typing_indicator != null:
-		await active_typing_indicator.dismiss()
+		active_typing_indicator.queue_free()
 		active_typing_indicator = null
-		# wait another frame for the layout
-		await get_tree().process_frame
+		# seems to cause jank?
+		## wait another frame for the layout
+		#await get_tree().process_frame
 
 	advance_conversation()
 	
@@ -230,6 +254,11 @@ func _clear_wait_timer_and_advance_conversation():
 
 func focus():
 	responses_area.focus()
+	
+	if conversation.pause_life_timer:
+		life_progress.pause()
+	else:
+		life_progress.resume()
 
 func on_succesful_submit(submitted_text: String) -> void:
 	responses_area.clear_responses()

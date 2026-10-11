@@ -9,7 +9,7 @@ var total_time: float
 var began: bool = false
 
 func _ready():
-	total_time = 60.0
+	total_time = 120.0
 
 func _process(delta: float):
 	ratio = life_timer.time_left / total_time
@@ -31,3 +31,9 @@ func start():
 func grant_time(seconds: float):
 	if began:
 		life_timer.start(min(life_timer.time_left + seconds, total_time))
+
+func pause():
+	life_timer.paused = true
+
+func resume():
+	life_timer.paused = false

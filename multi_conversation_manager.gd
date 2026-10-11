@@ -17,11 +17,13 @@ var conversations: Array[AvailableConversation]
 var active_conversation: AvailableConversation
 
 var midpoint_call_done: bool = false
+var ending_call_done: bool = false
 var allow_clicking_tabs: bool = true
 
 @export var audio: AudioStreamPlayer3D
 @export var life_progress: LifeProgress
 @export var conversation_data: Conversations
+@export var ending_screen: Control
 
 @onready var jump_to_bottom: Button = $JumpToBottom
 @onready var conversation_container: VBoxContainer = $VBoxContainer
@@ -31,6 +33,9 @@ var allow_clicking_tabs: bool = true
 
 # Emitted when the entity midpoint call should begin.
 signal start_midpoint_call
+
+# Emitted when the entity ending call should begin
+signal start_ending_call
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -57,6 +62,12 @@ func add_conversation(conversation: Conversations.Conversation, tag: String = ""
 			midpoint_call_done = true
 	)
 	
+	instance.allow_ending_call.connect(func():
+		if not ending_call_done:
+			start_ending_call.emit()
+			ending_call_done = true
+	)
+	
 	instance.entity_side_chat.connect(func(chat: Conversations.EntitySideChat):
 		# If a side-chat on this topic already exists, add the messages to it.
 		# Otherwise start a new side chat.
@@ -67,11 +78,17 @@ func add_conversation(conversation: Conversations.Conversation, tag: String = ""
 				conv.conversation_manager.conversation.dialogs.append_array(
 					chat.dialogs)
 				conv.conversation_manager.advance_conversation()
+				conv.needs_attention = true
 				existing_conversation = true
 				break
 		if not existing_conversation:
 			var new_conversation = Conversations.Conversation.with(conversation_data.entity, chat.dialogs)
 			add_conversation(new_conversation, chat.tag)
+	)
+	
+	instance.trigger_ending.connect(func():
+		# TODO: Fade in.
+		ending_screen.visible = true
 	)
 	
 	instance.visible = false

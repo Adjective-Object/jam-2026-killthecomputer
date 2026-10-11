@@ -49,9 +49,9 @@ func update_input(text: String, caret_column: int):
 	# print("match_prefix_len", match_prefix_len)
 	# Apply matching text
 	response_label.clear()
-	var combined_response_text = response_text
-	if len(text) > len(response_text):
-		combined_response_text += text.substr(len(response_text))
+	#var combined_response_text = response_text
+	#if len(text) > len(response_text):
+		#combined_response_text += text.substr(len(response_text))
 
 	# response_label.add_text("hello")
 	# print(char_states)
@@ -64,7 +64,7 @@ func update_input(text: String, caret_column: int):
 		# because character rendering is stateless!
 		"char_states_id": char_states.get_instance_id(),
 	})
-	response_label.add_text(combined_response_text)
+	response_label.add_text(response_text)
 	response_label.pop()
 
 #func _process(_delta: float) -> void:
