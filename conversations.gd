@@ -556,7 +556,7 @@ var entity_intro_conv_dialogs: Array[Dialog] = [
 			they_type(0.4, 1, "MAYBE FOR YOU") +
 			they_type(0.4, 0.8, "HA HA HA HA HA HA")),
 	]),
-	Dialog.sleep(0.4),
+	Dialog.sleep(1.5),
 	Dialog.typing_indicator(1),
 	Dialog.they_say("I SEE YOU'VE RESORTED TO DATING APPS"),
 	Dialog.sleep(0.4),
