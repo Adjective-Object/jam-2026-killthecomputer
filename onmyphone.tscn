@@ -391,7 +391,7 @@ radius = 0.5
 [node name="audio" type="AudioStreamPlayer3D" parent="phone" unique_id=1654530964]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8236399)
 stream = ExtResource("5_02dmp")
-volume_db = -80.0
+volume_db = -24.0
 
 [node name="ik_control_twobone_elbow" type="Node3D" parent="." unique_id=1007160400]
 transform = Transform3D(234.96437, 0, 223.08665, 0, 324, 0, -223.08665, 0, 234.96437, 8.134855, -10.502315, -5.564152)
