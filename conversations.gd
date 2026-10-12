@@ -391,12 +391,197 @@ var octavia_intro_conv = Conversation.with(octavia,
 	)
 )
 
+func brad_says(msg: String) -> Array[Dialog]:
+	return [Dialog.sleep(MEDIUM_SLEEP), Dialog.typing_indicator(MEDIUM_TYPE), Dialog.they_say(msg)]
+
 var brad_icon = preload("res://ui/pfps/pfp_brad.png")
 var brad_color = palette.colors[0]
 var brad = Person.called("brad", brad_icon, brad_color, null)
 
+var brad_midpoint_conv = Conversation.with(brad,
+	brad_says("Ok haha I'm here") +
+	brad_says("It's a little dark and windy hahaha") +
+	brad_says("Are you gonna be here soon") +
+	you_say([
+		Branch.choice("yeah for sure",
+			brad_says("Baller haha"),
+			1),
+		Branch.choice("wow ur kinda into me",
+			brad_says("I went to a graveyard for you hahaha") +
+			brad_says("I thought this was obvious"),
+			-1),
+	]) +
+	you_say1("can u find a grave for me pls") +
+	sleep(1) +
+	brad_says("Idk man") +
+	brad_says("Like walk through the graveyard") +
+	brad_says("It's like really eerie bro hahahaa") +
+	you_say([
+		Branch.choice("oh so u can't hang",
+			brad_says("No I can hang haha I promise") +
+			brad_says("Don't doubt my valor bro"),
+			-1),
+		Branch.choice("ya it's easy i promise",
+			brad_says("Hahaha") +
+			brad_says("I'm like putting my heart and soul into trusting you"),
+			1),
+	]) +
+	sleep(1) +
+	brad_says("What grave am I looking for") +
+	you_say1("There should be an open one") +
+	they_type(TINY_SLEEP, 0.2, "Bro") + 
+	brad_says("An open one?") +
+	brad_says("Bro are you playing with me") + 
+	you_say([
+		Branch.choice("this is serious", brad_says("I'm also mad serious bro"), 1),
+		Branch.choice("and what if i am", brad_says("Bro be so for real with me"), -1),
+	]) +
+	sleep(3) +
+	brad_says("Ok so I find it and then what") +
+	you_say1("then i need u to cut off a lock of hair") +
+	sleep(2) +
+	brad_says("From me") +
+	you_say1("no...") +
+	brad_says("Ain't no way") +
+	entity_side_chat("brad_midpoint", 
+		entity_says("IS HE SHADOWBOXING HIS STRESS AWAY") +
+		entity_says("HE HAS UNBELIEVABLE SHOULDERS")
+	) +
+	sleep(3) +
+	brad_says("Ok are you actually going to roll through") + 
+	brad_says("I'll do it I just gotta know") + 
+	you_say([
+		Branch.choice("im literally on my way", brad_says("Ok I'm trusting you bro"), 1),
+		Branch.choice("i ran into some car trouble", brad_says("Legend are you kidding"), -1),
+	]) +
+	sleep(2) +
+	brad_says("Is someone else here") +
+	entity_side_chat("brad_midpoint", entity_says("OOGA BOOGA")) +
+	sleep(2) +
+	brad_says("Dude this is fucked") +
+	you_say1("go get the hair!!") +
+	sleep(2) +
+	brad_says("Ok I'm going holy fuck") +
+	brad_says("BRB") +
+	sleep(10) +
+	fail_or_pass(
+		# FAIL
+		entity_side_chat("brad_midpoint", 
+			entity_says("I THINK HE SAW ME") +
+			entity_says("HE DIDN'T EVEN TRY TO FIGHT ME HE JUST STRAIGHT UP TOOK OFF") +
+			entity_says("HE SCREAMS REALLY LOUD WHEN HE'S CHASED") +
+			entity_says("HA HA HA HA HA HA") +
+			entity_says("OH THIS IS GREAT EXERCISE") 
+		),
+		# PASS
+		set_flag("ritual_complete") +
+		brad_says("I did it") + 
+		brad_says("Whoa dude the air got lighter or something") + 
+		brad_says("What is this joy in my chest") +
+		you_say1("oh thank god") + 
+		brad_says("Dude were you watching me do this haha was that you") +
+		brad_says("Haha come out bro I need you to hold my hand hahaha") +
+		brad_says("My heart rate is unbelievable hahaha") +
+		sleep(3) + allow_ending_call()
+	)
+)
+
 var brad_intro_conv = Conversation.with(brad,
-	they_type(TINY_SLEEP, MEDIUM_TYPE, "test"))
+	brad_says("Yooo what's up legend") +
+	brad_says("Just got back from a 2 hour lifting session") +
+	brad_says("I got crazy pump rn bro haha") +
+	you_say([
+		Branch.choice("i'm happy for you bro", brad_says("Hahaha you get me"), 1),
+		Branch.choice("oh thank god. you can run right",
+			brad_says("Of course bro") +
+			brad_says("Aerobic health is key to keeping your mind and heart jacked") +
+			you_say1("your mind is jacked?") +
+			brad_says("Indubitably bro"),
+			-1),
+	]) +
+	sleep(1.5) +
+	brad_says("Haha so what do you do for fun") + 
+	brad_says("Love your vibe") + 
+	you_say([
+		Branch.choice("i'm a little crazy",
+			brad_says("Haha that's good to know") +
+			brad_says("I like them crazy"),
+			-1),
+		Branch.choice("i like hanging out in dark places",
+			brad_says("Haha whattt") +
+			brad_says("That's so quirky") +
+			brad_says("I've always wanted a quirked up baddie haha"),
+			1),
+	]) +
+	sleep(0.7) +
+	you_say1("so are you down for something weird") +
+	sleep(1) +
+	brad_says("Oh haha depends bro") + 
+	brad_says("I'm free right now but not gonna be for long") + 
+	brad_says("My 10 chicken bake will be done in 30 min") + 
+	you_say([
+		Branch.choice("10 chickens???",
+			brad_says("Yeah haha 10 chickens 1 pan 1 dream 1 me") +
+			brad_says("It's a really good recipe haha do you want it"),
+			-1),
+		Branch.choice("are u meal prepping",
+			brad_says("No this is my post-workout meal haha") +
+			brad_says("I've been working my way up in chickens for months") +
+			brad_says("My stomach is finally channeling the beast within"),
+			1),
+	]) +
+	you_say1("ok well i think this won't take long") +
+	brad_says("Let's do it bro") +
+	brad_says("Tell me what you're thinking haha") +
+	you_say1("wanna do something crazy at a graveyard") +
+	brad_says("Ohh hhaha what") +
+	brad_says("It's pretty late to go to a graveyard bro") +
+	brad_says("Isn't that trespassing haha") + 
+	you_say([
+		Branch.choice("oh so u can't handle me then",
+			brad_says("No wait") +
+			brad_says("No I can") +
+			brad_says("Sorry you just surprised me hahaa"),
+			-1),
+		Branch.choice("and what about it",
+			brad_says("Oh nothing haha") +
+			brad_says("Sorry I just wasn't sure if that mattered") +
+			brad_says("I'm not bothered by the law and its mysteries"),	
+			1),
+	]) +
+	sleep(1) +
+	brad_says("But I can't lie to you bro I get a little freaked at night already") +
+	brad_says("But the beast within me is telling me this is a good idea") +
+	sleep(1) + 
+	brad_says("You're really fun haha I'm game") +
+	brad_says("There's only one graveyard in town do you want to meet there") +
+	you_say([
+		Branch.choice("absolutely bro i will be right there",
+			brad_says("That's so sick haha") +
+			brad_says("Meeting already haha") +
+			brad_says("Wonder what you will be wearing hahaha"),
+			1),
+		Branch.choice("yeah i'll be there after u", 
+			brad_says("After me haha") + 
+			brad_says("Don't be too long haha") + 
+			brad_says("I don't super want to be there alone hahaha"),
+			-1),
+	]) +
+	sleep(1.5) +
+	fail_or_pass(
+		# FAIL
+		brad_says("Idk bro this 10 chicken bake might need my full attention haha") +
+		brad_says("And meeting up in a graveyard is a little too crazy for me") +
+		brad_says("You seem nice but not for me haha") +
+		you_say1("pls no we can make this work") +
+		brad_says("Later bro"),
+		# PASS
+		set_flag("brad_intro_pass") +
+		brad_says("On my way") +
+		sleep(2) + allow_midpoint_call() +
+		add_conversation(brad_midpoint_conv, "entity_midpoint_done")
+	)
+)
 
 var dorothy_icon = preload("res://ui/pfps/pfp_dorothy.png")
 var dorothy_color = palette.colors[2]
@@ -647,7 +832,8 @@ var entity_midpoint_conv: Conversation = Conversation.with(entity,
 	add_conversation(octavia_midpoint_conv, "octavia_intro_pass") +
 	sleep(0.4) +
 	add_conversation(dorothy_midpoint_conv, "dorothy_intro_pass") +
-	sleep(0.4),
+	sleep(0.4) +
+	add_conversation(brad_midpoint_conv, "brad_intro_pass"),
 	true # pause_life_meter
 )
 
