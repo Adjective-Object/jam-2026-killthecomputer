@@ -139,8 +139,8 @@ theme_override_colors/default_color = Color(0.24705882, 0.078431375, 0.24313726,
 theme_override_fonts/normal_font = ExtResource("3_pu0bo")
 theme_override_font_sizes/normal_font_size = 48
 theme_override_font_sizes/bold_font_size = 24
-text = "Incoming Call From
-\"ENTITY\""
+text = "\"Entity\" Demands
+A Chat"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
@@ -157,7 +157,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_hdxh6")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pu0bo")
 theme_override_styles/hover = SubResource("StyleBoxFlat_r5lp3")
 shortcut = SubResource("Shortcut_1yilt")
-text = "Answer"
+text = "Reply"
 icon = ExtResource("5_pu0bo")
 
 [node name="DeclineButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1046129776]
@@ -171,7 +171,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_m0iew")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_jk47r")
 theme_override_styles/hover = SubResource("StyleBoxFlat_xm5ef")
 shortcut = SubResource("Shortcut_1yilt")
-text = "Decline"
+text = "Ignore"
 icon = ExtResource("6_r5lp3")
 
 [node name="wait_timer" type="Timer" parent="." unique_id=859717081]
