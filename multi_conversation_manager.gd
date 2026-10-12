@@ -82,7 +82,7 @@ func add_conversation(conversation: Conversations.Conversation, tag: String = ""
 					chat.dialogs)
 				conv.needs_attention = true
 				existing_conversation = true
-				toast("new message from ENTITY", palette.colors[13], 2.0)
+				toast("new message from ENTITY", palette.colors[13], 0.9)
 
 				break
 		if not existing_conversation:
@@ -153,7 +153,7 @@ func add_conversation(conversation: Conversations.Conversation, tag: String = ""
 	
 	# don't show this toast for the very first convo in the game
 	if index != 0:
-		toast("new message from " + conversation.them.name, palette.colors[13], 2.0)
+		toast("new message from " + conversation.them.name, palette.colors[13], 0.9)
 		Sounds.instance.play_new_match()
 	
 	conversations.append(available_conv)

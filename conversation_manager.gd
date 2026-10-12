@@ -309,12 +309,12 @@ func good_toast():
 	good_reaction_toast_timer.start(2)
 	good_reaction_toast_timer.timeout.connect(func():
 		var color = palette.colors[14]
-		toast.emit(conversation.them.name + " liked that!", color, 2.0)
+		toast.emit(conversation.them.name + " liked that!", color, 0.5)
 	)
 	
 func bad_toast():
 	bad_reaction_toast_timer.start(2)
 	bad_reaction_toast_timer.timeout.connect(func():
 		var color = palette.colors[15]
-		toast.emit(conversation.them.name + " did not like that.", color, 2.0)
+		toast.emit(conversation.them.name + " did not like that.", color, 0.5)
 	)
