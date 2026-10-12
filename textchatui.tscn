@@ -10,7 +10,7 @@
 bg_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1hwo"]
-bg_color = Color(0.64705884, 0.63529414, 0.7490196, 1)
+bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nk7is"]
 bg_color = Color(0.8039216, 0.9764706, 1, 1)
@@ -22,12 +22,12 @@ shadow_color = Color(0, 0, 0, 0.6392157)
 shadow_size = 3
 shadow_offset = Vector2(-2, 2)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cnp2o"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c12ai"]
 content_margin_left = 16.0
 content_margin_top = 16.0
 content_margin_right = 16.0
 content_margin_bottom = 16.0
-bg_color = Color(0.77, 0.0462, 0.42016348, 1)
+bg_color = Color(0.76862746, 0.047058824, 0.41960785, 1)
 corner_radius_top_left = 32
 corner_radius_top_right = 32
 corner_radius_bottom_right = 32
@@ -141,7 +141,7 @@ offset_right = 74.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_cnp2o")
+theme_override_styles/normal = SubResource("StyleBoxFlat_c12ai")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lu8vd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1om2g")
 text = "JUMP TO BOTTOM"

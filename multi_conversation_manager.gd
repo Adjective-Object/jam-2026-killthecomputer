@@ -12,6 +12,8 @@ class AvailableConversation:
 
 var conversation_prefab = preload("res://conversation.tscn")
 var tab_prefab = preload("res://chat_tab.tscn")
+var toast_prefab = preload("res://toast.tscn")
+var palette: ColorPalette = preload("res://ui/colors.tres")
 
 var conversations: Array[AvailableConversation]
 var active_conversation: AvailableConversation
@@ -29,6 +31,7 @@ var allow_clicking_tabs: bool = true
 @onready var conversation_container: VBoxContainer = $VBoxContainer
 @onready var tab_container: HBoxContainer = $VBoxContainer/PanelContainer/HBoxContainer
 @onready var name_bubble: PanelContainer = $NameBubble
+@onready var separator: PanelContainer = $VBoxContainer/Separator
 @onready var name_bubble_label: Label = $NameBubble/Label
 
 # Emitted when the entity midpoint call should begin.
@@ -77,13 +80,18 @@ func add_conversation(conversation: Conversations.Conversation, tag: String = ""
 			if conv.tag == chat.tag:
 				conv.conversation_manager.conversation.dialogs.append_array(
 					chat.dialogs)
-				conv.conversation_manager.advance_conversation()
 				conv.needs_attention = true
 				existing_conversation = true
+				toast("new message from ENTITY", palette.colors[13], 2.0)
+
 				break
 		if not existing_conversation:
 			var new_conversation = Conversations.Conversation.with(conversation_data.entity, chat.dialogs)
 			add_conversation(new_conversation, chat.tag)
+	)
+	
+	instance.toast.connect(func(msg: String, color: Color, duration: float):
+		toast(msg, color, duration)
 	)
 	
 	instance.trigger_ending.connect(func():
@@ -103,6 +111,11 @@ func add_conversation(conversation: Conversations.Conversation, tag: String = ""
 	# Create the corresponding tab.
 	var tab_instance: Control = tab_prefab.instantiate()
 	(tab_instance.find_child("TextureRect") as TextureRect).texture = conversation.them.icon
+	var tab_panel: PanelContainer = tab_instance.find_child("PanelContainer")
+	var tab_style_box = tab_panel.get_theme_stylebox("panel").duplicate()
+	tab_style_box.bg_color = conversation.them.color
+	tab_panel.add_theme_stylebox_override("panel", tab_style_box)
+	tab_panel.self_modulate.a = 0.0
 	available_conv.tab = tab_instance
 	tab_container.add_child(tab_instance)
 	tab_container.move_child(tab_instance, 1)
@@ -125,14 +138,35 @@ func add_conversation(conversation: Conversations.Conversation, tag: String = ""
 		var style_box: StyleBoxFlat = name_bubble.get_theme_stylebox("panel").duplicate()
 		style_box.bg_color = conversation.them.color
 		name_bubble.add_theme_stylebox_override("panel", style_box)
+		
+		if active_conversation and active_conversation.tab != conversations[index].tab:
+			tab_instance.find_child("PanelContainer").self_modulate.a = 0.7
 	)
+
 	tab_instance.mouse_exited.connect(func():
 		print("mouse exited")
 		name_bubble.visible = false
+		
+		if active_conversation and active_conversation.tab != conversations[index].tab:
+			tab_instance.find_child("PanelContainer").self_modulate.a = 0.0
 	)
+	
+	toast("new message from " + conversation.them.name, palette.colors[13], 2.0)
 	
 	conversations.append(available_conv)
 
+func toast(msg: String, color: Color, duration: float):
+	var toast_instance: Toast = toast_prefab.instantiate()
+	toast_instance.duration = duration
+	var toast_style_box = toast_instance.get_theme_stylebox("normal").duplicate()
+	toast_style_box.bg_color = color
+	toast_instance.add_theme_stylebox_override("normal", toast_style_box)
+	toast_instance.add_theme_stylebox_override("pressed", toast_style_box)
+	toast_instance.add_theme_stylebox_override("hover", toast_style_box)
+	toast_instance.text = msg
+	
+	add_child(toast_instance)
+	
 func focus_conversation(index: int):
 	if index >= len(conversations):
 		print("Warning: Tried to click out-of-range conversation: " + str(index))
@@ -145,9 +179,18 @@ func focus_conversation(index: int):
 	if active_conversation:
 		active_conversation.conversation_manager.visible = false
 		active_conversation.conversation_manager.pause()
+		active_conversation.tab.find_child("PanelContainer").self_modulate.a = 0.0
+		#var old_tab_style_box: StyleBoxFlat = old_tab_panel.get_theme_stylebox("panel").duplicate()
+		#old_tab_style_box.bg_color.a = 0.0
+		#old_tab_panel.add_theme_stylebox_override("panel", old_tab_style_box)
 	
 	active_conversation = conv
 	active_conversation.tab.find_child("Notification").visible = false
+	active_conversation.tab.find_child("PanelContainer").self_modulate.a = 1.0
+	#var new_tab_style_box: StyleBoxFlat = new_tab_panel.get_theme_stylebox("panel").duplicate()
+	#new_tab_style_box.bg_color.a = 1.0
+	#new_tab_panel.add_theme_stylebox_override("panel", new_tab_style_box)
+	separator.modulate = conv.person.color
 	active_conversation.conversation_manager.visible = true
 	if active_conversation.conversation_manager.paused:
 		active_conversation.conversation_manager.unpause()

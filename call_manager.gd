@@ -27,7 +27,7 @@ class Call:
 @export var conversations: Conversations
 @export var audio: AudioStreamPlayer3D
 
-var entity_icon = preload("res://ui/pfps/pfp_entity.tres")
+var entity_icon = preload("res://ui/pfps/pfp_entity.png")
 var entity_ringtone = preload("res://sounds/ringtone_loop.mp3")
 var entity = Caller.named("ENTITY", entity_icon, entity_ringtone)
 

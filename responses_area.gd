@@ -4,6 +4,9 @@ extends PanelContainer
 var RESPONSE_OPTION = preload("res://ui/response_option.tscn")
 var buffered_text: String = ""
 
+var DEFAULT_COLOR: Color = Color.from_hsv(187.0/255.0, 41.0/255.0, 100.0/255.0) # unused fallback color
+
+var color_tween: Tween
 var SLIDE_OFFSET = 100
 
 @onready var responses_container: VBoxContainer = $MarginContainer/VBoxContainer/responses_container
@@ -24,6 +27,11 @@ func _ready() -> void:
 	self.visible = false
 	
 	capture_text.text_submitted.connect(_on_text_submitted)
+
+	color_tween = create_tween().set_ease(Tween.EASE_IN_OUT)
+	color_tween.set_loops()
+	color_tween.tween_property(self, "theme_override_styles/panel:bg_color", Color.from_string("96f3ff", DEFAULT_COLOR), 1)
+	color_tween.tween_property(self, "theme_override_styles/panel:bg_color", Color.from_string("80f0ff", DEFAULT_COLOR), 1)
 
 func clear_responses() -> void:
 	for child in responses_container.get_children():
@@ -57,6 +65,7 @@ func focus():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	# Truncate typed text to longest substring of any prefix-matched
 	# response
 	var text: String = capture_text.text

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_btvo6"]
 [ext_resource type="FontFile" uid="uid://cimuwprnbcv4p" path="res://fonts/Baloo2-Bold.ttf" id="1_kgx5a"]
-[ext_resource type="Texture2D" uid="uid://c1161rcaefwa" path="res://ui/pfps/pfp_player.tres" id="2_btvo6"]
+[ext_resource type="Texture2D" uid="uid://nbovs78k1ev4" path="res://ui/pfps/pfp_player.png" id="3_kgx5a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cy0g4"]
 bg_color = Color(0.8039216, 0.9764706, 1, 1)
@@ -14,28 +14,38 @@ shadow_color = Color(0, 0, 0, 0.24705882)
 shadow_size = 4
 shadow_offset = Vector2(-4, 4)
 
-[node name="GreenBubble" type="HBoxContainer" unique_id=701488616]
+[node name="GreenBubble" type="MarginContainer" unique_id=253742019]
 propagate_maximum_size = false
-offset_right = 302.0
-offset_bottom = 128.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -302.0
+offset_top = -1.0
+offset_bottom = 151.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1452643066]
+layout_mode = 2
 alignment = 2
 
-[node name="PanelMargin" type="MarginContainer" parent="." unique_id=1041077551]
+[node name="PanelMargin" type="MarginContainer" parent="HBoxContainer" unique_id=1041077551]
 layout_mode = 2
 
-[node name="ChatBubble" type="PanelContainer" parent="PanelMargin" unique_id=24342987]
+[node name="ChatBubble" type="PanelContainer" parent="HBoxContainer/PanelMargin" unique_id=24342987]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_cy0g4")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelMargin/ChatBubble" unique_id=1442708003]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelMargin/ChatBubble" unique_id=1442708003]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 24
 
-[node name="Label" type="Label" parent="PanelMargin/ChatBubble/MarginContainer" unique_id=1719481601]
+[node name="Label" type="Label" parent="HBoxContainer/PanelMargin/ChatBubble/MarginContainer" unique_id=1719481601]
 custom_minimum_size = Vector2(130, 80)
 custom_maximum_size = Vector2(430, -1)
 layout_mode = 2
@@ -45,12 +55,12 @@ theme_override_font_sizes/font_size = 24
 text = "aaaaaaaa"
 script = ExtResource("1_btvo6")
 
-[node name="IconMargin" type="MarginContainer" parent="." unique_id=2022338952]
+[node name="IconMargin" type="MarginContainer" parent="HBoxContainer" unique_id=2022338952]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 24
 
-[node name="Icon" type="TextureRect" parent="IconMargin" unique_id=962676745]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/IconMargin" unique_id=962676745]
 layout_mode = 2
-texture = ExtResource("2_btvo6")
-stretch_mode = 2
+texture = ExtResource("3_kgx5a")
+expand_mode = 3

@@ -1,6 +1,6 @@
 extends MarginContainer
 
-@onready var off_icon: Control = $OffIcon
+@onready var off_icon: Control = $MarginContainer/OffIcon
 var muted = false
 
 func _on_gui_input(event: InputEvent) -> void:

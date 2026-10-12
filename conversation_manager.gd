@@ -6,6 +6,7 @@ var conversation: Conversations.Conversation
 var GREEN_BUBBLE = preload("res://ui/green_bubble.tscn")
 var GRAY_BUBBLE = preload("res://ui/gray_bubble.tscn")
 var typing_indicator = preload("res://ui/gray_bubble.tscn")
+var palette = preload("res://ui/colors.tres")
 var active_typing_indicator: Control = null
 var paused: bool = false
 var deferred_wait_timer: bool = false # A wait timer didn't start because the conv is paused.
@@ -26,17 +27,22 @@ signal allow_midpoint_call
 signal allow_ending_call
 
 # Emitted to indicate that the game was won.
-signal trigger_ending 
+signal trigger_ending
 
 # Emitted to update a side chat with the ENTITY, related to the current
 # convo.
 signal entity_side_chat(chat: Conversations.EntitySideChat)
+
+# Emitted to show a toast.
+signal toast(msg: String, color: Color, duration: float)
 
 @onready var scroll_container: ScrollContainer = self # todo: cleanup
 @onready var insertion_point: VBoxContainer = $MarginContainer/chat_scroll
 @onready var responses_area: ResponsesArea = $MarginContainer/chat_scroll/ResponsesArea
 @onready var typingindicator_timer = $typing_indicator_timer
 @onready var wait_timer = $wait_timer
+@onready var good_reaction_toast_timer = $good_reaction_toast_timer
+@onready var bad_reaction_toast_timer = $bad_reaction_toast_timer
 
 @export var audio: AudioStreamPlayer3D
 @export var life_progress: LifeProgress
@@ -274,6 +280,25 @@ func on_succesful_submit(submitted_text: String) -> void:
 		chosen_branch.dialogs + conversation.dialogs.slice(conversation_head, len(conversation.dialogs), 1, true))
 	
 	conversation_score += chosen_branch.increment
+	
+	if chosen_branch.increment == 1:
+		good_toast()
+	elif chosen_branch.increment == -1:
+		bad_toast()
 
 func on_failed_submit(submitted_text: String) -> void:
 	push_warning("Failed submission: " + submitted_text)
+
+func good_toast():
+	good_reaction_toast_timer.start(2)
+	good_reaction_toast_timer.timeout.connect(func():
+		var color = palette.colors[14]
+		toast.emit(conversation.them.name + " liked that!", color, 2.0)
+	)
+	
+func bad_toast():
+	bad_reaction_toast_timer.start(2)
+	bad_reaction_toast_timer.timeout.connect(func():
+		var color = palette.colors[15]
+		toast.emit(conversation.them.name + " did not like that.", color, 2.0)
+	)

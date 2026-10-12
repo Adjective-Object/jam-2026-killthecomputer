@@ -198,7 +198,7 @@ func trigger_ending() -> Array[Dialog]:
 
 var palette = preload("res://ui/colors.tres")
 
-var octavia_icon = preload("res://ui/pfps/pfp_octavia.tres")
+var octavia_icon = preload("res://ui/pfps/pfp_octavia.png")
 var octavia_color = palette.colors[3]
 var octavia = Person.called("octavia", octavia_icon, octavia_color, null)
 
@@ -304,6 +304,7 @@ var octavia_intro_conv = Conversation.with(octavia,
 			octavia_types("mixed bag. i can work with this."),
 			1)
 	]) +
+	sleep(2) +
 	octavia_types("there's so much garbage on this website. it's unbelievable.") +
 	octavia_types("some guy tried to pitch his edm album to me an hour ago.") +
 	octavia_types("i request that you tell me your red flags right now.") +
@@ -375,20 +376,93 @@ var octavia_intro_conv = Conversation.with(octavia,
 	)
 )
 
-var brad_icon = preload("res://ui/pfps/pfp_brad.tres")
+var brad_icon = preload("res://ui/pfps/pfp_brad.png")
 var brad_color = palette.colors[0]
 var brad = Person.called("brad", brad_icon, brad_color, null)
 
 var brad_intro_conv = Conversation.with(brad,
 	they_type(TINY_SLEEP, MEDIUM_TYPE, "test"))
 
-var dorothy_icon = preload("res://ui/pfps/pfp_dorothy.tres")
+var dorothy_icon = preload("res://ui/pfps/pfp_dorothy.png")
 var dorothy_color = palette.colors[2]
 var dorothy = Person.called("dorothy", dorothy_icon, dorothy_color, null)
 
-func dorothy_types(msg: String) -> Array[Dialog]:
-	return they_type(0.8, 1.8, msg)
+func dorothy_types(msg: String, long: bool = false) -> Array[Dialog]:
+	return they_type(0.8, long and 3 or 1.8, msg)
 
+var dorothy_midpoint_conv = Conversation.with(dorothy,
+	dorothy_types("OK sweet pea I'm at my Frigidaire microwave :)") +
+	dorothy_types("You have some numbers for me right or did I get that wrong ?") +
+	you_say([
+		Branch.choice("oh you are a life saver dorothy", dorothy_types("I thought you said you were a ghost how can I be a life saver ?"), 1),
+		Branch.choice("what took you so long", dorothy_types("Did I take too long sweet pea I'm so sorry it's hard for me to walk around much these days but I do try my best"), -1),
+	]) +
+	dorothy_types("My grandson Theo will be here in just a few minutes so I can't help for long can you p") +
+	dorothy_types("lease give me the numberss you need ?") +
+	you_say([
+		Branch.choice("yes pls enter 665666565565",
+			dorothy_types("Oh wow that's really long are you sure you need all those numbers ?") +
+			dorothy_types("Most numbers aren't that long are you sure you didn't make a mistake somewhere?"),
+			-1),
+		Branch.choice("yes but i need to make this easier to remember",
+			dorothy_types("Oh that's very true if it's a big number sweet pea I'll lose myself easily in the numbers if Theo was here he could read to me but he's not here yet I can call him if you want .", true),
+			1),
+	]) +
+	you_say1("i'll give you the numbers a few at a time") +
+	dorothy_types("Oh yes that would be wonderful for helping me keep track of it all .") + 
+	dorothy_types("You are so sweet I hope you find a spouse on here someday can ghosts get legally married I heard Theo talking about something like that the other day but I couldn't quite hear .") +
+	you_say([
+		Branch.choice("6656", sleep(3) + dorothy_types("OK Next numbers please ."), 1),
+		Branch.choice("6",
+			dorothy_types("If you only give me one number at a time this will take too long I have to go when Theo gets here he wants to play a video game with me .") +
+			you_say1("ok sorry 6656") +
+			sleep(3) + dorothy_types("OK Next numbers please ."), -1)
+	]) +
+	you_say1("6656") +
+	dorothy_types("Isn't that the same numbers you just gave me are you sure you read that right ?") +
+	you_say([
+		Branch.choice("oh my god yes just enter the numbers",
+			dorothy_types("I'm sorry I make a lot of mistakes sometimes so I just like to check and make sure other people meant what they say so they feel understood and appreciated but it seems that bothered you and I'm dsappointed in myselff I will enter the numbers again .", true),
+			-1),
+		Branch.choice("yes they are the same again", dorothy_types("OK I understand I will enter them again :)"), 1),
+	]) +
+	sleep(3) +
+	dorothy_types("Someone just opened my back door why is the house suddenly cold .") +
+	dorothy_types("Theo never comes through the back door but I did catch my neighbor Leslie use it once while she thought I was out to try to borrow my good soup pot and she didn't think to call for permission I can't believe the gall of her sometimes .", true) +
+	dorothy_types("If it is her again I will give her a piece of my mind .") +
+	entity_side_chat("dorothy_midpoint", entity_says("WOW THIS OLD LADY HAS A LOT OF FINE CHINA")) +
+	sleep(2) +
+	dorothy_types("Something just shattered oh my goodness she's going for my soup pot !") +
+	you_say([
+		Branch.choice("dorothy do not go back there",
+			dorothy_types("Oh it would just take a few minutes sweet pea I promise I will be back .") +
+			dorothy_types("Oh wait then Theo will be here by then and I would have to leave .") +
+			dorothy_types("OK I can wait to tell Leslie to get out of my house I hid the soup pot above my microwave so she'd never find it over there anyway ."),
+			1),
+		Branch.choice("ur just hearing things i promise",
+			dorothy_types("My hearing is perfectly fine sweet pea but I appreciate you being concerned for my well being :)") +
+			dorothy_types("But I have been a bit stressed lately so you could be right .") +
+			dorothy_types("I just wish my grandson Theo hadn't cut his hair it was so beautiful before . "), -1)
+	]) +
+	sleep(1) +
+	dorothy_types("How many numbers are left ?") +
+	you_say1("just one more set") +
+	dorothy_types("Oh wonderful may I") +
+	dorothy_types("I have them please ?") +
+	they_type(0.4, 0.5, "? :)") +
+	sleep(1) +
+	dorothy_types("Something else shattered wow Leslie really has no manners in my house I will see that she pays in full for replacements .") +
+	you_say([
+		Branch.choice("just swap the numbers 5565",
+			dorothy_types("Swap the numbers do you mean I should start over I will need the full set of numbers again please ?") +
+			you_say1("no no no this is the last set") +
+			dorothy_types("Then what am I swapping ? ") +
+			you_say1("forget the swapping just enter 5565") +
+			dorothy_types("That was confusing for me I'm sorry you should work on your clarity skill they seem to be lacking a little ."),
+			-1),
+		Branch.choice("last set 5565", dorothy_types("OK one moment sweet pea :)"), 1),
+	])  
+)
 
 var dorothy_intro_conv = Conversation.with(dorothy,
 	they_type(TINY_SLEEP, LONGEST_TYPE, "Hello") + 
@@ -468,8 +542,7 @@ var dorothy_intro_conv = Conversation.with(dorothy,
 	dorothy_types("Then why am I using the microwave ?") +
 	you_say([
 		Branch.choice("i need a living person to enter the numbers anywhere to save my soul",
-			dorothy_types("Oh that's so strange isn't that usually through baptism I can call Theo he knows a very good church nearby who is pro Gay and Lebanese and probably pro Gghost ?") +
-			#sleep(1) + # long msg
+			dorothy_types("Oh that's so strange isn't that usually through baptism I can call Theo he knows a very good church nearby who is pro Gay and Lebanese and probably pro Gghost ?", true) +
 			you_say1("this is all i need i promise"),
 			1),
 		Branch.choice("dorothy please",
@@ -487,7 +560,7 @@ var dorothy_intro_conv = Conversation.with(dorothy,
 	)
 )
 
-var entity_icon = preload("res://ui/pfps/pfp_entity.tres")
+var entity_icon = preload("res://ui/pfps/pfp_entity.png")
 var entity_theme = preload("res://sounds/03 - Call Of The Void.wav")
 var entity_color = palette.colors[1]
 var entity = Person.called("ENTITY", entity_icon, entity_color, entity_theme)
@@ -499,14 +572,13 @@ var entity_ending_conv: Conversation = Conversation.with(entity,
 	entity_says("WHAT THE FUCK") +
 	entity_says("WHY DID THAT WORK") +
 	you_say([
-		Branch.choice("And you doubted me.",
+		Branch.choice("and u doubted me",
 			entity_says("OF COURSE I DID") +
 			entity_says("YOU SUCK")),
-		Branch.choice("It did. Now go away!",
-		entity_says("WHAT WHY") +
-	entity_says("I THOUGHT WE WERE BESTIES") +
-	entity_says("HA HA HA HA HA HA")
-		)
+		Branch.choice("it did. now go away",
+			entity_says("WHAT WHY") +
+			entity_says("I THOUGHT WE WERE BESTIES") +
+			entity_says("HA HA HA HA HA HA")),
 	]) +
 	entity_says("YOUR TIME WILL RUN SHORT AGAIN SOON ENOUGH") +
 	entity_says("SEE YOU SOON") +
@@ -520,20 +592,22 @@ var entity_midpoint_conv: Conversation = Conversation.with(entity,
 	entity_says("I ALMOST FEEL BAD FOR THEM") +
 	entity_says("IF ONLY THEY KNEW HOW LAME YOU WERE") +
 	you_say([
-		Branch.choice("Fuck you, dude.",
+		Branch.choice("fuck u dude",
 			entity_says("YOU WISH") +
 			entity_says("HA HA HA HA HA HA")),
-		Branch.choice("Think whatever you want. My plan is working!",
+		Branch.choice("think whatever you want, my plan is working",
 			entity_says("FOR NOW") +
 			entity_says("HA HA HA HA HA HA")),
 	]) +
 	entity_says("I CAN'T WAIT TO SEE HOW THEY DO") +
 	entity_says("THEY LOOK LIKE THEY SCARE EASILY") +
 	entity_says("HA HA HA HA HA HA") +
-	you_say1("Please just leave them alone.") +
+	you_say1("please just leave them alone") +
 	entity_says("WHERE WOULD THE FUN BE IN THAT") +
 	sleep(0.4) +
 	add_conversation(octavia_midpoint_conv) +
+	sleep(0.4) +
+	add_conversation(dorothy_midpoint_conv) +
 	sleep(0.4),
 	true # pause_life_meter
 )
@@ -548,24 +622,24 @@ var entity_intro_conv_dialogs: Array[Dialog] = [
 	Dialog.sleep(1),
 	Dialog.you_say([
 		Branch.choice(
-			"I'm working on it!",
+			"i'm working on it",
 			they_type(0.4, 1, "NOT WORKING ENOUGH") +
 			they_type(0.4, 0.8, "HA HA HA HA HA HA")),
 		Branch.choice(
-			"It's rough out here, dude.",
+			"this is rough dude",
 			they_type(0.4, 1, "MAYBE FOR YOU") +
 			they_type(0.4, 0.8, "HA HA HA HA HA HA")),
 	]),
-	Dialog.sleep(1.5),
+	Dialog.sleep(3),
 	Dialog.typing_indicator(1),
 	Dialog.they_say("I SEE YOU'VE RESORTED TO DATING APPS"),
 	Dialog.sleep(0.4),
 	Dialog.typing_indicator(1),
 	Dialog.they_say("I COULD ALWAYS SMELL DESPERATION ON YOU, SO THIS IS REALLY FITTING"),
-	Dialog.sleep(0.4),
+	Dialog.sleep(2),
 	Dialog.typing_indicator(1),
 	Dialog.they_say("YOU KNOW WHAT'S GONNA HAPPEN IF YOU FAIL, RIGHT"),
-	Dialog.sleep(0.4),
+	Dialog.sleep(2),
 	Dialog.typing_indicator(1),
 	Dialog.they_say("FINAL DEATH"),
 	Dialog.sleep(0.4),
@@ -577,29 +651,26 @@ var entity_intro_conv_dialogs: Array[Dialog] = [
 	Dialog.sleep(0.4),
 	Dialog.typing_indicator(1),
 	Dialog.they_say("HA HA HA HA HA"),
-	Dialog.sleep(0.4),
+	Dialog.sleep(1.2),
 	Dialog.typing_indicator(1.25),
 	Dialog.they_say("OH THIS WILL BE SO FUN FOR ME"),
 	Dialog.sleep(1),
 	Dialog.you_say([
 		Branch.choice(
-			"I still have time!",
+			"i still have time",
 			they_type(0.4, 1, "BARELY")),
 		Branch.choice(
-			"You're sick, you know that?",
+			"you're sick, you know that?",
 			they_type(0.4, 1, "HA HA HA HA HA HA")),
 	]),
 	Dialog.sleep(1),
 	Dialog.you_say([
 		Branch.choice(
-			"I'll figure it out. Leave me alone!",
+			"i'll figure it out. leave me alone!",
 			they_type(0.4, 1, "AS YOU WISH") +
 			they_type(0.4, 1.2, "FOR THE LITTLE TIME YOU HAVE LEFT") +
 			they_type(0.4, 1, "HA HA HA HA HA HA")),
 	]),
-	#Dialog.sleep(0.2),
-	#Dialog.typing_indicator(1.0),
-	#Dialog.they_say("(skipping this conversation for brevity)"),
 	Dialog.do_start_life_timer(),
 	Dialog.sleep(0.4),
 	Dialog.add_conversation(dorothy_intro_conv),

@@ -1,22 +1,49 @@
 [gd_scene format=3 uid="uid://ct815rkvbavcb"]
 
-[ext_resource type="Texture2D" uid="uid://b8k0uo2e5jamb" path="res://ui/pfps/pfp_entity.tres" id="1_wc03o"]
+[ext_resource type="Texture2D" uid="uid://ckgqckjdevh0e" path="res://ui/pfps/pfp_entity.png" id="1_4gpqi"]
 [ext_resource type="Texture2D" uid="uid://crpkox34110hn" path="res://ui/notification.png" id="2_4gpqi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gpqi"]
+bg_color = Color(1, 0.8961667, 0.110000014, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="MarginContainer" type="MarginContainer" unique_id=1650457012]
 custom_minimum_size = Vector2(48, 48)
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1328005591]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4gpqi")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1736664823]
+layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 2
+theme_override_constants/margin_bottom = 4
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=788728675]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer" unique_id=788728675]
 layout_mode = 2
-texture = ExtResource("1_wc03o")
+mouse_filter = 2
+texture = ExtResource("1_4gpqi")
 expand_mode = 2
 
-[node name="Notification" type="TextureRect" parent="." unique_id=708946236]
-custom_maximum_size = Vector2(24, 24)
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer" unique_id=894968270]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 4
+
+[node name="Notification" type="TextureRect" parent="PanelContainer/MarginContainer2" unique_id=708946236]
+custom_maximum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 8
+mouse_filter = 2
 texture = ExtResource("2_4gpqi")

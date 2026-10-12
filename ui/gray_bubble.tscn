@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://royob76220ln"]
 
 [ext_resource type="Script" uid="uid://dkktld32xn3e0" path="res://textplayback.gd" id="1_fqduf"]
-[ext_resource type="Texture2D" uid="uid://bjff63w1kojkt" path="res://ui/pfps/pfp_brad.tres" id="1_rfaqr"]
+[ext_resource type="Texture2D" uid="uid://q33vnfntvdms" path="res://ui/pfps/pfp_brad.png" id="1_xk25w"]
 [ext_resource type="FontFile" uid="uid://cimuwprnbcv4p" path="res://fonts/Baloo2-Bold.ttf" id="2_04y3h"]
 [ext_resource type="Texture2D" uid="uid://y61bf03tcrdg" path="res://ui/dot.png" id="4_1ogn8"]
 [ext_resource type="Script" uid="uid://0l7uh77gd3vj" path="res://typing_indicator_anim.gd" id="4_xk25w"]
@@ -16,40 +16,48 @@ shadow_color = Color(0.7254902, 0.72156864, 0.7176471, 1)
 shadow_size = 3
 shadow_offset = Vector2(-2, 2)
 
-[node name="GrayBubble2" type="HBoxContainer" unique_id=1776189324]
+[node name="GrayBubble2" type="MarginContainer" unique_id=312519182]
 custom_maximum_size = Vector2(784, -1)
-offset_right = 302.0
+offset_right = 318.0
+offset_bottom = 128.0
 size_flags_horizontal = 3
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="IconMargin" type="MarginContainer" parent="." unique_id=1417946621]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1000495975]
+layout_mode = 2
+
+[node name="IconMargin" type="MarginContainer" parent="HBoxContainer" unique_id=1417946621]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 24
 
-[node name="Icon" type="TextureRect" parent="IconMargin" unique_id=986039330]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/IconMargin" unique_id=986039330]
+custom_minimum_size = Vector2(108, 108)
+custom_maximum_size = Vector2(108, 108)
 layout_mode = 2
-texture = ExtResource("1_rfaqr")
-stretch_mode = 2
+texture = ExtResource("1_xk25w")
+expand_mode = 3
 
-[node name="PanelMargin" type="MarginContainer" parent="." unique_id=215876036]
+[node name="PanelMargin" type="MarginContainer" parent="HBoxContainer" unique_id=215876036]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_constants/margin_right = 16
 
-[node name="ChatBubble" type="PanelContainer" parent="PanelMargin" unique_id=245001733]
+[node name="ChatBubble" type="PanelContainer" parent="HBoxContainer/PanelMargin" unique_id=245001733]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rfaqr")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelMargin/ChatBubble" unique_id=976342475]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelMargin/ChatBubble" unique_id=976342475]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 24
 
-[node name="Label" type="Label" parent="PanelMargin/ChatBubble/MarginContainer" unique_id=785663389]
+[node name="Label" type="Label" parent="HBoxContainer/PanelMargin/ChatBubble/MarginContainer" unique_id=785663389]
 custom_minimum_size = Vector2(130, 80)
 custom_maximum_size = Vector2(430, -1)
 layout_mode = 2
@@ -59,7 +67,7 @@ theme_override_font_sizes/font_size = 24
 text = "aaaaaaaa"
 script = ExtResource("1_fqduf")
 
-[node name="TypingIndicator" type="HBoxContainer" parent="." unique_id=278672892]
+[node name="TypingIndicator" type="HBoxContainer" parent="HBoxContainer" unique_id=278672892]
 visible = false
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
@@ -67,17 +75,17 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("4_xk25w")
 
-[node name="dot1" type="TextureRect" parent="TypingIndicator" unique_id=34345216]
+[node name="dot1" type="TextureRect" parent="HBoxContainer/TypingIndicator" unique_id=34345216]
 layout_mode = 2
 texture = ExtResource("4_1ogn8")
 stretch_mode = 3
 
-[node name="dot2" type="TextureRect" parent="TypingIndicator" unique_id=421681076]
+[node name="dot2" type="TextureRect" parent="HBoxContainer/TypingIndicator" unique_id=421681076]
 layout_mode = 2
 texture = ExtResource("4_1ogn8")
 stretch_mode = 3
 
-[node name="dot3" type="TextureRect" parent="TypingIndicator" unique_id=182148109]
+[node name="dot3" type="TextureRect" parent="HBoxContainer/TypingIndicator" unique_id=182148109]
 layout_mode = 2
 texture = ExtResource("4_1ogn8")
 stretch_mode = 3

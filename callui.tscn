@@ -139,7 +139,8 @@ theme_override_colors/default_color = Color(0.24705882, 0.078431375, 0.24313726,
 theme_override_fonts/normal_font = ExtResource("3_pu0bo")
 theme_override_font_sizes/normal_font_size = 48
 theme_override_font_sizes/bold_font_size = 24
-text = "Incoming Call!"
+text = "Incoming Call From
+\"ENTITY\""
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1

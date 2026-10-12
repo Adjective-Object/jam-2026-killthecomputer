@@ -8,7 +8,7 @@
 bg_color = Color(0.9372549, 0.9372549, 0.9372549, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4jdnw"]
-bg_color = Color(0.5882353, 0.9529412, 1, 1)
+bg_color = Color(0.5, 0.9416666, 1, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" unique_id=788827610]
 size_flags_vertical = 3
@@ -17,6 +17,12 @@ scroll_hint_mode = 3
 script = ExtResource("1_jdrsm")
 
 [node name="typing_indicator_timer" type="Timer" parent="." unique_id=265065535]
+
+[node name="good_reaction_toast_timer" type="Timer" parent="." unique_id=1099923085]
+one_shot = true
+
+[node name="bad_reaction_toast_timer" type="Timer" parent="." unique_id=1133809744]
+one_shot = true
 
 [node name="wait_timer" type="Timer" parent="." unique_id=235151476]
 
@@ -27,7 +33,7 @@ size_flags_vertical = 3
 
 [node name="chat_scroll" type="VBoxContainer" parent="MarginContainer" unique_id=315259758]
 layout_mode = 2
-theme_override_constants/separation = 32
+theme_override_constants/separation = 8
 
 [node name="ResponsesArea" type="PanelContainer" parent="MarginContainer/chat_scroll" unique_id=1567484437]
 layout_mode = 2

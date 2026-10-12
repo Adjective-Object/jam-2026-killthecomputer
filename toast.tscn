@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://coospkfu3rfex"]
+
+[ext_resource type="Script" uid="uid://b043xuxjrtlye" path="res://toast.gd" id="1_uh3k1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cnp2o"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.77, 0.0462, 0.42016348, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[node name="Toast" type="Button" unique_id=1070034405]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -74.0
+offset_top = 20.0
+offset_right = 74.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_cnp2o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cnp2o")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cnp2o")
+text = "toast message"
+script = ExtResource("1_uh3k1")

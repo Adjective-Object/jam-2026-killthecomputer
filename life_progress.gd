@@ -4,24 +4,28 @@ class_name LifeProgress
 @export var container: MarginContainer
 @export var life_timer: Timer
 @export var death_screen: Control
+@export var particles: GPUParticles2D
 
 var total_time: float
 var began: bool = false
 
 func _ready():
 	total_time = 120.0
+	particles.emitting = true
+	ratio = 1.0
+	life_timer.start(total_time)
+	life_timer.paused = true
 
 func _process(delta: float):
 	ratio = life_timer.time_left / total_time
+	particles.position.y = lerpf(580.0, 90, ratio)
 
 func start():
 	began = true
+	visible = true
 
 	var pos_tween: Tween = get_tree().create_tween()
 	pos_tween.tween_property(container, "offset_transform_position", Vector2(0, 0), 2.0)
-	pos_tween.tween_callback(func():
-		life_timer.start(total_time)
-	)
 	
 	life_timer.timeout.connect(func():
 		death_screen.visible = true
@@ -34,6 +38,9 @@ func grant_time(seconds: float):
 
 func pause():
 	life_timer.paused = true
+	particles.emitting = false
 
 func resume():
 	life_timer.paused = false
+	particles.emitting = true
+	particles.visible = true
