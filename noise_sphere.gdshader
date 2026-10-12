@@ -5,6 +5,7 @@ uniform float angle_degrees : hint_range(0, 360) = 0;
 uniform float repeat_x : hint_range(1, 20) = 1;
 uniform float repeat_y : hint_range(1, 20) = 1;
 uniform float row_offset : hint_range(0, 1) = 1;
+uniform float red_ratio : hint_range(0, 1);
 uniform sampler2D texture_to_scroll: repeat_enable, filter_linear;
 
 void fragment() {
@@ -24,6 +25,6 @@ void fragment() {
  vec2 snappedUV = round(scaled_uv / texelSize) * texelSize;
 
 	vec4 tex = texture(texture_to_scroll, snappedUV);
- 	ALBEDO = vec3(tex.r, tex.g, tex.b);
+ 	ALBEDO = vec3(tex.r, tex.g, tex.b) + red_ratio * vec3(0.75, 0, 0);
  	ALPHA = 1.0;
 }

@@ -18,7 +18,8 @@ func _ready():
 
 func _process(delta: float):
 	ratio = life_timer.time_left / total_time
-	particles.position.y = lerpf(580.0, 90, ratio)
+	var global_rect = get_global_rect()
+	particles.position.y = lerpf(global_rect.position.y + global_rect.size.y, global_rect.position.y, ratio)
 
 func start():
 	began = true

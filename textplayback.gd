@@ -67,7 +67,7 @@ func set_measured_text(new_text: String) -> void:
 	break_to_lines(new_text)
 
 	# set from globals
-	self.text = breaklines_label_text
+	self.text = "" #breaklines_label_text
 	print("setting size:", final_measured_size)
 	self.size = final_measured_size
 	self.custom_minimum_size = final_measured_size

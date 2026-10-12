@@ -85,15 +85,19 @@ class Dialog:
 	var allow_ending_call: bool = false
 	var entity_side_chat: EntitySideChat
 	var trigger_ending: bool = false
+	var required_flag: String = ""
+	var set_flag: String = ""
+	var point_multiplier = 1.0
 
 	static func typing_indicator(duration_seconds: float) -> Dialog:
 		var n = Dialog.new()
 		n.typing_indicator_duration_s = duration_seconds
 		return n
 	
-	static func they_say(msg: String) -> Dialog:
+	static func they_say(msg: String, point_multiplier: float = 1.0) -> Dialog:
 		var n = Dialog.new()
 		n.they_said = msg
+		n.point_multiplier = point_multiplier
 		return n
 
 	static func you_say(options: Array[Branch]) -> Dialog:
@@ -107,9 +111,15 @@ class Dialog:
 		return n
 		
 	# Adds a conversation to the conversation tab list.
-	static func add_conversation(conversation: Conversation) -> Dialog:
+	static func add_conversation(conversation: Conversation, required_flag: String = "") -> Dialog:
 		var n = Dialog.new()
 		n.new_conversation = conversation
+		n.required_flag = required_flag
+		return n
+		
+	static func do_set_flag(flag: String) -> Dialog:
+		var n = Dialog.new()
+		n.set_flag = flag
 		return n
 		
 	static func fail_or_pass(fail_dialogs: Array[Dialog], pass_dialogs: Array[Dialog]) -> Dialog:
@@ -148,8 +158,8 @@ class Dialog:
 		return n
 		
 # shorthand for Dialog.sleep + Dialog.typing_indicator + Dialog.they_say pattern
-func they_type(sleep_duration: float, type_duration: float, msg: String) -> Array[Dialog]:
-	return [Dialog.sleep(sleep_duration), Dialog.typing_indicator(type_duration), Dialog.they_say(msg)]
+func they_type(sleep_duration: float, type_duration: float, msg: String, point_multiplier: float = 1.0) -> Array[Dialog]:
+	return [Dialog.sleep(sleep_duration), Dialog.typing_indicator(type_duration), Dialog.they_say(msg, point_multiplier)]
 
 func octavia_types(msg) -> Array[Dialog]:
 	return they_type(SMALL_SLEEP, 0.8, msg)
@@ -190,11 +200,14 @@ func speedup_life_timer() -> Array[Dialog]:
 func entity_side_chat(tag: String, dialogs: Array[Dialog]) -> Array[Dialog]:
 	return [Dialog.do_entity_side_chat(tag, dialogs)]
 	
-func add_conversation(conversation: Conversation) -> Array[Dialog]:
-	return [Dialog.add_conversation(conversation)]
+func add_conversation(conversation: Conversation, required_flag: String = "") -> Array[Dialog]:
+	return [Dialog.add_conversation(conversation, required_flag)]
 
 func trigger_ending() -> Array[Dialog]:
 	return [Dialog.do_trigger_ending()]
+	
+func set_flag(flag: String) -> Array[Dialog]:
+	return [Dialog.do_set_flag(flag)]
 
 var palette = preload("res://ui/colors.tres")
 
@@ -368,11 +381,13 @@ var octavia_intro_conv = Conversation.with(octavia,
 		you_say1("wait no") +
 		octavia_types("i wish you well in your weird endeavor. goodbye."),
 		# PASS
+		set_flag("octavia_intro_pass") +
 		sleep(2) +
 		octavia_types("this is all rather mysterious.") +
 		octavia_types("but i've grown to learn that life is often that way. as much as i wish it wasn't.") +
 		octavia_types("let me center myself a little. then i will be ready to recite your passage.") +
-		sleep(2) + allow_midpoint_call()
+		sleep(2) + allow_midpoint_call() +
+		add_conversation(octavia_midpoint_conv, "entity_midpoint_done")
 	)
 )
 
@@ -388,7 +403,9 @@ var dorothy_color = palette.colors[2]
 var dorothy = Person.called("dorothy", dorothy_icon, dorothy_color, null)
 
 func dorothy_types(msg: String, long: bool = false) -> Array[Dialog]:
-	return they_type(0.8, long and 3 or 1.8, msg)
+	return they_type(0.8, long and 3 or 1.8, msg,
+		1.5 # dorothy types really slowly and has a lot to say, so give 1.5x life bonus for balance
+	)
 
 var dorothy_midpoint_conv = Conversation.with(dorothy,
 	dorothy_types("OK sweet pea I'm at my Frigidaire microwave :)") +
@@ -461,7 +478,26 @@ var dorothy_midpoint_conv = Conversation.with(dorothy,
 			dorothy_types("That was confusing for me I'm sorry you should work on your clarity skill they seem to be lacking a little ."),
 			-1),
 		Branch.choice("last set 5565", dorothy_types("OK one moment sweet pea :)"), 1),
-	])  
+	]) +
+	sleep(4) +
+	fail_or_pass(
+		# FAIL
+		dorothy_types("Another shatter I can't take this anymore sorry sweet pea I need to go save my tea set !") +
+		you_say1("DOROTHY COME BACK") +
+		entity_side_chat("dorothy_midpoint",
+			entity_says("WOW SHE'S LIKE 6 FEET TALL") +
+			sleep(2) +
+			entity_says("AAAAND NOW SHE'S SIX FEET UNDER") +
+			entity_says("HA HA HA HA HA")
+		),
+		# PASS
+		dorothy_types("Oh I think I did it :)") +
+		dorothy_types("Why does the air feel warm again I need to check the door .") +
+		you_say1("omg u rly did it. thank u so much dorothy") +
+		dorothy_types("Of course sweet pea now I don't know if we are compatible this was an interesting exercise but I think you need someone more on your Plane :)") +
+		dorothy_types("I'm going to wait for Theo to get here and then we will confront Leslie together he is a wonderful support for my neighborhood dramatics I hope you have a wonderful afterlife :)") +
+		sleep(3) + allow_ending_call()
+	)
 )
 
 var dorothy_intro_conv = Conversation.with(dorothy,
@@ -555,8 +591,10 @@ var dorothy_intro_conv = Conversation.with(dorothy,
 		dorothy_types("Oh Theo is here goodbye this was a fun chat good luck with everything sweet pea ! :)") +
 		you_say1("DOROTHY COME BACK"),
 		# PASS
+		set_flag("dorothy_intro_pass") +
 		dorothy_types("OK one moment please :)") +
-		sleep(2) + allow_midpoint_call()
+		sleep(2) + allow_midpoint_call() +
+		add_conversation(dorothy_midpoint_conv, "entity_midpoint_done")
 	)
 )
 
@@ -604,10 +642,11 @@ var entity_midpoint_conv: Conversation = Conversation.with(entity,
 	entity_says("HA HA HA HA HA HA") +
 	you_say1("please just leave them alone") +
 	entity_says("WHERE WOULD THE FUN BE IN THAT") +
+	set_flag("entity_midpoint_done") + 
 	sleep(0.4) +
-	add_conversation(octavia_midpoint_conv) +
+	add_conversation(octavia_midpoint_conv, "octavia_intro_pass") +
 	sleep(0.4) +
-	add_conversation(dorothy_midpoint_conv) +
+	add_conversation(dorothy_midpoint_conv, "dorothy_intro_pass") +
 	sleep(0.4),
 	true # pause_life_meter
 )

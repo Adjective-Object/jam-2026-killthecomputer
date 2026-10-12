@@ -14,6 +14,8 @@ var SLIDE_OFFSET = 100
 var response_instances: Array[ResponseOption] = []
 var conversation_manager: MyConversationManager = null
 
+var last_capture: String = ""
+
 var out_of_view_pos: Vector2
 var in_view_pos: Vector2
 
@@ -25,7 +27,7 @@ func _ready() -> void:
 	out_of_view_pos = Vector2(self.position.x, self.position.y + SLIDE_OFFSET)
 	in_view_pos = Vector2(self.position.x, self.position.y)
 	self.visible = false
-	
+
 	capture_text.text_submitted.connect(_on_text_submitted)
 
 	color_tween = create_tween().set_ease(Tween.EASE_IN_OUT)
@@ -91,6 +93,10 @@ func _process(delta: float) -> void:
 		for response_instance in self.response_instances:
 			response_instance.spawn_bad_text(truncated_suffix)
 	
+	if ((len(capture_text.text) > 0 and last_capture != capture_text.text) or (len(last_capture) > 0 and capture_text.text != last_capture)):
+		Sounds.instance.play_typing()
+	last_capture = capture_text.text
+
 	for response_instance in self.response_instances:
 		response_instance.update_input(capture_text.text, capture_text.caret_column)
 

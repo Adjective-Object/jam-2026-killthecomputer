@@ -151,7 +151,10 @@ func add_conversation(conversation: Conversations.Conversation, tag: String = ""
 			tab_instance.find_child("PanelContainer").self_modulate.a = 0.0
 	)
 	
-	toast("new message from " + conversation.them.name, palette.colors[13], 2.0)
+	# don't show this toast for the very first convo in the game
+	if index != 0:
+		toast("new message from " + conversation.them.name, palette.colors[13], 2.0)
+		Sounds.instance.play_new_match()
 	
 	conversations.append(available_conv)
 

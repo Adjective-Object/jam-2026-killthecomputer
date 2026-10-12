@@ -12,6 +12,7 @@ var paused: bool = false
 var deferred_wait_timer: bool = false # A wait timer didn't start because the conv is paused.
 var deferred_typing_timer: bool = false # A typing timer didn't start because the conv is paused.
 
+
 # Emitted to indicate that a new conversation should be added to the list of
 # conversations.
 signal add_conversation(conversation: Conversations.Conversation)
@@ -72,7 +73,7 @@ func advance_conversation():
 		if entry.they_said:
 			_spawn_conversation_bubble(false, entry.they_said)
 			if life_progress:
-				life_progress.grant_time(4.0)
+				life_progress.grant_time(4.0 * entry.point_multiplier)
 			conversation_head += 1
 			return
 		
@@ -103,7 +104,8 @@ func advance_conversation():
 			advance_conversation()
 		
 		elif entry.new_conversation != null:
-			add_conversation.emit(entry.new_conversation)
+			if len(entry.required_flag) == 0 or Flags.instance.is_flag_set(entry.required_flag):
+				add_conversation.emit(entry.new_conversation)
 
 			conversation_head += 1
 			advance_conversation()
@@ -140,6 +142,12 @@ func advance_conversation():
 		
 		elif entry.trigger_ending:
 			trigger_ending.emit()
+			
+			conversation_head += 1
+			advance_conversation()
+		
+		elif len(entry.set_flag) > 0:
+			Flags.instance.set_flag(entry.set_flag)
 			
 			conversation_head += 1
 			advance_conversation()
@@ -215,12 +223,20 @@ func _spawn_conversation_bubble(
 		var icon: TextureRect = instance.find_child("Icon")
 		icon.texture = conversation.them.icon
 	var label: TextPlayback = instance.find_child("Label")
-	if not is_you: label.ms_per_letter = 8.0 / conversation.them.msg_speed
+	if not is_you:
+		label.ms_per_letter = 8.0 / conversation.them.msg_speed
 	label.set_measured_text(text)
+	
 	label.playback_complete.connect(advance_conversation)
 	insertion_point.add_child(instance)
 	# Move it before the ResponseArea so the ResponseArea stays at the bottom.
 	insertion_point.move_child(instance, -2)
+	
+	# Play sound effect
+	if is_you:
+		Sounds.instance.play_msg_sent()
+	else:
+		Sounds.instance.play_msg_received()
 
 func _spawn_typing_indicator(
 	duration_s: float

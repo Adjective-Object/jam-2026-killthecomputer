@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://obkfld6ib5a3" path="res://gui_3d.gd" id="1_t2b5x"]
 [ext_resource type="Texture2D" uid="uid://b3yu044d6182r" path="res://arms_rig_arms_01.png" id="2_6kibr"]
 [ext_resource type="Script" uid="uid://dtcia5hkmoywl" path="res://debug_sphere.gd" id="3_6kibr"]
+[ext_resource type="Script" uid="uid://cnuwldilv5563" path="res://fake_skybox.gd" id="3_twdwl"]
 [ext_resource type="PackedScene" uid="uid://b501n7et5t7qq" path="res://callui.tscn" id="4_hdxh6"]
 [ext_resource type="AudioStream" uid="uid://c7sgeipphaed1" path="res://sounds/03 - Call Of The Void.wav" id="5_02dmp"]
 [ext_resource type="PackedScene" uid="uid://eec2c73a5b2r" path="res://textchatui.tscn" id="5_6lfuq"]
@@ -19,6 +20,12 @@
 [ext_resource type="Script" uid="uid://cwd34wu1v4owx" path="res://mute_button.gd" id="16_k30cr"]
 [ext_resource type="Texture2D" uid="uid://wtvsx7b5uqhn" path="res://ui/off.png" id="17_5yyhj"]
 [ext_resource type="Texture2D" uid="uid://bv16ufp2urqd4" path="res://sky_noise.png" id="20_f2ri5"]
+[ext_resource type="Script" uid="uid://7pl6tdwj7baa" path="res://sounds.gd" id="20_hgxdj"]
+[ext_resource type="AudioStream" uid="uid://cp6orcymibja5" path="res://sfx/msg_received.wav" id="21_twdwl"]
+[ext_resource type="AudioStream" uid="uid://bnelb76vopog5" path="res://sfx/msg_sent.wav" id="22_v3xgy"]
+[ext_resource type="AudioStream" uid="uid://cfq012fkvxoll" path="res://sfx/new_match.wav" id="23_twk23"]
+[ext_resource type="AudioStream" uid="uid://d0au6817gu62v" path="res://sfx/type_sound.wav" id="24_aj43g"]
+[ext_resource type="Script" uid="uid://cijlbgn621okf" path="res://flags.gd" id="26_v3xgy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0eb53"]
 render_priority = 0
@@ -28,6 +35,7 @@ shader_parameter/angle_degrees = 0.0
 shader_parameter/repeat_x = 1.0
 shader_parameter/repeat_y = 1.0
 shader_parameter/row_offset = 1.0
+shader_parameter/red_ratio = 0.42000001995
 shader_parameter/texture_to_scroll = ExtResource("20_f2ri5")
 
 [sub_resource type="SphereMesh" id="SphereMesh_yrjwe"]
@@ -366,10 +374,12 @@ corner_radius_bottom_left = 32
 
 [node name="Node3D" type="Node3D" unique_id=1902337310]
 
-[node name="FakeSkybox" type="MeshInstance3D" parent="." unique_id=383465039]
+[node name="FakeSkybox" type="MeshInstance3D" parent="." unique_id=383465039 node_paths=PackedStringArray("life")]
 transform = Transform3D(104.04786, 0, 0, 0, 104.04786, 0, 0, 0, 104.04786, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_0eb53")
 mesh = SubResource("SphereMesh_yrjwe")
+script = ExtResource("3_twdwl")
+life = NodePath("../MarginContainer/Panel/LifeProgressBar")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=843915573]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7211267, 0, -0.30920243)
@@ -1200,6 +1210,24 @@ custom_maximum_size = Vector2(60, 60)
 layout_mode = 2
 texture = ExtResource("17_5yyhj")
 expand_mode = 2
+
+[node name="Sounds" type="Node" parent="." unique_id=1536577628]
+script = ExtResource("20_hgxdj")
+
+[node name="MsgReceived" type="AudioStreamPlayer" parent="Sounds" unique_id=2137671940]
+stream = ExtResource("21_twdwl")
+
+[node name="MsgSent" type="AudioStreamPlayer" parent="Sounds" unique_id=1061632955]
+stream = ExtResource("22_v3xgy")
+
+[node name="NewMatch" type="AudioStreamPlayer" parent="Sounds" unique_id=284716762]
+stream = ExtResource("23_twk23")
+
+[node name="Typing" type="AudioStreamPlayer" parent="Sounds" unique_id=786053427]
+stream = ExtResource("24_aj43g")
+
+[node name="Node" type="Node" parent="." unique_id=1104232948]
+script = ExtResource("26_v3xgy")
 
 [connection signal="pressed" from="TitleScreen/MarginContainer/VBoxContainer/Button" to="TitleScreen" method="_on_button_pressed"]
 [connection signal="gui_input" from="MuteButton" to="MuteButton" method="_on_gui_input"]
