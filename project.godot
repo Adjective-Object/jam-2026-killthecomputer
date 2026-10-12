@@ -30,12 +30,11 @@ project/assembly_name="jam-2026-killthecomputer"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/YarnSpinner-Godot/plugin.cfg")
+enabled=PackedStringArray()
 
 [gui]
 
 theme/default_font_antialiasing=2
-theme/custom="uid://dtwurwyspxj4a"
 
 [physics]
 

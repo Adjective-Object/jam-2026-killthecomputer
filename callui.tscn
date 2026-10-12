@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b501n7et5t7qq"]
 
 [ext_resource type="Script" uid="uid://cvvjak273eymv" path="res://call_manager.gd" id="1_sudo3"]
-[ext_resource type="Texture2D" uid="uid://b8k0uo2e5jamb" path="res://ui/pfps/pfp_entity.tres" id="2_sudo3"]
+[ext_resource type="Texture2D" uid="uid://ckgqckjdevh0e" path="res://ui/pfps/pfp_entity.png" id="2_pu0bo"]
 [ext_resource type="FontFile" uid="uid://q1pilm7u03pn" path="res://fonts/Baloo2-ExtraBold.ttf" id="3_pu0bo"]
 [ext_resource type="FontFile" uid="uid://cxfh2ghmygwd5" path="res://fonts/Poppins-SemiBold.ttf" id="4_d8g0u"]
 [ext_resource type="Texture2D" uid="uid://d08d2jfd1x1wd" path="res://ui/phone_icon.png" id="5_pu0bo"]
@@ -128,19 +128,19 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 offset_transform_enabled = true
-texture = ExtResource("2_sudo3")
+texture = ExtResource("2_pu0bo")
 stretch_mode = 4
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=22887113]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/default_color = Color(0.24705882, 0.078431375, 0.24313726, 1)
+theme_override_colors/default_color = Color(0.49803922, 0.15294118, 0.49411765, 1)
 theme_override_fonts/normal_font = ExtResource("3_pu0bo")
 theme_override_font_sizes/normal_font_size = 48
 theme_override_font_sizes/bold_font_size = 24
-text = "\"Entity\" Demands
-A Chat"
+text = "\"Entity\" Needs
+To Chat"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
